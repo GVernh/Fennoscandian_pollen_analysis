@@ -1,4 +1,4 @@
-# Load libraries
+# Install/load libraries
 libs <- c("dplyr")
 
 installed_libs <- libs %in% rownames(
@@ -17,7 +17,7 @@ invisible(lapply(
 ))
 rm(list=ls())
 
-# Load functions
+# Source functions
 source("./Functions/Compute_relative_abundance.R")
 
 # Load raw data
