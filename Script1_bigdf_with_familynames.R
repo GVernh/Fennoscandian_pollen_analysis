@@ -20,26 +20,15 @@ invisible(lapply(
 ))
 rm(list=ls())
 
-## All_Age_Depth_Curves
-All_Age_Depth_Curves = readRDS(file = "./Raw_Data/All_Age_Depth_Curves_2021-11-23") 
+# Source functions
+source("./Functions/MakestandardDF.R")
 
-## pollen_all
+## Load temporal and pollen data
+All_Age_Depth_Curves = readRDS(file = "./Raw_Data/All_Age_Depth_Curves_2021-11-23") 
 pollen_all = readRDS(file = "./Raw_Data/KMH_S1_pollen_all_2021-11-22")
 #pollen_all_copy = readRDS(file = "./Output/KMH_S1_pollen_all_2021-11-22 copy with original taxon names")
 
-#makeStandardDF
-makeStandardDF = function(All_Age_Depth_Curves, pollen_all, sitenum)
-{
-  counts <- pollen_all[[sitenum]]$counts
-  meantimes = apply(All_Age_Depth_Curves[[sitenum]]$thetaPredict,2,mean)
-  df <- data.frame(meantimes, counts)
-  df$dataset_ID = sitenum
-  makeStandardDF = df
-}
-
-
-#make bigdf
-#source("makeStandardDF.R")
+# Merge time and pollen data to single data frame
 bigdf = NULL
 for(name in names(All_Age_Depth_Curves))
 {
