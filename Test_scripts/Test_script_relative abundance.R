@@ -24,7 +24,7 @@ source("./Functions/Compute_relative_abundance.R")
 load("./Raw_Data/bigdf_familynames.Rda")
 time_ID = bigdf_familynames[c("dataset_ID", "meantimes")] # subset time/site data
 
-# Data quality control and cleaning
+# Apply data quality control and compute relative abundance
 pollen_relative_abun <- bigdf_familynames %>%
   {bigdf_familynames[!duplicated(colnames(bigdf_familynames))]} %>% # "Cyperaceae" is duplicated in the data.
   dplyr::select(-colnames(time_ID)) %>%
