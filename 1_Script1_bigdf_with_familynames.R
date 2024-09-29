@@ -54,7 +54,7 @@ f_sum <- rowSums(bigdf[,c("Alnus..tree..robust.deep.pores.", "Alnus..shrub..pale
 t_sum <- rowSums(bigdf[,c("Alnus..tree..robust.deep.pores.", "Alnus..shrub..pale.shallow.pores.","Alnus")])
 Alnus_sum = f_sum # create a new vector the same size as f_sum
 for(i in 1:length(aa)){
-  {
+  if(aa[i]){
     Alnus_sum[i] = t_sum[i]
   }
   else{
@@ -2122,19 +2122,6 @@ for(i in 1:length(aa)){
   }
 }
 bigdf$Scrophulariaceae <- new_sum
-bigdf <- subset(bigdf, select = -c(Scrophulariaceae.undiff.))
-
-
-bigdf <- subset(bigdf, select = -c(Tracheophyta.undiff.))
-bigdf <- subset(bigdf, select = -c(Unknown, Unknown..trilete., Unknown..trilete..undiff., Unknown..monolete..undiff.))
-bigdf <- subset(bigdf, select = -c(Spermatophyta.undiff.))
-bigdf <- subset(bigdf, select = -c(Pteridophyta.undiff., Pteridophyta..trilete., Pteridophyta..trilete..undiff., Pteridophyta..monolete.))
-bigdf <- subset(bigdf, select = -c(Polypodiophyta.undiff...monolete..without.perine.))
-bigdf <- subset(bigdf, select = -c(Indeterminable..degraded., Indeterminable.Neotoma.Pollen.degraded.pollen.spore.NISP.Neotoma.Pollen.degraded.pollen.spore.NISP.Neotoma.Pollen.degraded.pollen.spore.NISP.Neotoma.Pollen.degraded.pollen.spore.NISP, Indeterminable,
-                                   Indeterminable.Neotoma.Pollen.broken.pollen.spore.NISP.Neotoma.Pollen.broken.pollen.spore.NISP.Neotoma.Pollen.broken.pollen.spore.NISP.Neotoma.Pollen.broken.pollen.spore.NISP, Indeterminable..hidden.,
-                                   Indeterminable..crumpled., Indeterminable.Neotoma.Pollen.corroded.pollen.spore.NISP.Neotoma.Pollen.corroded.pollen.spore.NISP.Neotoma.Pollen.corroded.pollen.spore.NISP.Neotoma.Pollen.corroded.pollen.spore.NISP, Indeterminable.Neotoma.Pollen.crumpled.pollen.spore.NISP.Neotoma.Pollen.crumpled.pollen.spore.NISP.Neotoma.Pollen.crumpled.pollen.spore.NISP.Neotoma.Pollen.crumpled.pollen.spore.NISP))
-bigdf <- subset(bigdf, select = -c(Indeterminable..broken., Indeterminable..corroded., Indeterminable.Neotoma.Pollen.hidden.pollen.spore.NISP.Neotoma.Pollen.hidden.pollen.spore.NISP.Neotoma.Pollen.hidden.pollen.spore.NISP.Neotoma.Pollen.hidden.pollen.spore.NISP))
-
 
 ### Unclear genera/species ###
 
@@ -2170,22 +2157,35 @@ for(i in 1:length(aa)){
 bigdf$Cirsium.Carduus <- Cirsium.Carduus_sum
 bigdf <- subset(bigdf, select = -c(Cirsium.Carduus.type))
 
-### Renamings ###
-bigdf <- rename(bigdf, Aconitum.lycoctonum = Aconitum.lycoctonum.subsp..septentrionale)
-bigdf <- rename(bigdf, Alnus.viridis = Alnus.viridis.subsp..fruticosa)
-bigdf <- rename(bigdf, Valeriana.excelsa = Valeriana.excelsa.subsp..sambucifolia.type)
-bigdf <- rename(bigdf, Anagallis.tenella = Anagallis.cf..A..tenella)
-bigdf <- rename(bigdf, Astragalus.glycyphyllos = Astragalus.cf..A..glycyphyllos)
-bigdf <- rename(bigdf, Cassiope = Ericaceae.cf..Cassiope)
-bigdf <- rename(bigdf, Lingulodinium.machaerophorum = Lingulodinium.cf..L..machaerophorum)
-bigdf <- rename(bigdf, Lotus.corniculatus = Lotus.cf..L..corniculatus)
-bigdf <- rename(bigdf, Operculodinium.centrocarpum = Operculodinium.cf..O..centrocarpum)
-bigdf <- rename(bigdf, Rubus.idaeus = Rubus.cf..R..idaeus)
-bigdf <- rename(bigdf, Hippophae = Hippophaë)
-bigdf <- rename(bigdf, Hippophae.rhamnoides = Hippophaë.rhamnoides)
-bigdf <- rename(bigdf, Isoetes.echinospora = Isoëtes.echinospora)
-bigdf <- rename(bigdf, Isoetes.setacea = Isoëtes.setacea)
-bigdf <- rename(bigdf, Tetraedron.minimum = Tetraëdron.minimum)
+### Data cleaning ###
+bigdf <- bigdf %>% dplyr::rename(Aconitum.lycoctonum = Aconitum.lycoctonum.subsp..septentrionale) %>%
+  dplyr::rename(Alnus.viridis = Alnus.viridis.subsp..fruticosa) %>% 
+  dplyr::rename(Valeriana.excelsa = Valeriana.excelsa.subsp..sambucifolia.type) %>% 
+  dplyr::rename(Anagallis.tenella = Anagallis.cf..A..tenella) %>% 
+  dplyr::rename(Astragalus.glycyphyllos = Astragalus.cf..A..glycyphyllos) %>% 
+  dplyr::rename(Cassiope = Ericaceae.cf..Cassiope) %>% 
+  dplyr::rename(Lingulodinium.machaerophorum = Lingulodinium.cf..L..machaerophorum) %>%
+  dplyr::rename(Lotus.corniculatus = Lotus.cf..L..corniculatus) %>% 
+  dplyr::rename(Operculodinium.centrocarpum = Operculodinium.cf..O..centrocarpum) %>% 
+  dplyr::rename(Rubus.idaeus = Rubus.cf..R..idaeus) %>% 
+  dplyr::rename(Hippophae = Hippophaë) %>% 
+  dplyr::rename(Hippophae.rhamnoides = Hippophaë.rhamnoides) %>% 
+  dplyr::rename(Isoetes.echinospora = Isoëtes.echinospora) %>% 
+  dplyr::rename(Isoetes.setacea = Isoëtes.setacea) %>% 
+  dplyr::rename(Tetraedron.minimum = Tetraëdron.minimum)
+
+bigdf <- bigdf %>% 
+  dplyr::select(!c(Tracheophyta.undiff., Unknown, Unknown..trilete., Unknown..trilete..undiff., 
+                                   Unknown..monolete..undiff.,Spermatophyta.undiff., Pteridophyta.undiff., 
+                                   Pteridophyta..trilete., Pteridophyta..trilete..undiff., Pteridophyta..monolete.,
+                                   Polypodiophyta.undiff...monolete..without.perine.,Scrophulariaceae.undiff.
+                                   )) %>%
+  dplyr::select(!c(Indeterminable..degraded., Indeterminable.Neotoma.Pollen.degraded.pollen.spore.NISP.Neotoma.Pollen.degraded.pollen.spore.NISP.Neotoma.Pollen.degraded.pollen.spore.NISP.Neotoma.Pollen.degraded.pollen.spore.NISP, Indeterminable,
+                                   Indeterminable.Neotoma.Pollen.broken.pollen.spore.NISP.Neotoma.Pollen.broken.pollen.spore.NISP.Neotoma.Pollen.broken.pollen.spore.NISP.Neotoma.Pollen.broken.pollen.spore.NISP, Indeterminable..hidden.,
+                                   Indeterminable..crumpled., Indeterminable.Neotoma.Pollen.corroded.pollen.spore.NISP.Neotoma.Pollen.corroded.pollen.spore.NISP.Neotoma.Pollen.corroded.pollen.spore.NISP.Neotoma.Pollen.corroded.pollen.spore.NISP, 
+                                   Indeterminable.Neotoma.Pollen.crumpled.pollen.spore.NISP.Neotoma.Pollen.crumpled.pollen.spore.NISP.Neotoma.Pollen.crumpled.pollen.spore.NISP.Neotoma.Pollen.crumpled.pollen.spore.NISP,
+                                   Indeterminable..broken., Indeterminable..corroded., Indeterminable.Neotoma.Pollen.hidden.pollen.spore.NISP.Neotoma.Pollen.hidden.pollen.spore.NISP.Neotoma.Pollen.hidden.pollen.spore.NISP.Neotoma.Pollen.hidden.pollen.spore.NISP))
+
 
 names(bigdf) <- sub("\\.type", "", names(bigdf))
 names(bigdf) <- sub("\\cf..", "", names(bigdf))
@@ -2193,5 +2193,5 @@ names(bigdf) <- sub("\\cf..", "", names(bigdf))
 
 ### Save the file ###
 bigdf_familynames <- bigdf
-save(bigdf_familynames,file="bigdf_familynames.Rda")
+save(bigdf_familynames,file="bigdf_familynames1.Rda")
 load("bigdf_familynames.Rda")
