@@ -32,3 +32,6 @@ pollen_relative_abun <- bigdf_familynames %>%
   compute_relative_abundance() %>%
   cbind(time_ID) %>%
   dplyr::select(colnames(time_ID), everything())
+
+dir.create(file.path("./", "Processed_data"), showWarnings = FALSE)
+save(pollen_relative_abun,file="./Processed_data/Pollen_relative_abun.Rda")
