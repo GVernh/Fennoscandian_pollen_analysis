@@ -1,19 +1,44 @@
 ### Climatic data ###
 
-library(dplyr)
-library(ggplot2)
+# NOTE: lipdR package will be installed from github
 
-load("Temp12k_v1_0_0.RData")
+### Load/Install packages ----
+libs <- c("dplyr","ggplot2", "remotes")
+
+installed_libs <- libs %in% rownames(
+  installed.packages())
+
+if (any(installed_libs == F)) {
+  install.packages(
+    libs[!installed_libs]
+  )
+}
+
+invisible(lapply(
+  libs,
+  library,
+  character.only = T
+))
+
+lipdR_check <- "lipdR" %in% rownames(
+  installed.packages())
+
+if (lipdR_check == F) {
+  remotes::install_github("nickmckay/lipdR")
+}
+invisible(library(lipdR))
+rm(list=ls())
+
+
+### Load Data ### ----
+load("./Raw_Data/Temp12k_v1_0_0.RData")
 climate = TS
+world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
 
-#makeStandardDF
-  climateDF = function(climate, sitenum)
-  {
-    data.frame(site=sitenum, long=climate[[sitenum]]$geo_longitude,
-               lat=climate[[sitenum]]$geo_latitude, location=climate[[sitenum]]$geo_gcmdLocation, dataSet=climate[[sitenum]]$dataSetName)
-  }
+### Functions ###
+source("./Functions/Make_climate_DF.R")
 
-
+### Create climate data frame ###
 climate.df = NULL
 for(i in 1:length(climate))
 {
@@ -26,42 +51,59 @@ for(i in 1:length(climate))
   }
 }
 
-#clean
-climate.points <- subset(climate.df, long >= 4 & long < 42)
-climate.points <- subset(climate.points, lat >= 55 & lat < 71)
-#climate.points <- subset(climate.points, Age <= 15000)
-Sweden <- climate.points[grep("Sweden", climate.points$location), ]
-Finland <- climate.points[grep("Finland", climate.points$location), ]
-Norway <- climate.points[grep("Norway", climate.points$location), ]
-Russia <- climate.points[grep("Russia", climate.points$location), ]
+### Data cleaning ###
+climate.points = climate.df %>%
+  dplyr::filter(long >= 4 & long < 42) %>%
+  dplyr::filter(lat >= 55 & lat < 71) %>%
+  dplyr::filter(grepl(c('Sweden|Finland|Norway|Russia'), location)) # NOTE: Russia is not in the dataset
+#climate.points <- subset(climate.points, Age <= 15000) # GRANT: No variable "Age"?
 
-climate.points = rbind(Sweden, Finland, Norway, Russia)
-
-write.csv(climate.points, file = "climate.points.csv")
-climate.points <- read.csv("climate.points.csv")
+write.csv(climate.points, file = "./Processed_data/climate.points.csv")
+climate.points <- read.csv("./Processed_data/climate.points.csv")
 temp_longlat <- data.frame(climate.points$dataSet, climate.points$long, climate.points$lat)
 
 
-#map
+### Map ###
 (sites <- data.frame(longitude = climate.points$long, latitude = climate.points$lat))
 
-ggplot(data = world) +
+ggplot2::ggplot(data = world) +
   geom_sf() +
   geom_point(data = sites, aes(x = longitude, y = latitude), size = 4, 
              shape = 23, fill = "darkred") +
   coord_sf(xlim = c(4, 42), ylim = c(55, 71), expand = FALSE) +
   ggtitle("climatic.data")
 
-
-# load LiPD file
-#install.packages("devtools")
-library(devtools)
-#devtools::install_github("nickmckay/LiPD-Utilities", subdir = "R")
-library(lipdR)
-
 climateSets <- list(unique(climate.points$dataSet))
 
+dir.create(file.path("./Processed_data/", "lpd_datasets"), showWarnings = FALSE)
+
+# Create a list of file names
+# create list of name in D that are also in newly made file list
+# loop over all datasets in D and write the files that are in the list that are not already in the folder.
+
+#writeLipd(D, "./Processed_data/lpd_datasets/")
+
+source("./Processed_data/lpd_datasets/Selected_climate_datasets.R")
+
+for (i in seq_along(Selected_climate_data)){
+  print(Selected_climate_data[[i]])
+  writeLipd(D[paste0(Selected_climate_data[[i]])], "Processed_data/lpd_datasets/")
+}
+
+x = list.files("./",
+               pattern = ".lpd",
+               all.files = F,
+               recursive = F)
+
+y = readLipd(x)
+saveRDS(y, file = "all_temp_sites.RDS")
+# Find the climate.list function
+
+##########################
+
+
 #setworkingdirectory (Session/...) to load the files
+setwd("./Processed_data/lpd_datasets/")
 Lake.Shemesh.2001 <- readLipd(path = "850Lake.Shemesh.2001.lpd")
 AgeroedsMosse.Nilsson.1964 <- readLipd(path = "AgeroedsMosse.Nilsson.1964.lpd")
 AlanenLaanijarvi.Heinrichs.2005<- readLipd(path = "AlanenLaanijarvi.Heinrichs.2005.lpd")
@@ -154,15 +196,6 @@ all_temp_sites = list("850Lake.Shemesh.2001"=Lake.Shemesh.2001,AgeroedsMosse.Nil
 saveRDS(all_temp_sites, file = "all_temp_sites.RDS")
 all_temp_sites <- readRDS("all_temp_sites.RDS")
 
-# make final list #
-climate_list <- function(climate.points, all_temp_sites, list_name) {
-  temp_list <- list(list(site = all_temp_sites[[list_name]]$dataSetName,
-                         age = all_temp_sites[[list_name]]$paleoData[[1]]$measurementTable[[1]]$age$values,
-                         temp = all_temp_sites[[list_name]]$paleoData[[1]]$measurementTable[[1]]$temperature$values,
-                         long= all_temp_sites[[list_name]]$geo$longitude, lat=all_temp_sites[[list_name]]$geo$latitude,
-                         calibration= all_temp_sites[[list_name]]$paleoData[[1]]$measurementTable[[1]]$temperature$calibration$method))
-}
-
 temp.list <- NULL
 for (i in 1:length(all_temp_sites)) {
   namelist <- climate_list(climate.points,all_temp_sites, i)
@@ -174,9 +207,8 @@ for (i in 1:length(all_temp_sites)) {
   }
 }
 
-# plot single sites
+### Plot individual sites ###
 plot(temp.list[[15]]$age, temp.list[[15]]$temp, type = "l")
-
 plot(temp.list[[1]]$age, temp.list[[1]]$temp, type = "l", ylim = c(1,12))
 par(new=TRUE)
 plot(temp.list[[2]]$age, temp.list[[2]]$temp, type = "l", ylim = c(1,12))
@@ -194,7 +226,7 @@ for (i in 1:length(all_temp_sites)) {
   }
 }
 
-#archiveType
+### ArchiveType ###
 archiveType = NULL
 for (i in 1:length(all_temp_sites)) {
   namelist <- list(all_temp_sites[[i]]$archiveType)
@@ -205,7 +237,6 @@ for (i in 1:length(all_temp_sites)) {
     archiveType <- append(archiveType, namelist)
   }
 }
-
 
 saveRDS(temp.list, file = "temp.list.RDS")
 temp.list <- readRDS("temp.list.RDS")
@@ -243,5 +274,3 @@ temp.list[[21]]$temp <- all_temp_sites[["Kaartlamminsuo.Rankama.1988"]][["paleoD
 temp.list[[28]]$temp <- all_temp_sites[["Ylimysneva.Huttunen.1990"]][["paleoData"]][[1]][["measurementTable"]][[1]][["temperatureComposite"]][["values"]]
 
 temp.list[[22]]$temp <- all_temp_sites[["Laihalampi.Giesecke.2008"]][["paleoData"]][[1]][["measurementTable"]][[1]][["temperatureComposite"]][["values"]]
-
-
