@@ -86,8 +86,10 @@ dir.create(file.path("./Processed_data/", "lpd_datasets"), showWarnings = FALSE)
 source("./Processed_data/lpd_datasets/Selected_climate_datasets.R")
 
 for (i in seq_along(Selected_climate_data)){
-  print(Selected_climate_data[[i]])
-  writeLipd(D[paste0(Selected_climate_data[[i]])], "Processed_data/lpd_datasets/")
+  if (!(paste0(Selected_climate_data[[1]], ".lpd") %in% list.files("./Processed_data/lpd_datasets/"))) {
+    print(Selected_climate_data[[i]])
+    writeLipd(D[paste0(Selected_climate_data[[i]])], "Processed_data/lpd_datasets/")
+  }
 }
 
 x = list.files("./",
