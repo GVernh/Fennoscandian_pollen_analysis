@@ -16,4 +16,12 @@ Selected_climate_data <-
             "VestreOykjamyrtorn.EPD", "VestreOykjamytjorn.Velle.2005", "Berkut.Ilyashuk.2005", "Chuna.Jones.2005",
             "KP2.Seppa.2009", "Medvedevskoe.Nazarova.2018", "Yarnyshnoe.Seppa.2008")
 
-saveRDS(test,"./Test_scripts/test_list.RData")
+# Not included:
+  #klotjarnen.Seppa.2009<- readLipd(path = "klotjarnen.Seppa.2009.lpd")
+  #sjuuodjijaure.Rosen.2001<- readLipd(path = "sjuuodjijaure.Rosen.2001.lpd")
+  #vuoskkujavri.Bigler.2002<- readLipd(path = "vuoskkujavri.Bigler.2002.lpd")
+  # CAN'T LOAD # Arapisto.Sarmaja-Korjonen.2007<- readLipd(path = "Arapisto.Sarmaja-Korjonen.2007.lpd")
+  #brurskardstjorni.Velle.2005<- readLipd(path = "brurskardstjorni.Velle.2005.lpd")
+  #CAN'T LOAD #Svartvatnet-Norway.Seppa.2009<- readLipd(path = "Svartvatnet-Norway.Seppa.2009.lpd")
+  #vikjordvatnet.Balascio.2012<- readLipd(path = "vikjordvatnet.Balascio.2012.lpd")
+  #NOT FENNOSCANDIA# StaroselskyMoch.Novenko.2018<- readLipd(path = "StaroselskyMoch.Novenko.2018.lpd")

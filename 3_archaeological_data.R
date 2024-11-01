@@ -1,7 +1,7 @@
 # Data cleaning for human footprint data
 # Last modified: 12/10/2024 by G.Vernham
 
-### Install/load libraries ###
+### Install/load libraries ### ----
 libs <- c("dplyr","ggplot2", "rnaturalearth", "rcarbon", "sf", "rnaturalearthdata")
 
 installed_libs <- libs %in% rownames(
@@ -20,7 +20,7 @@ invisible(lapply(
 ))
 rm(list=ls())
 
-# Load Natural Earth world data
+# Load Natural Earth world data ----
 world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
 
 # Load Human footprint data
