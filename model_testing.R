@@ -9,6 +9,12 @@ library(ggplot2)
 #disable scientific notation
 options(scipen=999)
 
+### FUNCTIONS ###
+
+source("./Functions/CallSite_functions.R")
+source("./Functions/Make_interval_pol.R")
+source("./Functions/CountSitesPerInterval.R")
+
 #Regions
 #15: north
 #911:southeast
@@ -22,6 +28,7 @@ options(scipen=999)
 # 20%: 4
 #-------------------------------------------------------------------------------
 ###coniferous_woodland SIG
+coniferous_woodland <- read.csv("./Processed_data/LCC_data/coniferous woodland.csv")
 coniferousN <- CallSites_N(coniferous_woodland)
 coniferousN_int <- make_interval_pol(coniferousN, 100)
 conN <- rowSums(coniferousN_int[3:ncol(coniferousN_int)], na.rm = TRUE) #all coniferous taxa
@@ -38,6 +45,8 @@ mcp_area$NRsites <- count$NRsites
 mcp_area <- subset(mcp_area, NRsites >=4)
 plot(mcp_area$age, mcp_area$LCC)
 model = list(LCC~1+age, ~1+age)
+
+# below line of Code takes 2.5 mins
 fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 100000, sample = "both", iter = 50000)
 summary(fit_mcp)
 plot(fit_mcp)

@@ -40,8 +40,15 @@ pollen_relative_abun <- bigdf_familynames %>%
 ############## IGNORE ###########################
 
 ## CREATING SLICED DATA TO SHOW CO-AUTHORS
-splice_data = pollen_relative_abun[1:20, 1:20]
+
 splice_raw_data = bigdf_familynames[1:20, 1:20]
+time_ID = splice_raw_data[c("dataset_ID", "meantimes")]
+splice_raw_data = splice_raw_data[3:20]
+splice_data = compute_relative_abundance(splice_raw_data)
+splice_data = cbind(time_ID, splice_data)
+splice_raw_data = cbind(time_ID, splice_raw_data)
+
+x = rowSums(splice_raw_data, na.rm = T)
 
 write.csv(splice_data, "./Test_scripts/relative_abun_slice.csv")
 write.csv(splice_raw_data, "./Test_scripts/raw_data_slice.csv")
