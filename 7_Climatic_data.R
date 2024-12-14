@@ -35,7 +35,7 @@ climate = TS
 world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
 
 ### Functions ###
-source("./Functions/Make_climate_DF.R")
+source("./Functions/ClimateDF.R")
 source("./Functions/Create_climate_list.R")
 
 ### List selected climate data sets ###

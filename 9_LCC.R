@@ -1,9 +1,27 @@
 ### LCC's ###
 rm(list=ls())
-library(dplyr)
-library(magrittr)
+
+libs <- c("dplyr","magrittr")
+
+installed_libs <- libs %in% rownames(
+  installed.packages())
+
+if (any(installed_libs == F)) {
+  install.packages(
+    libs[!installed_libs]
+  )
+}
+
+invisible(lapply(
+  libs,
+  library,
+  character.only = T
+))
+rm(list=ls())
+
 ### LCC's ###
 dir.create(file.path("./Processed_data/", "LCC_data"), showWarnings = FALSE)
+dir.create(file.path("./Processed_data/LCC_data/", "LCC_abun"), showWarnings = FALSE)
 
 # load("./Processed_data/Pollen_relative_abun.Rda")
 # bigdf_familynames = pollen_relative_abun
@@ -18,9 +36,9 @@ bigdf_familynames <- subset(bigdf_familynames,
 
 ##########
 # POSSIBLE BUG: For some reason, a duplicate for Cyperaceae is created in the above code.
-# Can probably remove once using relative abundance data.
+# Remove once using relative abundance data.
 bigdf_familynames <- subset(bigdf_familynames,
-                            select = -c(Cyperaceae.1))
+select = -c(Cyperaceae.1))
 #########
 bigdf_familynames <- bigdf_familynames[,order(colnames(bigdf_familynames))]
 
@@ -52,18 +70,18 @@ for (i in seq_along(x)){
   LCC <- LCC_familynames.t %>%
     dplyr::filter(., LCC == paste0(LCC_name)) %>% t(.) %>%
     .[-c(4157), ]
-  LCC = data.frame(dataset_ID=bigdf_familynames$dataset_ID, 
+  LCC = data.frame(dataset_ID=bigdf_familynames$dataset_ID,
                                    meantimes=bigdf_familynames$meantimes, LCC)
   #write.csv(LCC, file = paste0("./Processed_data/LCC_data/",LCC_name,".csv"), row.names = FALSE)
-  
-  
-  LCC_sum = LCC %>% 
+
+
+  LCC_sum = LCC %>%
     subset(., select = -c(dataset_ID, meantimes)) %>%
     data.matrix(.) %>%
     rowSums(., na.rm = TRUE) %>%
     as.data.frame(.) %>%
     magrittr::set_colnames(paste0(LCC_name, "_sum"))
-  
+
   Full_data_sum[iterator] <- LCC_sum
   iterator = iterator + 1
 }
@@ -81,17 +99,19 @@ for (i in seq_along(x)){
 #   LCC <- LCC_familynames.t %>%
 #     dplyr::filter(., LCC == paste0(LCC_name)) %>% t(.) %>%
 #     .[-c(4157), ]
-#   LCC = data.frame(dataset_ID=bigdf_familynames$dataset_ID, 
+#   LCC = data.frame(dataset_ID=bigdf_familynames$dataset_ID,
 #                    meantimes=bigdf_familynames$meantimes, LCC)
 #   
-#   LCC_sum = LCC %>% 
+#   write.csv(LCC, file = paste0("./Processed_data/LCC_data/LCC_abun/",LCC_name,"_abun.csv"), row.names = FALSE)
+# 
+#   LCC_sum = LCC %>%
 #     subset(., select = -c(dataset_ID, meantimes)) %>%
 #     sapply(., as.numeric ) %>%
 #     rowSums(., na.rm = TRUE) %>%
 #     as.data.frame(.) %>%
 #     round(.,5) %>% # Currently rounding to 5 decimals
 #     magrittr::set_colnames(paste0(LCC_name, "_sum"))
-#   
+# 
 #   Full_data_sum[iterator] <- LCC_sum
 #   iterator = iterator + 1
 # }
@@ -104,7 +124,7 @@ isNA <-LCC_familynames.t %>%
   data.frame(.)
 write.csv(isNA, file = "./Processed_data/LCC_data/isNA.csv", row.names = FALSE)
 
-isNA_sum1 <- isNA %>%
+isNA_sum <- isNA %>%
   subset(., select = -c(dataset_ID, meantimes)) %>%
   data.matrix(.) %>% # Needs changing for relative abundance
   rowSums(., na.rm = TRUE) %>%
@@ -117,4 +137,5 @@ Full_data_sum <- Full_data_sum[c("dataset_ID", "meantimes", "coniferous_woodland
                                  "pasture_sum", "wet_meadow_sum", "arable_sum", "heath_sum")]
 
 #Save
-write.csv(Full_data_sum, file = "./Processed_data/LCC.csv", row.names = FALSE)
+write.csv(Full_data_sum, file = "./Processed_data/LCC_data/LCC.csv", row.names = FALSE)
+#write.csv(Full_data_sum, file = "./Processed_data/LCC_data/LCC_abun/LCC_abun.csv", row.names = FALSE)

@@ -1,8 +1,8 @@
 all_temp_sites = readRDS("./Processed_data/all_temp_sites.RDS")
 
-
 ### Functions ###
 source("./Functions/Make_clim_df.R")
+source("./Functions/MakestandardDF.R")
 
 age = all_temp_sites$AgeroedsMosse.Nilsson.1964$paleoData[[1]]$measurementTable[[1]]$age$values
 temp = all_temp_sites$AgeroedsMosse.Nilsson.1964$paleoData[[1]]$measurementTable[[1]]$temperature$values
@@ -30,29 +30,3 @@ for (site in clim15$site) {
     test.list <- dplyr::bind_rows(test.list, namelist)
   }
 }
-
-#make bigdf
-#source("makeStandardDF.R")
-# WHY? WHY WAS IT DEFINED TWICE? JT
-
-makeStandardDF = function(All_Age_Depth_Curves, pollen_all, sitenum)
-{
-  counts <- pollen_all[[sitenum]]$counts
-  meantimes = apply(All_Age_Depth_Curves[[sitenum]]$thetaPredict,c(2),mean)
-  df <- data.frame(meantimes, counts)
-  df$dataset_ID = sitenum
-  makeStandardDF = df
-}
-
-bigdf = NULL
-for(name in names(All_Age_Depth_Curves))
-{
-  namedf = makeStandardDF(All_Age_Depth_Curves, pollen_all, name)
-  if(name=="12"){
-    bigdf = namedf
-  }
-  else{
-    bigdf = dplyr::bind_rows(bigdf, namedf)
-  }
-}
-

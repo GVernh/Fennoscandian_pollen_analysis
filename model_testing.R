@@ -1,10 +1,23 @@
 ### model testing ###
 #-------------------------------------------------------------------------------
 
-library(mcp)
-library(dplyr)
-library(ecp)
-library(ggplot2)
+libs <- c("ggplot2","ecp", "mcp", "dplyr")
+
+installed_libs <- libs %in% rownames(
+  installed.packages())
+
+if (any(installed_libs == F)) {
+  install.packages(
+    libs[!installed_libs]
+  )
+}
+
+invisible(lapply(
+  libs,
+  library,
+  character.only = T
+))
+rm(list=ls())
 
 #disable scientific notation
 options(scipen=999)
@@ -27,8 +40,11 @@ source("./Functions/CountSitesPerInterval.R")
 # total nr sites: 18
 # 20%: 4
 #-------------------------------------------------------------------------------
+dir.create(file.path("./Processed_data/", "mcp_models"), showWarnings = FALSE)
+dir.create(file.path("./Plots/", "mcp_plots"), showWarnings = FALSE)
 ###coniferous_woodland SIG
 coniferous_woodland <- read.csv("./Processed_data/LCC_data/coniferous woodland.csv")
+#coniferous_woodland <- read.csv("./Processed_data/LCC_data/LCC_abun/coniferous woodland_abun.csv") #For relative abundance
 coniferousN <- CallSites_N(coniferous_woodland)
 coniferousN_int <- make_interval_pol(coniferousN, 100)
 conN <- rowSums(coniferousN_int[3:ncol(coniferousN_int)], na.rm = TRUE) #all coniferous taxa
@@ -47,9 +63,16 @@ plot(mcp_area$age, mcp_area$LCC)
 model = list(LCC~1+age, ~1+age)
 
 # below line of Code takes 2.5 mins
-fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 100000, sample = "both", iter = 50000)
+
+if (!(paste0("mcp_ConN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
+  fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 100000, sample = "both", iter = 50000)
+  saveRDS(fit_mcp, "./Processed_data/mcp_models/mcp_ConN.Rda")
+} else {
+  fit_mcp = readRDS("./Processed_data/mcp_models/mcp_ConN.Rda")
+}
 summary(fit_mcp)
 plot(fit_mcp)
+ggsave("./Plots/mcp_plots/mcp_ConN.png")
 plot.conN <- plot(fit_mcp)
 hypothesis(fit_mcp, "cp_1>5995") #20
 hypothesis(fit_mcp, "cp_1<8350") #283
@@ -59,6 +82,7 @@ hypothesis(fit_mcp, "cp_1=7516") #1
 
 
 ###deciduous_woodland
+deciduous_woodland <- read.csv("./Processed_data/LCC_data/deciduous woodland.csv")
 deciduousN <- CallSites_N(deciduous_woodland)
 deciduousN_int <- make_interval_pol(deciduousN, 100)
 decN <- rowSums(deciduousN_int[3:ncol(deciduousN_int)], na.rm = TRUE)
@@ -80,6 +104,7 @@ plot.decN <- plot(fit_mcp)
 
 
 ###wet_woodland
+wet_woodland <- read.csv("./Processed_data/LCC_data/wet woodland.csv")
 wetwoodlandN <- CallSites_N(wet_woodland)
 wetwoodlandN_int <- make_interval_pol(wetwoodlandN, 100)
 wetwN <- rowSums(wetwoodlandN_int[3:ncol(wetwoodlandN_int)], na.rm = TRUE)
@@ -102,6 +127,7 @@ hypothesis(fit_mcp, "cp_2=8168") #53 #8133
 
 
 ###wet_meadow
+
 wetmeadowN <- CallSites_N(wet_meadow)
 wetmeadowN_int <- make_interval_pol(wetmeadowN, 100)
 wetmN <- rowSums(wetmeadowN_int[3:ncol(wetmeadowN_int)], na.rm = TRUE)
