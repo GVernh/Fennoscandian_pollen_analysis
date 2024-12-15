@@ -27,6 +27,8 @@ options(scipen=999)
 source("./Functions/CallSite_functions.R")
 source("./Functions/Make_interval_pol.R")
 source("./Functions/CountSitesPerInterval.R")
+source("./Functions/sqrt_sums.R")
+source("./Functions/makeIncrements_singleLCC.R")
 
 #Regions
 #15: north
@@ -58,8 +60,7 @@ ggplot(mcp_area, aes(x=age, y=LCC))+
 # count sites
 count <- countSitesPerInterval(coniferousN, 100)
 # added from other branch to fix the issue - JT
-count <- count[c(1:102),]
-mcp_area$NRsites <- count$NRsites
+mcp_area <- merge(mcp_area, count, by="age", all.x=TRUE)
 mcp_area <- subset(mcp_area, NRsites >=4)
 plot(mcp_area$age, mcp_area$LCC)
 model = list(LCC~1+age, ~1+age)
@@ -94,8 +95,7 @@ mcp_area <- data.frame(age=deciduousN_int$lower_ends, LCC=decN)
 plot(mcp_area)
 # count sites
 count <- countSitesPerInterval(deciduousN, 100)
-count <- count[c(1:102),]
-mcp_area$NRsites <- count$NRsites
+mcp_area <- merge(mcp_area, count, by="age", all.x=TRUE)
 mcp_area <- subset(mcp_area, NRsites >=4)
 plot(mcp_area$age, mcp_area$LCC)
 model = list(LCC~1+age, ~1+age)
@@ -126,8 +126,7 @@ mcp_area <- data.frame(age=wetwoodlandN_int$lower_ends, LCC=wetwN)
 plot(mcp_area)
 # count sites
 count <- countSitesPerInterval(wetwoodlandN, 100)
-count <- count[c(1:102),]
-mcp_area$NRsites <- count$NRsites
+mcp_area <- merge(mcp_area, count, by="age", all.x=TRUE)
 mcp_area <- subset(mcp_area, NRsites >=4)
 plot(mcp_area$age, mcp_area$LCC)
 model = list(LCC~1+age, ~1+age, ~1+age)
@@ -158,8 +157,7 @@ mcp_area <- data.frame(age=wetmeadowN_int$lower_ends, LCC=wetmN)
 plot(mcp_area)
 # count sites
 count <- countSitesPerInterval(wetmeadowN, 100)
-count <- count[c(1:102),]
-mcp_area$NRsites <- count$NRsites
+mcp_area <- merge(mcp_area, count, by="age", all.x=TRUE)
 mcp_area <- subset(mcp_area, NRsites >=4)
 plot(mcp_area$age, mcp_area$LCC)
 model = list(LCC~1+age, ~1+age)
@@ -188,8 +186,7 @@ mcp_area <- data.frame(age=pastureN_int$lower_ends, LCC=pasN)
 plot(mcp_area)
 # count sites
 count <- countSitesPerInterval(pastureN, 100)
-count <- count[c(1:102),]
-mcp_area$NRsites <- count$NRsites
+mcp_area <- merge(mcp_area, count, by="age", all.x=TRUE)
 mcp_area <- subset(mcp_area, NRsites >=4)
 plot(mcp_area$age, mcp_area$LCC)
 model = list(LCC~1+age, ~1+age)
@@ -219,11 +216,7 @@ mcp_area <- mcp_area[28:nrow(mcp_area),] #until 7000BP
 plot(mcp_area)
 # count sites
 count <- countSitesPerInterval(arableN, 100)
-# count <- count[28:nrow(count),]  ### Note needed if using new code to combine dataframes
-
-### Currently returns an error, could combine dataframes by age to overcome issue?
-mcp_area <- merge(mcp_area, count, by="age", all.x=TRUE) ###
-#mcp_area$NRsites <- count$NRsites
+mcp_area <- merge(mcp_area, count, by="age", all.x=TRUE)
 mcp_area <- subset(mcp_area, NRsites >=4)
 plot(mcp_area$age, mcp_area$LCC)
 model = list(LCC~1+age, ~1+age)
@@ -253,8 +246,7 @@ mcp_area <- data.frame(age=heathN_int$lower_ends, LCC=heaN)
 plot(mcp_area)
 # count sites
 count <- countSitesPerInterval(heathN, 100)
-count <- count[c(1:102),]
-mcp_area$NRsites <- count$NRsites
+mcp_area <- merge(mcp_area, count, by="age", all.x=TRUE)
 mcp_area <- subset(mcp_area, NRsites >=4)
 plot(mcp_area$age, mcp_area$LCC)
 model = list(LCC~1+age, ~1+age)
@@ -277,16 +269,20 @@ plot.heaN <- plot(fit_mcp)+
 
 # PLOTS #
 ggpubr::ggarrange(plot.conN, plot.decN, plot.wetwN, plot.wetmN, plot.pasN, plot.araN, plot.heaN + rremove("x.text"), 
-          #labels = c("con", "dec", "wetw", "wetm", "pas", "ara", "hea", "SPD", "clim"),
           ncol = 3, nrow = 3)
 # plot.spd_mcp, plot.climN # These wore included in the above plot but never defined
+ggsave("./Plots/mcp_plots/mcp_allN.png", width = 11, height = 9)
 
 #ecp
 ecp_area <- data.frame(age=coniferousN_int$lower_ends, conN, decN, wetwN, wetmN, pasN, araN, heaN)
 ecp_sqrt <- sqrt_sums(ecp_area)
-ecp_inc <- makeIncrements_singleLCC(ecp_sqrt)
-ecpN <- ecp_sums(ecp_area, "ecp_area")
-plot_LCCecp(ecp_area, ecpN, "North_ecp")
+# GRANT:: Below codes currently return an error
+# GRANT:: The makeIncrements_singleLCC function seems to deduct the same dataframe from itself. The error...
+# is caused by the -1 wich causes the dataframe to be of a different size.
+
+#ecp_inc <- makeIncrements_singleLCC(ecp_sqrt)
+#ecpN <- ecp_sums(ecp_area, "ecp_area")
+#plot_LCCecp(ecp_area, ecpN, "North_ecp")
 
 
 
