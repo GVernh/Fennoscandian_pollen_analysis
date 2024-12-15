@@ -1,7 +1,7 @@
 ### model testing ###
 #-------------------------------------------------------------------------------
 
-libs <- c("ggplot2","ecp", "mcp", "dplyr")
+libs <- c("ggplot2","ecp", "mcp", "dplyr", "ggpubr")
 
 installed_libs <- libs %in% rownames(
   installed.packages())
@@ -40,9 +40,11 @@ source("./Functions/CountSitesPerInterval.R")
 # total nr sites: 18
 # 20%: 4
 #-------------------------------------------------------------------------------
+### Create directories ###
 dir.create(file.path("./Processed_data/", "mcp_models"), showWarnings = FALSE)
 dir.create(file.path("./Plots/", "mcp_plots"), showWarnings = FALSE)
-###coniferous_woodland SIG
+
+### coniferous_woodland SIG
 coniferous_woodland <- read.csv("./Processed_data/LCC_data/coniferous woodland.csv")
 #coniferous_woodland <- read.csv("./Processed_data/LCC_data/LCC_abun/coniferous woodland_abun.csv") #For relative abundance
 coniferousN <- CallSites_N(coniferous_woodland)
@@ -71,9 +73,11 @@ if (!(paste0("mcp_ConN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   fit_mcp = readRDS("./Processed_data/mcp_models/mcp_ConN.Rda")
 }
 summary(fit_mcp)
-plot(fit_mcp)
+plot(fit_mcp)+
+  ggtitle("con")
 ggsave("./Plots/mcp_plots/mcp_ConN.png")
-plot.conN <- plot(fit_mcp)
+plot.conN <- plot(fit_mcp)+
+  ggtitle("con")
 hypothesis(fit_mcp, "cp_1>5995") #20
 hypothesis(fit_mcp, "cp_1<8350") #283
 hypothesis(fit_mcp, "cp_1=7516") #1
@@ -95,10 +99,20 @@ mcp_area$NRsites <- count$NRsites
 mcp_area <- subset(mcp_area, NRsites >=4)
 plot(mcp_area$age, mcp_area$LCC)
 model = list(LCC~1+age, ~1+age)
-fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 100000, sample = "both", iter = 20000)
+
+if (!(paste0("mcp_decN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
+  fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 100000, sample = "both", iter = 20000)
+  saveRDS(fit_mcp, "./Processed_data/mcp_models/mcp_decN.Rda")
+} else {
+  fit_mcp = readRDS("./Processed_data/mcp_models/mcp_decN.Rda")
+}
+
 summary(fit_mcp)
-plot(fit_mcp)
-plot.decN <- plot(fit_mcp)
+plot(fit_mcp)+
+  ggtitle("dec")
+ggsave("./Plots/mcp_plots/mcp_decN.png")
+plot.decN <- plot(fit_mcp)+
+  ggtitle("dec")
 #NO CP'S
 
 
@@ -117,17 +131,26 @@ mcp_area$NRsites <- count$NRsites
 mcp_area <- subset(mcp_area, NRsites >=4)
 plot(mcp_area$age, mcp_area$LCC)
 model = list(LCC~1+age, ~1+age, ~1+age)
-fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
+
+if (!(paste0("mcp_wetwN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
+  fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
+  saveRDS(fit_mcp, "./Processed_data/mcp_models/mcp_wetwN.Rda")
+} else {
+  fit_mcp = readRDS("./Processed_data/mcp_models/mcp_wetwN.Rda")
+}
 summary(fit_mcp)
-plot(fit_mcp)
-plot.wetwN <- plot(fit_mcp)
+plot(fit_mcp)+
+  ggtitle("wetw")
+ggsave("./Plots/mcp_plots/mcp_wetwN.png")
+plot.wetwN <- plot(fit_mcp)+
+  ggtitle("wetw")
 hypothesis(fit_mcp, "cp_1=5477") #53 #5244
 hypothesis(fit_mcp, "cp_2=8168") #53 #8133
 
 
 
 ###wet_meadow
-
+wet_meadow <- read.csv("./Processed_data/LCC_data/wet meadow.csv")
 wetmeadowN <- CallSites_N(wet_meadow)
 wetmeadowN_int <- make_interval_pol(wetmeadowN, 100)
 wetmN <- rowSums(wetmeadowN_int[3:ncol(wetmeadowN_int)], na.rm = TRUE)
@@ -140,14 +163,24 @@ mcp_area$NRsites <- count$NRsites
 mcp_area <- subset(mcp_area, NRsites >=4)
 plot(mcp_area$age, mcp_area$LCC)
 model = list(LCC~1+age, ~1+age)
-fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
+
+if (!(paste0("mcp_wetmN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
+  fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
+  saveRDS(fit_mcp, "./Processed_data/mcp_models/mcp_wetmN.Rda")
+} else {
+  fit_mcp = readRDS("./Processed_data/mcp_models/mcp_wetmN.Rda")
+}
 summary(fit_mcp)
-plot(fit_mcp)
-plot.wetmN <- plot(fit_mcp)
+plot(fit_mcp)+
+  ggtitle("wetm")
+ggsave("./Plots/mcp_plots/mcp_wetmN.png")
+plot.wetmN <- plot(fit_mcp)+
+  ggtitle("wetm")
 #NO CP. inclining
 
 
 ###pasture
+pasture <- read.csv("./Processed_data/LCC_data/pasture.csv")
 pastureN <- CallSites_N(pasture)
 pastureN_int <- make_interval_pol(pastureN, 100)
 pasN <- rowSums(pastureN_int[3:ncol(pastureN_int)], na.rm = TRUE)
@@ -160,14 +193,24 @@ mcp_area$NRsites <- count$NRsites
 mcp_area <- subset(mcp_area, NRsites >=4)
 plot(mcp_area$age, mcp_area$LCC)
 model = list(LCC~1+age, ~1+age)
-fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
+
+if (!(paste0("mcp_pasN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
+  fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
+  saveRDS(fit_mcp, "./Processed_data/mcp_models/mcp_pasN.Rda")
+} else {
+  fit_mcp = readRDS("./Processed_data/mcp_models/mcp_pasN.Rda")
+}
 summary(fit_mcp)
-plot(fit_mcp)
-plot.pasN <- plot(fit_mcp)
+plot(fit_mcp)+
+  ggtitle("pas")
+ggsave("./Plots/mcp_plots/mcp_pasN.png")
+plot.pasN <- plot(fit_mcp)+
+  ggtitle("pas")
 hypothesis(fit_mcp, "cp_1=7057") #6
 
 
 ###arable SIG
+arable <- read.csv("./Processed_data/LCC_data/arable.csv")
 arableN <- CallSites_N(arable)
 arableN_int <- make_interval_pol(arableN, 100)
 araN <- rowSums(arableN_int[3:ncol(arableN_int)], na.rm = TRUE)
@@ -176,19 +219,32 @@ mcp_area <- mcp_area[28:nrow(mcp_area),] #until 7000BP
 plot(mcp_area)
 # count sites
 count <- countSitesPerInterval(arableN, 100)
-count <- count[28:nrow(count),]
-mcp_area$NRsites <- count$NRsites
+# count <- count[28:nrow(count),]  ### Note needed if using new code to combine dataframes
+
+### Currently returns an error, could combine dataframes by age to overcome issue?
+mcp_area <- merge(mcp_area, count, by="age", all.x=TRUE) ###
+#mcp_area$NRsites <- count$NRsites
 mcp_area <- subset(mcp_area, NRsites >=4)
 plot(mcp_area$age, mcp_area$LCC)
 model = list(LCC~1+age, ~1+age)
-fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 100000, sample = "both", iter = 50000)
+
+if (!(paste0("mcp_araN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
+  fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 100000, sample = "both", iter = 50000)
+  saveRDS(fit_mcp, "./Processed_data/mcp_models/mcp_araN.Rda")
+} else {
+  fit_mcp = readRDS("./Processed_data/mcp_models/mcp_araN.Rda")
+}
 summary(fit_mcp)
-plot(fit_mcp)
-plot.araN <- plot(fit_mcp)
+plot(fit_mcp)+
+  ggtitle("ara")
+ggsave("./Plots/mcp_plots/mcp_araN.png")
+plot.araN <- plot(fit_mcp)+
+  ggtitle("ara")
 hypothesis(fit_mcp, "cp_1=2207") #2
 
 
 ###heath
+heath <- read.csv("./Processed_data/LCC_data/heath.csv")
 heathN <- CallSites_N(heath)
 heathN_int <- make_interval_pol(heathN, 100)
 EricaN <- rowSums(heathN_int[c(12:15)])
@@ -202,19 +258,28 @@ mcp_area$NRsites <- count$NRsites
 mcp_area <- subset(mcp_area, NRsites >=4)
 plot(mcp_area$age, mcp_area$LCC)
 model = list(LCC~1+age, ~1+age)
-fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
+
+if (!(paste0("mcp_heaN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
+  fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
+  saveRDS(fit_mcp, "./Processed_data/mcp_models/mcp_heaN.Rda")
+} else {
+  fit_mcp = readRDS("./Processed_data/mcp_models/mcp_heaN.Rda")
+}
 summary(fit_mcp)
-plot(fit_mcp)
-plot.heaN <- plot(fit_mcp)
+plot(fit_mcp) +
+  ggtitle("hea")
+ggsave("./Plots/mcp_plots/mcp_heaN.png")
+plot.heaN <- plot(fit_mcp)+
+  ggtitle("hea")
 #NO CP
 
 
 
 # PLOTS #
-ggarrange(plot.conN, plot.decN, plot.wetwN, plot.wetmN, plot.pasN, plot.araN, plot.heaN, plot.spd_mcp, plot.climN + rremove("x.text"), 
-          labels = c("con", "dec", "wetw", "wetm", "pas", "ara", "hea", "SPD", "clim"),
+ggpubr::ggarrange(plot.conN, plot.decN, plot.wetwN, plot.wetmN, plot.pasN, plot.araN, plot.heaN + rremove("x.text"), 
+          #labels = c("con", "dec", "wetw", "wetm", "pas", "ara", "hea", "SPD", "clim"),
           ncol = 3, nrow = 3)
-
+# plot.spd_mcp, plot.climN # These wore included in the above plot but never defined
 
 #ecp
 ecp_area <- data.frame(age=coniferousN_int$lower_ends, conN, decN, wetwN, wetmN, pasN, araN, heaN)
