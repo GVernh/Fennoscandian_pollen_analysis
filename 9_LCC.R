@@ -63,7 +63,6 @@ x = unique(LCC_familynames.t$LCC)
 x <- x[! x %in% NA] # Remove unwanted LCC's
 iterator = 3
 
-
 for (i in seq_along(x)){
   print(x[i])
   LCC_name = x[i]
