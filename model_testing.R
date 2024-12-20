@@ -30,13 +30,13 @@ source("./Functions/sqrt_sums.R")
 source("./Functions/makeIncrements_singleLCC.R")
 
 ### DATA ###
-coniferous_woodland <- read.csv("./Processed_data/LCC_data/coniferous woodland.csv")
+coniferous_woodland <- read.csv("./Processed_data/LCC_data/coniferous_woodland.csv")
 #coniferous_woodland <- read.csv("./Processed_data/LCC_data/LCC_abun/coniferous woodland_abun.csv") #For relative abundance
-deciduous_woodland <- read.csv("./Processed_data/LCC_data/deciduous woodland.csv")
+deciduous_woodland <- read.csv("./Processed_data/LCC_data/deciduous_woodland.csv")
 #deciduous_woodland <- read.csv("./Processed_data/LCC_data/LCC_abun/deciduous woodland_abun.csv")
-wet_woodland <- read.csv("./Processed_data/LCC_data/wet woodland.csv")
+wet_woodland <- read.csv("./Processed_data/LCC_data/wet_woodland.csv")
 #wet_woodland <- read.csv("./Processed_data/LCC_data/LCC_abun/wet woodland_abun.csv")
-wet_meadow <- read.csv("./Processed_data/LCC_data/wet meadow.csv")
+wet_meadow <- read.csv("./Processed_data/LCC_data/wet_meadow.csv")
 #wet_meadow <- read.csv("./Processed_data/LCC_data/LCC_abun/wet meadow_abun.csv")
 pasture <- read.csv("./Processed_data/LCC_data/pasture.csv")
 #pasture <- read.csv("./Processed_data/LCC_data/LCC_abun/pasture_abun.csv") 

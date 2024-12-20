@@ -1,14 +1,24 @@
 ### smoothing + model selection ###
 
+libs <- c("ggplot2","tidyverse", "lubridate", "fpp2", "smooth", "zoo", "TTR", "vars")
+
+installed_libs <- libs %in% rownames(
+  installed.packages())
+
+if (any(installed_libs == F)) {
+  install.packages(
+    libs[!installed_libs]
+  )
+}
+
+invisible(lapply(
+  libs,
+  library,
+  character.only = T
+))
+rm(list=ls())
+
 #library(RRatepol)
-library(ggplot2)
-library(tidyverse)      # data manipulation and visualization
-library(lubridate)      # easily work with dates and times
-library(fpp2)           # working with time series data
-library(smooth)
-library(zoo) 
-library(TTR)
-library(vars)
 
 conN <- alldataN$conN
 decN <- alldataN$decN
@@ -41,8 +51,8 @@ sma(araN, ic="BIC", h=0, interval="none") #2
 sma(heaN, ic="BIC", h=0, interval="none") #7
 
 #smoothing
-alldataN$conNs <- SMA(alldataN$conN, n=6)
-alldataN$decNs <- SMA(alldataN$decN, n=8)
+alldataN$conNs <- TTR::SMA(alldataN$conN, n=6)
+alldataN$decNs <- TTR::SMA(alldataN$decN, n=8)
 alldataN$wetwNs <- SMA(alldataN$wetwN, n=3)
 alldataN$wetmNs <- SMA(alldataN$wetmN, n=8)
 alldataN$pasNs <- SMA(alldataN$pasN, n=7)

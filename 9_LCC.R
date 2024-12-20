@@ -59,8 +59,8 @@ LCC_familynames.t <- as.data.frame(t(LCC_familynames))
 
 
 ################################
-x = unique(LCC_familynames.t$LCC)
-x <- x[! x %in% NA] # Remove unwanted LCC's
+x <- unique(LCC_familynames.t$LCC) %>%
+  .[! . %in% NA] # Remove unwanted LCC's
 iterator = 3
 
 for (i in seq_along(x)){
@@ -71,7 +71,8 @@ for (i in seq_along(x)){
     .[-c(4157), ]
   LCC = data.frame(dataset_ID=bigdf_familynames$dataset_ID,
                                    meantimes=bigdf_familynames$meantimes, LCC)
-  #write.csv(LCC, file = paste0("./Processed_data/LCC_data/",LCC_name,".csv"), row.names = FALSE)
+  LCC_name_file <- sub(" ", "_", LCC_name)
+  write.csv(LCC, file = paste0("./Processed_data/LCC_data/",LCC_name_file,".csv"), row.names = FALSE)
 
 
   LCC_sum = LCC %>%
@@ -101,7 +102,8 @@ for (i in seq_along(x)){
 #   LCC = data.frame(dataset_ID=bigdf_familynames$dataset_ID,
 #                    meantimes=bigdf_familynames$meantimes, LCC)
 #   
-#   write.csv(LCC, file = paste0("./Processed_data/LCC_data/LCC_abun/",LCC_name,"_abun.csv"), row.names = FALSE)
+#   LCC_name_file <- sub(" ", "_", LCC_name)
+#   write.csv(LCC, file = paste0("./Processed_data/LCC_data/LCC_abun/",LCC_name_file,"_abun.csv"), row.names = FALSE)
 # 
 #   LCC_sum = LCC %>%
 #     subset(., select = -c(dataset_ID, meantimes)) %>%
