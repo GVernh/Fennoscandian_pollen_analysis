@@ -64,7 +64,15 @@ dir.create(file.path("./Plots/", "mcp_plots"), showWarnings = FALSE)
 ### coniferous_woodland SIG
 coniferousN <- CallSites_N(coniferous_woodland)
 coniferousN_int <- make_interval_pol(coniferousN, 100)
-conN <- rowSums(coniferousN_int[3:ncol(coniferousN_int)], na.rm = TRUE) #all coniferous taxa
+conN <- rowSums(coniferousN_int[3:ncol(coniferousN_int)], na.rm = TRUE)#all coniferous taxa
+
+conN_dat =  coniferousN_int %>%
+  select(- "meantimes") %>%
+  mutate(conN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "conN")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(conN_dat, "./Processed_data/LCC_data/conN.csv", row.names = F)
 
 if (!(paste0("mcp_ConN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=coniferousN_int$lower_ends, LCC=conN) #LCC = PinusPiceaN or conN

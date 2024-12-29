@@ -20,13 +20,14 @@ rm(list=ls())
 
 #library(RRatepol)
 
-conN <- alldataN$conN
-decN <- alldataN$decN
-wetwN <- alldataN$wetwN
-wetmN <- alldataN$wetmN
-pasN <- alldataN$pasN
-araN <- alldataN$araN
-heaN <- alldataN$heaN
+conN = read.csv("./Processed_data/LCC_data/conN.csv")
+#conN <- alldataN$conN
+#decN <- alldataN$decN
+#wetwN <- alldataN$wetwN
+#wetmN <- alldataN$wetmN
+#pasN <- alldataN$pasN
+#araN <- alldataN$araN
+#heaN <- alldataN$heaN
 
 #smoothing HOW TO MAKE MODEL SELECTION? median value = 7
 
@@ -36,9 +37,18 @@ heaN <- alldataN$heaN
 # selecting according to the absolut lowest. --> 5
 
 ### NORTH
-#alldataN <- data.frame(yearsBP=spdN$calBP, SPD=spdN$SPD_med, clim=paleoviewN$Area.Mean[1:84], conN=conN[1:84],
-#                       decN=decN[1:84], wetwN=wetwN[1:84],wetmN=wetmN[1:84],pasN=pasN[1:84],araN=araN[1:84],heaN=heaN[1:84])
+
+########
+# GRANT:: Create new code that merges dataframe by "calBP"
+test <- merge(conN, spdN, by="calBP", all.x=TRUE)
+
+
+#alldataN <- data.frame(yearsBP=spdN$calBP, SPD=spdN$SPD_med, clim=paleoviewN$Area.Mean[1:84], 
+                      # conN=conN[1:84],decN=decN[1:84], wetwN=wetwN[1:84],wetmN=wetmN[1:84],
+                       #pasN=pasN[1:84],araN=araN[1:84],heaN=heaN[1:84])
+#####
 #write.csv(alldataN, file = "alldataN.csv", row.names = FALSE)
+
 alldataN = read.csv("alldataN.csv")
 
 #model testing smoothing
