@@ -26,6 +26,7 @@ climatic_list <- readRDS("./Processed_data/temp.list.RDS")
 ### CREATE DIRECTORIES ###
 dir.create(file.path("./Processed_data/", "gridded_data"), showWarnings = FALSE)
 dir.create(file.path("Plots"), showWarnings = FALSE)
+dir.create(file.path("./Plots/", "Datapoint_plots" ), showWarnings = FALSE)
 
 ### FUNCTIONS ###
 source("./Functions/LonglatDF.R")
@@ -291,9 +292,9 @@ plots[[8]] <- plot_grid_all
 
 ### LOOP & SAVE PLOTS ###
 for (i in seq_along(plots)){
-  if (!(paste0("arc_pol_clim_",tags[i],".png") %in% list.files("./Plots/"))) {
+  if (!(paste0("arc_pol_clim_",tags[i],".png") %in% list.files("./Plots/Datapoint_plots/"))) {
     ggplot2::ggsave(plots[[i]], 
-           filename = paste0("./Plots/arc_pol_clim_",tags[i], ".png"),
+           filename = paste0("./Plots/Datapoint_plots/arc_pol_clim_",tags[i], ".png"),
            device = "png",
            height = 6, width = 5, units = "in")
   }

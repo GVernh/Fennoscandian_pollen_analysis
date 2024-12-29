@@ -28,8 +28,7 @@ human.withoutRussia <-read.csv("./Processed_data/human.withoutRussia.csv")
 ### Directories ###
 dir.create(file.path("./Processed_data/", "Footprint_calibration_results"), showWarnings = FALSE)
 dir.create(file.path("./Processed_data/", "SPD_data"), showWarnings = FALSE)
-dir.create(file.path("./Processed_data/Footprint_calibration_results/", "Null_model_plots"), 
-           showWarnings = FALSE)
+dir.create(file.path("./Plots/", "Null_model_plots"), showWarnings = FALSE)
 
 ### DATA WRANGLING ###
 #!!! CONSIDER MOVING TO "archeological_data.R" !!!
@@ -95,8 +94,8 @@ if (!(paste0("nullmodelSE.Rdata") %in% list.files("./Processed_data/Footprint_ca
 }
 
 if (!(paste0("nullmodelSE.png") %in% 
-      list.files("./Processed_data/Footprint_calibration_results/Null_model_plots/"))){
-  png(file="./Processed_data/Footprint_calibration_results/Null_model_plots/nullmodelSE.png",
+      list.files("./Plots/Null_model_plots/"))){
+  png(file="./Plots/Null_model_plots/nullmodelSE.png",
       width=1000, height=650)
   plot.nullSE <- plot(nullmodelSE)
   dev.off()
@@ -119,8 +118,8 @@ if (!(paste0("nullmodelSE2.Rdata") %in% list.files("./Processed_data/Footprint_c
 }
 
 if (!(paste0("nullmodelSE2.png") %in% 
-      list.files("./Processed_data/Footprint_calibration_results/Null_model_plots/"))){
-  png(file="./Processed_data/Footprint_calibration_results/Null_model_plots/nullmodelSE2.png",
+      list.files("./Plots/Null_model_plots/"))){
+  png(file="./Plots/Null_model_plots/nullmodelSE2.png",
       width=1000, height=650)
   plot.nullSE2 <- plot(nullmodelSE2)
   dev.off()
@@ -144,8 +143,8 @@ if (!(paste0("nullmodelMW.Rdata") %in% list.files("./Processed_data/Footprint_ca
 }
 
 if (!(paste0("nullmodelMW.png") %in% 
-      list.files("./Processed_data/Footprint_calibration_results/Null_model_plots/"))){
-  png(file="./Processed_data/Footprint_calibration_results/Null_model_plots/nullmodelMW.png",
+      list.files("./Plots/Null_model_plots/Null_model_plots/"))){
+  png(file="./Plots/Null_model_plots/nullmodelMW.png",
       width=1000, height=650)
   plot.nullMW <- plot(nullmodelMW)
   dev.off()
@@ -168,8 +167,8 @@ if (!(paste0("nullmodelMM.Rdata") %in% list.files("./Processed_data/Footprint_ca
 }
 
 if (!(paste0("nullmodelMM.png") %in% 
-      list.files("./Processed_data/Footprint_calibration_results/Null_model_plots/"))){
-  png(file="./Processed_data/Footprint_calibration_results/Null_model_plots/nullmodelMM.png",
+      list.files("./Plots/Null_model_plots/"))){
+  png(file="./Plots/Null_model_plots/nullmodelMM.png",
       width=1000, height=650)
   plot.nullMM <- plot(nullmodelMM)
   dev.off()
@@ -192,8 +191,8 @@ if (!(paste0("nullmodelSW.Rdata") %in% list.files("./Processed_data/Footprint_ca
 }
 
 if (!(paste0("nullmodelSW.png") %in% 
-      list.files("./Processed_data/Footprint_calibration_results/Null_model_plots/"))){
-  png(file="./Processed_data/Footprint_calibration_results/Null_model_plots/nullmodelSW.png",
+      list.files("./Plots/Null_model_plots/"))){
+  png(file="./Plots/Null_model_plots/nullmodelSW.png",
       width=1000, height=650)
   plot.nullSW <- plot(nullmodelSW, ylim=c(0,1))
   dev.off()
@@ -216,8 +215,8 @@ if (!(paste0("nullmodelSM.Rdata") %in% list.files("./Processed_data/Footprint_ca
 }
 
 if (!(paste0("nullmodelSM.png") %in% 
-      list.files("./Processed_data/Footprint_calibration_results/Null_model_plots/"))){
-  png(file="./Processed_data/Footprint_calibration_results/Null_model_plots/nullmodelSM.png",
+      list.files("./Plots/Null_model_plots/"))){
+  png(file="./Plots/Null_model_plots/nullmodelSM.png",
       width=1000, height=650)
   plot.nullSM <- plot(nullmodelSM)
   dev.off()
