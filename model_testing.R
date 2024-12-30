@@ -1,7 +1,7 @@
 ### model testing ###
 #-------------------------------------------------------------------------------
 
-libs <- c("ggplot2","ecp", "mcp", "dplyr", "ggpubr")
+libs <- c("ggplot2","ecp", "mcp", "dplyr", "ggpubr", "purrr")
 
 installed_libs <- libs %in% rownames(
   installed.packages())
@@ -60,6 +60,9 @@ dir.create(file.path("./Plots/", "mcp_plots"), showWarnings = FALSE)
 ### NORTH ###
 # total nr sites: 18
 # 20%: 4
+
+# GRANT: TO DO: in model_testing.R copy the conN_dat pipeline to the other lines that subset each LCC type.
+
 #-------------------------------------------------------------------------------
 ### coniferous_woodland SIG
 coniferousN <- CallSites_N(coniferous_woodland)
@@ -108,6 +111,15 @@ hypothesis(fit_mcp, "cp_1=7516") #1
 deciduousN <- CallSites_N(deciduous_woodland)
 deciduousN_int <- make_interval_pol(deciduousN, 100)
 decN <- rowSums(deciduousN_int[3:ncol(deciduousN_int)], na.rm = TRUE)
+
+decN_dat =  deciduousN_int %>%
+  select(- "meantimes") %>%
+  mutate(decN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "decN")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(decN_dat, "./Processed_data/LCC_data/decN.csv", row.names = F)
+
 if (!(paste0("mcp_decN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=deciduousN_int$lower_ends, LCC=decN)
   plot(mcp_area)
@@ -135,6 +147,14 @@ plot.decN <- plot(fit_mcp)+
 wetwoodlandN <- CallSites_N(wet_woodland)
 wetwoodlandN_int <- make_interval_pol(wetwoodlandN, 100)
 wetwN <- rowSums(wetwoodlandN_int[3:ncol(wetwoodlandN_int)], na.rm = TRUE)
+
+wetwN_dat =  wetwoodlandN_int %>%
+  select(- "meantimes") %>%
+  mutate(wetwN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "wetwN")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(wetwN_dat, "./Processed_data/LCC_data/wetwN.csv", row.names = F)
 
 if (!(paste0("mcp_wetwN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=wetwoodlandN_int$lower_ends, LCC=wetwN)
@@ -164,6 +184,14 @@ wetmeadowN <- CallSites_N(wet_meadow)
 wetmeadowN_int <- make_interval_pol(wetmeadowN, 100)
 wetmN <- rowSums(wetmeadowN_int[3:ncol(wetmeadowN_int)], na.rm = TRUE)
 
+wetmN_dat =  wetmeadowN_int %>%
+  select(- "meantimes") %>%
+  mutate(wetmN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "wetmN")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(wetmN_dat, "./Processed_data/LCC_data/wetmN.csv", row.names = F)
+
 if (!(paste0("mcp_wetmN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=wetmeadowN_int$lower_ends, LCC=wetmN)
   plot(mcp_area)
@@ -191,6 +219,14 @@ pastureN <- CallSites_N(pasture)
 pastureN_int <- make_interval_pol(pastureN, 100)
 pasN <- rowSums(pastureN_int[3:ncol(pastureN_int)], na.rm = TRUE)
 
+pasN_dat =  pastureN_int %>%
+  select(- "meantimes") %>%
+  mutate(pasN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "pasN")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(pasN_dat, "./Processed_data/LCC_data/pasN.csv", row.names = F)
+
 if (!(paste0("mcp_pasN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=pastureN_int$lower_ends, LCC=pasN)
   plot(mcp_area)
@@ -217,6 +253,14 @@ hypothesis(fit_mcp, "cp_1=7057") #6
 arableN <- CallSites_N(arable)
 arableN_int <- make_interval_pol(arableN, 100)
 araN <- rowSums(arableN_int[3:ncol(arableN_int)], na.rm = TRUE)
+
+araN_dat =  arableN_int %>%
+  select(- "meantimes") %>%
+  mutate(araN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "araN")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(araN_dat, "./Processed_data/LCC_data/araN.csv", row.names = F)
 
 if (!(paste0("mcp_araN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=arableN_int$lower_ends, LCC=araN)
@@ -247,6 +291,14 @@ heathN_int <- make_interval_pol(heathN, 100)
 EricaN <- rowSums(heathN_int[c(12:15)])
 heaN <- rowSums(heathN_int[3:ncol(heathN_int)], na.rm = TRUE)
 
+heaN_dat =  heathN_int %>%
+  select(- "meantimes") %>%
+  mutate(heaN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "heaN")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(heaN_dat, "./Processed_data/LCC_data/heaN.csv", row.names = F)
+
 if (!(paste0("mcp_heaN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=heathN_int$lower_ends, LCC=heaN)
   plot(mcp_area)
@@ -274,6 +326,7 @@ ggpubr::ggarrange(plot.conN, plot.decN, plot.wetwN, plot.wetmN, plot.pasN, plot.
           ncol = 3, nrow = 3)
 # plot.spd_mcp, plot.climN # These wore included in the above plot but never defined
 ggsave("./Plots/mcp_plots/mcp_allN.png", width = 11, height = 9)
+Full_list_N = list(conN_dat, decN_dat, wetwN_dat, wetmN_dat, pasN_dat, araN_dat, heaN_dat)
 
 #ecp
 #ecp_area <- data.frame(age=coniferousN_int$lower_ends, conN, decN, wetwN, wetmN, pasN, araN, heaN)
@@ -294,6 +347,14 @@ ggsave("./Plots/mcp_plots/mcp_allN.png", width = 11, height = 9)
 coniferousSE <- CallSites_SE(coniferous_woodland)
 coniferousSE_int <- make_interval_pol(coniferousSE, 100)
 conSE <- rowSums(coniferousSE_int[3:ncol(coniferousSE_int)], na.rm = TRUE)
+
+conSE_dat =  coniferousSE_int %>%
+  select(- "meantimes") %>%
+  mutate(conSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "conSE")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(conSE_dat, "./Processed_data/LCC_data/conSE.csv", row.names = F)
 
 if (!(paste0("mcp_conSE.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=coniferousSE_int$lower_ends, LCC=conSE)
@@ -322,6 +383,14 @@ deciduousSE <- CallSites_SE(deciduous_woodland)
 deciduousSE_int <- make_interval_pol(deciduousSE, 100)
 decSE <- rowSums(deciduousSE_int[3:ncol(deciduousSE_int)], na.rm = TRUE)
 
+decSE_dat =  deciduousSE_int %>%
+  select(- "meantimes") %>%
+  mutate(decSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "decSE")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(decSE_dat, "./Processed_data/LCC_data/decSE.csv", row.names = F)
+
 if (!(paste0("mcp_decSE.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=deciduousSE_int$lower_ends, LCC=decSE)
   plot(mcp_area)
@@ -348,6 +417,14 @@ hypothesis(fit_mcp, "cp_1=4553") #62
 wetwoodlandSE <- CallSites_SE(wet_woodland)
 wetwoodlandSE_int <- make_interval_pol(wetwoodlandSE, 100)
 wetwSE <- rowSums(wetwoodlandSE_int[3:ncol(wetwoodlandSE_int)], na.rm = TRUE)
+
+wetwSE_dat =  wetwoodlandSE_int %>%
+  select(- "meantimes") %>%
+  mutate(wetwSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "wetwSE")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(wetwSE_dat, "./Processed_data/LCC_data/wetwSE.csv", row.names = F)
 
 if (!(paste0("mcp_wetwSE.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=wetwoodlandSE_int$lower_ends, LCC=wetwSE)
@@ -387,6 +464,14 @@ wetmeadowSE <- CallSites_SE(wet_meadow)
 wetmeadowSE_int <- make_interval_pol(wetmeadowSE, 100)
 wetmSE <- rowSums(wetmeadowSE_int[3:ncol(wetmeadowSE_int)], na.rm = TRUE)
 
+wetmSE_dat =  wetmeadowSE_int %>%
+  select(- "meantimes") %>%
+  mutate(wetmSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "wetmSE")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(wetmSE_dat, "./Processed_data/LCC_data/wetmSE.csv", row.names = F)
+
 if (!(paste0("mcp_wetmSE.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=wetmeadowSE_int$lower_ends, LCC=wetmSE)
   #?mcp_area <- mcp_area[c(6:95),] #because there are some very high counts to the end
@@ -416,6 +501,15 @@ hypothesis(fit_mcp, "cp_1=1447") #46
 pastureSE <- CallSites_SE(pasture)
 pastureSE_int <- make_interval_pol(pastureSE, 100)
 pasSE <- rowSums(pastureSE_int[3:ncol(pastureSE_int)], na.rm = TRUE)
+
+pasSE_dat =  pastureSE_int %>%
+  select(- "meantimes") %>%
+  mutate(pasSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "pasSE")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(pasSE_dat, "./Processed_data/LCC_data/pasSE.csv", row.names = F)
+
 if (!(paste0("mcp_pasSE.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=pastureSE_int$lower_ends, LCC=pasSE)
   # count sites
@@ -444,6 +538,14 @@ hypothesis(fit_mcp, "cp_3=8647") #54
 arableSE <- CallSites_SE(arable)
 arableSE_int <- make_interval_pol(arableSE, 100)
 araSE <- rowSums(arableSE_int[3:ncol(arableSE_int)], na.rm = TRUE)
+
+araSE_dat =  arableSE_int %>%
+  select(- "meantimes") %>%
+  mutate(araSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "araSE")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(araSE_dat, "./Processed_data/LCC_data/araSE.csv", row.names = F)
 
 if (!(paste0("mcp_araSE.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=arableSE_int$lower_ends, LCC=araSE)
@@ -474,6 +576,14 @@ heathSE <- CallSites_SE(heath)
 heathSE_int <- make_interval_pol(heathSE, 100)
 EricaSE <- rowSums(heathSE_int[c(12:15)]) # GRANT:: What is this?
 heaSE <- rowSums(heathSE_int[3:ncol(heathSE_int)], na.rm = TRUE)
+
+heaSE_dat =  heathSE_int %>%
+  select(- "meantimes") %>%
+  mutate(heaSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "heaSE")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(heaSE_dat, "./Processed_data/LCC_data/heaSE.csv", row.names = F)
 
 if (!(paste0("mcp_heaSE.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=heathSE_int$lower_ends, LCC=heaSE)
@@ -509,6 +619,7 @@ plot.heaSE <- plot(fit_mcp)+
 ggarrange(plot.conSE, plot.decSE, plot.wetwSE, plot.wetmSE, plot.pasSE, plot.araSE, plot.heaSE + rremove("x.text"), 
           #labels = c("con", "dec", "wetw", "wetm", "pas", "ara", "hea", "SPD", "clim"),
           ncol = 3, nrow = 3)
+Full_list_SE = list(conSE_dat, decSE_dat, wetwSE_dat, wetmSE_dat, pasSE_dat, araSE_dat, heaSE_dat)
 
 ### MIDWEST ###
 # total nr sites: 7
@@ -518,6 +629,14 @@ ggarrange(plot.conSE, plot.decSE, plot.wetwSE, plot.wetmSE, plot.pasSE, plot.ara
 coniferousMW <- CallSites_MW(coniferous_woodland)
 coniferousMW_int <- make_interval_pol(coniferousMW, 100)
 conMW <- rowSums(coniferousMW_int[3:ncol(coniferousMW_int)], na.rm = TRUE)
+
+conMW_dat =  coniferousMW_int %>%
+  select(- "meantimes") %>%
+  mutate(conMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "conMW")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(conMW_dat, "./Processed_data/LCC_data/conMW.csv", row.names = F)
 
 if (!(paste0("mcp_conMW.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=coniferousMW_int$lower_ends, LCC=conMW)
@@ -546,6 +665,14 @@ deciduousMW <- CallSites_MW(deciduous_woodland)
 deciduousMW_int <- make_interval_pol(deciduousMW, 100)
 decMW <- rowSums(deciduousMW_int[3:ncol(deciduousMW_int)], na.rm = TRUE)
 
+decMW_dat =  deciduousMW_int %>%
+  select(- "meantimes") %>%
+  mutate(decMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "decMW")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(decMW_dat, "./Processed_data/LCC_data/decMW.csv", row.names = F)
+
 if (!(paste0("mcp_decMW.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=deciduousMW_int$lower_ends, LCC=decMW)
   plot(mcp_area)
@@ -572,6 +699,14 @@ hypothesis(fit_mcp, "cp_1=6786") #1
 wetwoodlandMW <- CallSites_MW(wet_woodland)
 wetwoodlandMW_int <- make_interval_pol(wetwoodlandMW, 100)
 wetwMW <- rowSums(wetwoodlandMW_int[3:ncol(wetwoodlandMW_int)], na.rm = TRUE)
+
+wetwMW_dat =  wetwoodlandMW_int %>%
+  select(- "meantimes") %>%
+  mutate(wetwMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "wetwMW")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(wetwMW_dat, "./Processed_data/LCC_data/wetwMW.csv", row.names = F)
 
 if (!(paste0("mcp_wetwMW.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=wetwoodlandMW_int$lower_ends, LCC=wetwMW)
@@ -601,6 +736,14 @@ wetmeadowMW <- CallSites_MW(wet_meadow)
 wetmeadowMW_int <- make_interval_pol(wetmeadowMW, 100)
 wetmMW <- rowSums(wetmeadowMW_int[3:ncol(wetmeadowMW_int)], na.rm = TRUE)
 
+wetmMW_dat =  wetmeadowMW_int %>%
+  select(- "meantimes") %>%
+  mutate(wetmMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "wetmMW")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(wetmMW_dat, "./Processed_data/LCC_data/wetmMW.csv", row.names = F)
+
 if (!(paste0("mcp_wetmMW.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=wetmeadowMW_int$lower_ends, LCC=wetmMW)
   plot(mcp_area)
@@ -628,6 +771,14 @@ pastureMW <- CallSites_MW(pasture)
 pastureMW_int <- make_interval_pol(pastureMW, 100)
 pasMW <- rowSums(pastureMW_int[3:ncol(pastureMW_int)], na.rm = TRUE)
 
+pasMW_dat =  pastureMW_int %>%
+  select(- "meantimes") %>%
+  mutate(pasMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "pasMW")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(pasMW_dat, "./Processed_data/LCC_data/pasMW.csv", row.names = F)
+
 if (!(paste0("mcp_pasMW.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=pastureMW_int$lower_ends, LCC=pasMW)
   plot(mcp_area)
@@ -654,6 +805,14 @@ hypothesis(fit_mcp, "cp_1=1401") #45
 arableMW <- CallSites_MW(arable)
 arableMW_int <- make_interval_pol(arableMW, 100)
 araMW <- rowSums(arableMW_int[3:ncol(arableMW_int)], na.rm = TRUE)
+
+araMW_dat =  arableMW_int %>%
+  select(- "meantimes") %>%
+  mutate(araMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "araMW")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(araMW_dat, "./Processed_data/LCC_data/araMW.csv", row.names = F)
 
 if (!(paste0("mcp_araMW.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=arableMW_int$lower_ends, LCC=araMW)
@@ -684,6 +843,14 @@ heathMW <- CallSites_MW(heath)
 heathMW_int <- make_interval_pol(heathMW, 100)
 EricaMW <- rowSums(heathMW_int[c(12:15)]) # GRANT:: Again here?
 heaMW <- rowSums(heathMW_int[3:ncol(heathMW_int)], na.rm = TRUE)
+
+heaMW_dat =  heathMW_int %>%
+  select(- "meantimes") %>%
+  mutate(heaMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "heaMW")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(heaMW_dat, "./Processed_data/LCC_data/heaMW.csv", row.names = F)
 
 if (!(paste0("mcp_heaMW.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=heathMW_int$lower_ends, LCC=heaMW)
@@ -718,6 +885,7 @@ ggarrange(plot.conMW, plot.decMW, plot.wetwMW, plot.wetmMW, plot.pasMW, plot.ara
           #labels = c("con", "dec", "wetw", "wetm", "pas", "ara", "hea", "SPD", "clim"),
           ncol = 3, nrow = 3)
 
+Full_list_MW = list(conMW_dat, decMW_dat, wetwMW_dat, wetmMW_dat, pasMW_dat, araMW_dat, heaMW_dat)
 ### MIDMID ###
 # total nr sites: 8
 # 20%: 2
@@ -726,6 +894,14 @@ ggarrange(plot.conMW, plot.decMW, plot.wetwMW, plot.wetmMW, plot.pasMW, plot.ara
 coniferousMM <- CallSites_MM(coniferous_woodland)
 coniferousMM_int <- make_interval_pol(coniferousMM, 100)
 conMM <- rowSums(coniferousMM_int[3:ncol(coniferousMM_int)], na.rm = TRUE)
+
+conMM_dat =  coniferousMM_int %>%
+  select(- "meantimes") %>%
+  mutate(conMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "conMM")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(conMM_dat, "./Processed_data/LCC_data/conMM.csv", row.names = F)
 
 if (!(paste0("mcp_conMM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=coniferousMM_int$lower_ends, LCC=conMM)
@@ -754,6 +930,14 @@ deciduousMM <- CallSites_MM(deciduous_woodland)
 deciduousMM_int <- make_interval_pol(deciduousMM, 100)
 decMM <- rowSums(deciduousMM_int[3:ncol(deciduousMM_int)], na.rm = TRUE)
 
+decMM_dat =  deciduousMM_int %>%
+  select(- "meantimes") %>%
+  mutate(decMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "decMM")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(decMM_dat, "./Processed_data/LCC_data/decMM.csv", row.names = F)
+
 if (!(paste0("mcp_decMM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=deciduousMM_int$lower_ends, LCC=decMM)
   plot(mcp_area)
@@ -780,6 +964,14 @@ hypothesis(fit_mcp, "cp_1=2587") #18
 wetwoodlandMM <- CallSites_MM(wet_woodland)
 wetwoodlandMM_int <- make_interval_pol(wetwoodlandMM, 100)
 wetwMM <- rowSums(wetwoodlandMM_int[3:ncol(wetwoodlandMM_int)], na.rm = TRUE)
+
+wetwMM_dat =  wetwoodlandMM_int %>%
+  select(- "meantimes") %>%
+  mutate(wetwMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "wetwMM")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(wetwMM_dat, "./Processed_data/LCC_data/wetwMM.csv", row.names = F)
 
 if (!(paste0("mcp_wetwMM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=wetwoodlandMM_int$lower_ends, LCC=wetwMM)
@@ -808,6 +1000,14 @@ wetmeadowMM <- CallSites_MM(wet_meadow)
 wetmeadowMM_int <- make_interval_pol(wetmeadowMM, 100)
 wetmMM <- rowSums(wetmeadowMM_int[3:ncol(wetmeadowMM_int)], na.rm = TRUE)
 
+wetmMM_dat =  wetmeadowMM_int %>%
+  select(- "meantimes") %>%
+  mutate(wetmMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "wetmMM")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(wetmMM_dat, "./Processed_data/LCC_data/wetmMM.csv", row.names = F)
+
 if (!(paste0("mcp_wetmMM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=wetmeadowMM_int$lower_ends, LCC=wetmMM)
   plot(mcp_area)
@@ -830,13 +1030,20 @@ plot.wetmMM <- plot(fit_mcp)+
   ggtitle("wetm")
 hypothesis(fit_mcp, "cp_1=1448") #23
 hypothesis(fit_mcp, "cp_2=9352") #99
-hypothesis(fit_mcp, "cp_3=9549") #40
+#hypothesis(fit_mcp, "cp_3=9549") #40 # GRANT: DOESNT EXIST?
 
 ###pasture
 pastureMM <- CallSites_MM(pasture)
 pastureMM_int <- make_interval_pol(pastureMM, 100)
-#PoaceaeMM
 pasMM <- rowSums(pastureMM_int[3:ncol(pastureMM_int)], na.rm = TRUE)
+
+pasMM_dat =  pastureMM_int %>%
+  select(- "meantimes") %>%
+  mutate(pasMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "pasMM")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(pasMM_dat, "./Processed_data/LCC_data/pasMM.csv", row.names = F)
 
 if (!(paste0("mcp_wetmMM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=pastureMM_int$lower_ends, LCC=pasMM)
@@ -864,6 +1071,14 @@ hypothesis(fit_mcp, "cp_1=3179") #7
 arableMM <- CallSites_MM(arable)
 arableMM_int <- make_interval_pol(arableMM, 100)
 araMM <- rowSums(arableMM_int[3:ncol(arableMM_int)], na.rm = TRUE)
+
+araMM_dat =  arableMM_int %>%
+  select(- "meantimes") %>%
+  mutate(araMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "araMM")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(araMM_dat, "./Processed_data/LCC_data/araMM.csv", row.names = F)
 
 if (!(paste0("mcp_araMM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=arableMM_int$lower_ends, LCC=araMM)
@@ -895,6 +1110,14 @@ heathMM_int <- make_interval_pol(heathMM, 100)
 EricaMM <- rowSums(heathMM_int[c(12:15)])
 heaMM <- rowSums(heathMM_int[3:ncol(heathMM_int)], na.rm = TRUE)
 
+heaMM_dat =  heathMM_int %>%
+  select(- "meantimes") %>%
+  mutate(heaMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "heaMM")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(heaMM_dat, "./Processed_data/LCC_data/heaMM.csv", row.names = F)
+
 if (!(paste0("mcp_heaMM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=heathMM_int$lower_ends, LCC=heaMM)
   plot(mcp_area)
@@ -923,6 +1146,8 @@ ggarrange(plot.conMM, plot.decMM, plot.wetwMM, plot.wetmMM, plot.pasMM, plot.ara
           #labels = c("con", "dec", "wetw", "wetm", "pas", "ara", "hea", "SPD", "clim"),
           ncol = 3, nrow = 3)
 
+Full_list_MM = list(conMM_dat, decMM_dat, wetwMM_dat, wetmMM_dat, pasMM_dat, araMM_dat, heaMM_dat)
+
 #ecp
 #ecp_area <- data.frame(age=coniferousMM_int$lower_ends, conMM, decMM, wetwMM, wetmMM, pasMM, araMM, heaMM)
 #ecp_sqrt <- sqrt_sums(ecp_area)
@@ -938,6 +1163,14 @@ ggarrange(plot.conMM, plot.decMM, plot.wetwMM, plot.wetmMM, plot.pasMM, plot.ara
 coniferousSW <- CallSites_SW(coniferous_woodland)
 coniferousSW_int <- make_interval_pol(coniferousSW, 100)
 conSW <- rowSums(coniferousSW_int[3:ncol(coniferousSW_int)], na.rm = TRUE)
+
+conSW_dat =  coniferousSW_int %>%
+  select(- "meantimes") %>%
+  mutate(conSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "conSW")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(conSW_dat, "./Processed_data/LCC_data/conSW.csv", row.names = F)
 
 if (!(paste0("mcp_conSW.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=coniferousSW_int$lower_ends, LCC=conSW)
@@ -966,6 +1199,14 @@ deciduousSW <- CallSites_SW(deciduous_woodland)
 deciduousSW_int <- make_interval_pol(deciduousSW, 100)
 decSW <- rowSums(deciduousSW_int[3:ncol(deciduousSW_int)], na.rm = TRUE)
 
+decSW_dat =  deciduousSW_int %>%
+  select(- "meantimes") %>%
+  mutate(decSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "decSW")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(decSW_dat, "./Processed_data/LCC_data/decSW.csv", row.names = F)
+
 if (!(paste0("mcp_decSW.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=deciduousSW_int$lower_ends, LCC=decSW)
   plot(mcp_area)
@@ -992,6 +1233,14 @@ plot.decSW <- plot(fit_mcp)+
 wetwoodlandSW <- CallSites_SW(wet_woodland)
 wetwoodlandSW_int <- make_interval_pol(wetwoodlandSW, 100)
 wetwSW <- rowSums(wetwoodlandSW_int[3:ncol(wetwoodlandSW_int)], na.rm = TRUE)
+
+wetwSW_dat =  wetwoodlandSW_int %>%
+  select(- "meantimes") %>%
+  mutate(wetwSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "wetwSW")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(wetwSW_dat, "./Processed_data/LCC_data/wetwSW.csv", row.names = F)
 
 if (!(paste0("mcp_wetwSW.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=wetwoodlandSW_int$lower_ends, LCC=wetwSW)
@@ -1021,6 +1270,14 @@ wetmeadowSW <- CallSites_SW(wet_meadow)
 wetmeadowSW_int <- make_interval_pol(wetmeadowSW, 100)
 wetmSW <- rowSums(wetmeadowSW_int[3:ncol(wetmeadowSW_int)], na.rm = TRUE)
 
+wetmSW_dat =  wetmeadowSW_int %>%
+  select(- "meantimes") %>%
+  mutate(wetmSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "wetmSW")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(wetmSW_dat, "./Processed_data/LCC_data/wetmSW.csv", row.names = F)
+
 if (!(paste0("mcp_wetmSW.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=wetmeadowSW_int$lower_ends, LCC=wetmSW)
   plot(mcp_area)
@@ -1046,8 +1303,15 @@ hypothesis(fit_mcp, "cp_1=4346") #4
 ###pasture
 pastureSW <- CallSites_SW(pasture)
 pastureSW_int <- make_interval_pol(pastureSW, 100)
-#PoaceaeSW
 pasSW <- rowSums(pastureSW_int[3:ncol(pastureSW_int)], na.rm = TRUE)
+
+pasSW_dat =  pastureSW_int %>%
+  select(- "meantimes") %>%
+  mutate(pasSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "pasSW")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(pasSW_dat, "./Processed_data/LCC_data/pasSW.csv", row.names = F)
 
 if (!(paste0("mcp_pasSW.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=pastureSW_int$lower_ends, LCC=pasSW)
@@ -1075,6 +1339,14 @@ hypothesis(fit_mcp, "cp_1=4188") #6
 arableSW <- CallSites_SW(arable)
 arableSW_int <- make_interval_pol(arableSW, 100)
 araSW <- rowSums(arableSW_int[3:ncol(arableSW_int)], na.rm = TRUE)
+
+araSW_dat =  arableSW_int %>%
+  select(- "meantimes") %>%
+  mutate(araSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "araSW")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(araSW_dat, "./Processed_data/LCC_data/araSW.csv", row.names = F)
 
 if (!(paste0("mcp_araSW.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=arableSW_int$lower_ends, LCC=araSW)
@@ -1106,6 +1378,14 @@ heathSW_int <- make_interval_pol(heathSW, 100)
 EricaSW <- rowSums(heathSW_int[c(12:15)])
 heaSW <- rowSums(heathSW_int[3:ncol(heathSW_int)], na.rm = TRUE)
 
+heaSW_dat =  heathSW_int %>%
+  select(- "meantimes") %>%
+  mutate(heaSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "heaSW")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(heaSW_dat, "./Processed_data/LCC_data/heaSW.csv", row.names = F)
+
 if (!(paste0("mcp_heaSW.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=heathSW_int$lower_ends, LCC=heaSW)
   plot(mcp_area)
@@ -1132,6 +1412,8 @@ ggarrange(plot.conSW, plot.decSW, plot.wetwSW, plot.wetmSW, plot.pasSW, plot.ara
           #labels = c("con", "dec", "wetw", "wetm", "pas", "ara", "hea", "SPD", "clim"),
           ncol = 3, nrow = 3)
 
+Full_list_SW = list(conSW_dat, decSW_dat, wetwSW_dat, wetmSW_dat, pasSW_dat, araSW_dat, heaSW_dat)
+
 #ecp
 #ecp_area <- data.frame(age=coniferousSW_int$lower_ends, conSW, decSW, wetwSW, wetmSW, pasSW, araSW, heaSW)
 #ecp_sqrt <- sqrt_sums(ecp_area)
@@ -1146,8 +1428,16 @@ ggarrange(plot.conSW, plot.decSW, plot.wetwSW, plot.wetmSW, plot.pasSW, plot.ara
 #-------------------------------------------------------------------------------
 ###coniferous_woodland
 coniferousSM <- CallSites_SM(coniferous_woodland)
-coniferousSM_int <- make_interval_polSM(coniferousSM, 100)
+coniferousSM_int <- make_interval_pol(coniferousSM, 100)
 conSM <- rowSums(coniferousSM_int[3:ncol(coniferousSM_int)], na.rm = TRUE)
+
+conSM_dat =  coniferousSM_int %>%
+  select(- "meantimes") %>%
+  mutate(conSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "conSM")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(conSM_dat, "./Processed_data/LCC_data/conSM.csv", row.names = F)
 
 if (!(paste0("mcp_conSM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=coniferousSM_int$lower_ends, LCC=conSM)
@@ -1174,9 +1464,17 @@ hypothesis(fit_mcp, "cp_2=8174") #14 manually adapted
 
 ###deciduous_woodland
 deciduousSM <- CallSites_SM(deciduous_woodland)
-deciduousSM_int <- make_interval_polSM(deciduousSM, 100)
+deciduousSM_int <- make_interval_pol(deciduousSM, 100)
 BetulaSM <- rowSums(deciduousSM_int[7:13])
 decSM <- rowSums(deciduousSM_int[3:ncol(deciduousSM_int)], na.rm = TRUE)
+
+decSM_dat =  deciduousSM_int %>%
+  select(- "meantimes") %>%
+  mutate(decSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "decSM")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(decSM_dat, "./Processed_data/LCC_data/decSM.csv", row.names = F)
 
 if (!(paste0("mcp_decSM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=deciduousSM_int$lower_ends, LCC=decSM)
@@ -1203,9 +1501,17 @@ hypothesis(fit_mcp, "cp_2=1299") #179
 
 ###wet_woodland
 wetwoodlandSM <- CallSites_SM(wet_woodland)
-wetwoodlandSM_int <- make_interval_polSM(wetwoodlandSM, 100)
+wetwoodlandSM_int <- make_interval_pol(wetwoodlandSM, 100)
 AlnusSalixSM <- rowSums(wetwoodlandSM_int[c(3,4,5,6,23)])
 wetwSM <- rowSums(wetwoodlandSM_int[3:ncol(wetwoodlandSM_int)], na.rm = TRUE)
+
+wetwSM_dat =  wetwoodlandSM_int %>%
+  select(- "meantimes") %>%
+  mutate(wetwSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "wetwSM")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(wetwSM_dat, "./Processed_data/LCC_data/wetwSM.csv", row.names = F)
 
 if (!(paste0("mcp_wetwSM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=wetwoodlandSM_int$lower_ends, LCC=wetwSM)
@@ -1232,8 +1538,16 @@ hypothesis(fit_mcp, "cp_2=5228") #72
 
 ###wet_meadow
 wetmeadowSM <- CallSites_SM(wet_meadow)
-wetmeadowSM_int <- make_interval_polSM(wetmeadowSM, 100)
+wetmeadowSM_int <- make_interval_pol(wetmeadowSM, 100)
 wetmSM <- rowSums(wetmeadowSM_int[3:ncol(wetmeadowSM_int)], na.rm = TRUE)
+
+wetmSM_dat =  wetmeadowSM_int %>%
+  select(- "meantimes") %>%
+  mutate(wetmSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "wetmSM")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(wetmSM_dat, "./Processed_data/LCC_data/wetmSM.csv", row.names = F)
 
 if (!(paste0("mcp_wetmSM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=wetmeadowSM_int$lower_ends, LCC=wetmSM)
@@ -1261,9 +1575,17 @@ hypothesis(fit_mcp, "cp_3=7454") #65
 
 ###pasture
 pastureSM <- CallSites_SM(pasture)
-pastureSM_int <- make_interval_polSM(pastureSM, 100)
+pastureSM_int <- make_interval_pol(pastureSM, 100)
 #PoaceaeSM
 pasSM <- rowSums(pastureSM_int[3:ncol(pastureSM_int)], na.rm = TRUE)
+
+pasSM_dat =  pastureSM_int %>%
+  select(- "meantimes") %>%
+  mutate(pasSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "pasSM")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(pasSM_dat, "./Processed_data/LCC_data/pasSM.csv", row.names = F)
 
 if (!(paste0("mcp_pasSM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=pastureSM_int$lower_ends, LCC=pasSM)
@@ -1290,8 +1612,16 @@ hypothesis(fit_mcp, "cp_2=3650") #2
 
 ###arable
 arableSM <- CallSites_SM(arable)
-arableSM_int <- make_interval_polSM(arableSM, 100)
+arableSM_int <- make_interval_pol(arableSM, 100)
 araSM <- rowSums(arableSM_int[3:ncol(arableSM_int)], na.rm = TRUE)
+
+araSM_dat =  arableSM_int %>%
+  select(- "meantimes") %>%
+  mutate(araSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "araSM")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(araSM_dat, "./Processed_data/LCC_data/araSM.csv", row.names = F)
 
 if (!(paste0("mcp_araSM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=arableSM_int$lower_ends, LCC=araSM)
@@ -1319,9 +1649,17 @@ hypothesis(fit_mcp, "cp_1=1300") #39
 
 ###heath
 heathSM <- CallSites_SM(heath)
-heathSM_int <- make_interval_polSM(heathSM, 100)
+heathSM_int <- make_interval_pol(heathSM, 100)
 EricaSM <- rowSums(heathSM_int[c(12:15)])
 heaSM <- rowSums(heathSM_int[3:ncol(heathSM_int)], na.rm = TRUE)
+
+heaSM_dat =  heathSM_int %>%
+  select(- "meantimes") %>%
+  mutate(heaSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  select(c("lower_ends", "heaSM")) %>%
+  rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9500)
+write.csv(heaSM_dat, "./Processed_data/LCC_data/heaSM.csv", row.names = F)
 
 if (!(paste0("mcp_heaSM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
   mcp_area <- data.frame(age=heathSM_int$lower_ends, LCC=heaSM)
@@ -1355,3 +1693,13 @@ hypothesis(fit_mcp, "cp_1=1100") #47
 ggarrange(plot.conSM, plot.decSM, plot.wetwSM, plot.wetmSM, plot.pasSM, plot.araSM, plot.heaSM + rremove("x.text"), 
           #labels = c("con", "dec", "wetw", "wetm", "pas", "ara", "hea", "SPD", "clim"),
           ncol = 3, nrow = 3)
+
+Full_list_SM = list(conSM_dat, decSM_dat, wetwSM_dat, wetmSM_dat, pasSM_dat, araSM_dat, heaSM_dat)
+
+
+### CREATE FULL DATASETS ###
+############################
+merged_data_N = Full_list_N %>% reduce(full_join, by='calBP')
+
+sub = alldataN_raph_provided %>% select(!c("clim", "SPD", "residuals")) %>%
+  rename(calBP = yearsBP)
