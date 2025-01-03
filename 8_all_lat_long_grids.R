@@ -18,10 +18,10 @@ invisible(lapply(
 rm(list=ls())
 
 ### LOAD POLLEN, CLIMATE & ARCHEOLOGICAL DATA ### ----
-archaeological_cal <- read.csv("./Processed_data/archaeological_cal.csv")
+archaeological_cal <- read.csv("./Processed_data/archeological_data/archaeological_cal.csv")
 All_Age_Depth_Curves = readRDS(file = "./Raw_Data/All_Age_Depth_Curves_2021-11-23") 
 pollen_all = readRDS(file = "./Raw_Data/KMH_S1_pollen_all_2021-11-22")
-climatic_list <- readRDS("./Processed_data/temp.list.RDS")
+climatic_list <- readRDS("./Processed_data/Climate/temp.list.RDS")
 
 ### CREATE DIRECTORIES ###
 dir.create(file.path("./Processed_data/", "gridded_data"), showWarnings = FALSE)
@@ -81,7 +81,7 @@ All_sites <- ggplot2::ggplot(data = world) +
 #                  labels = c('archaeological', 'pollen'))
 
 ggplot2::ggsave(All_sites, 
-       filename = "./Plots/Fennoscandian_datapoints.png",
+       filename = "./Plots/Datapoint_plots/Fennoscandian_datapoints.png",
        device = "png",
        height = 6, width = 6, units = "in")
 

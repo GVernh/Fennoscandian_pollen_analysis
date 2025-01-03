@@ -1,6 +1,4 @@
-### model testing ###
-#-------------------------------------------------------------------------------
-
+#- LIBRARIES ----
 libs <- c("ggplot2","ecp", "mcp", "dplyr", "ggpubr", "purrr")
 
 installed_libs <- libs %in% rownames(
@@ -22,14 +20,14 @@ rm(list=ls())
 #disable scientific notation
 options(scipen=999)
 
-### FUNCTIONS ###
+#-FUNCTIONS ----
 source("./Functions/CallSite_functions.R")
 source("./Functions/Make_interval_pol.R")
 source("./Functions/CountSitesPerInterval.R")
 source("./Functions/sqrt_sums.R")
 source("./Functions/makeIncrements_singleLCC.R")
 
-### DATA ###
+#-DATA ----
 coniferous_woodland <- read.csv("./Processed_data/LCC_data/coniferous_woodland.csv")
 #coniferous_woodland <- read.csv("./Processed_data/LCC_data/LCC_abun/coniferous woodland_abun.csv") #For relative abundance
 deciduous_woodland <- read.csv("./Processed_data/LCC_data/deciduous_woodland.csv")
@@ -49,16 +47,6 @@ heath <- read.csv("./Processed_data/LCC_data/heath.csv")
 dir.create(file.path("./Processed_data/", "mcp_models"), showWarnings = FALSE)
 dir.create(file.path("./Plots/", "mcp_plots"), showWarnings = FALSE)
 
-#Regions
-#15: north
-#911:southeast
-#2: midwest
-#47: midmid
-#1: southwest
-#36: southmid
-
-# GRANT: TO DO: in model_testing.R copy the conN_dat pipeline to the other lines that subset each LCC type.
-
 #-NORTH -------------------------------------------------------------------------
 # total nr sites: 18
 # 20%: 4
@@ -68,10 +56,10 @@ coniferousN_int <- make_interval_pol(coniferousN, 100)
 conN <- rowSums(coniferousN_int[3:ncol(coniferousN_int)], na.rm = TRUE)#all coniferous taxa
 
 conN_dat =  coniferousN_int %>%
-  select(- "meantimes") %>%
-  mutate(conN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "conN")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(conN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "conN")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>1300 & calBP<9500)
 write.csv(conN_dat, "./Processed_data/LCC_data/conN.csv", row.names = F)
 
@@ -1690,17 +1678,17 @@ ggarrange(plot.conSM, plot.decSM, plot.wetwSM, plot.wetmSM, plot.pasSM, plot.ara
 Full_list_SM = list(conSM_dat, decSM_dat, wetwSM_dat, wetmSM_dat, pasSM_dat, araSM_dat, heaSM_dat)
 
 
-### CREATE FULL DATASETS ###
-############################
+#-CREATE FULL DATASETS --------
 
-merged_data_N = merged_data_N %>% reduce(full_join, by='calBP')
-merged_data_SE = merged_data_SE %>% reduce(full_join, by='calBP')
-merged_data_MM = merged_data_MM %>% reduce(full_join, by='calBP')
-merged_data_MW = merged_data_MW %>% reduce(full_join, by='calBP')
-merged_data_SW = merged_data_SW %>% reduce(full_join, by='calBP')
+merged_data_N = Full_list_N %>% reduce(full_join, by='calBP')
+write.csv(merged_data_N, "./Processed_data/LCC_data/merged_data_N.csv", row.names = F)
+merged_data_SE = Full_list_SE %>% reduce(full_join, by='calBP')
+write.csv(merged_data_SE, "./Processed_data/LCC_data/merged_data_SE.csv", row.names = F)
+merged_data_MM = Full_list_MM %>% reduce(full_join, by='calBP')
+write.csv(merged_data_MM,"./Processed_data/LCC_data/merged_data_MM.csv", row.names = F)
+merged_data_MW = Full_list_MW %>% reduce(full_join, by='calBP')
+write.csv(merged_data_MW, "./Processed_data/LCC_data/merged_data_MW.csv", row.names = F)
+merged_data_SW = Full_list_SW %>% reduce(full_join, by='calBP')
+write.csv(merged_data_SW, "./Processed_data/LCC_data/merged_data_SW.csv", row.names = F)
 merged_data_SM = Full_list_SM %>% reduce(full_join, by='calBP')
-
-
-# Check if dataset is identical to raphs one on github.
-sub = alldataSM %>% select(!c("clim", "SPD")) %>%
-  rename(calBP = yearsBP)
+write.csv(merged_data_SM, "./Processed_data/LCC_data/merged_data_SM.csv", row.names = F)

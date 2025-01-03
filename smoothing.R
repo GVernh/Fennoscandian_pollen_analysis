@@ -20,15 +20,7 @@ rm(list=ls())
 
 #library(RRatepol)
 
-conN = read.csv("./Processed_data/LCC_data/conN.csv")
-#conN <- alldataN$conN
-#decN <- alldataN$decN
-#wetwN <- alldataN$wetwN
-#wetmN <- alldataN$wetmN
-#pasN <- alldataN$pasN
-#araN <- alldataN$araN
-#heaN <- alldataN$heaN
-
+dir.create(file.path("./Processed_data/", "Full_datasets"), showWarnings = FALSE)
 #smoothing HOW TO MAKE MODEL SELECTION? median value = 7
 
 # MODEL SELECTION - mean value = 4
@@ -39,17 +31,15 @@ conN = read.csv("./Processed_data/LCC_data/conN.csv")
 ### NORTH
 
 ########
-# GRANT:: Create new code that merges dataframe by "calBP"
-test <- merge(conN, spdN, by="calBP", all.x=TRUE)
+merged_data_N <-read.csv("./Processed_data/LCC_data/merged_data_N.csv")
+spdN <- read.csv("./Processed_data/SPD_data/spdN.csv")
+paleoviewN <- read.csv("./Processed_data/Climate/paleoviewN.csv") %>%
+  dplyr::rename(calBP = Year..BP.) %>%
+  dplyr::select(calBP, Area.Mean)
 
-
-#alldataN <- data.frame(yearsBP=spdN$calBP, SPD=spdN$SPD_med, clim=paleoviewN$Area.Mean[1:84], 
-                      # conN=conN[1:84],decN=decN[1:84], wetwN=wetwN[1:84],wetmN=wetmN[1:84],
-                       #pasN=pasN[1:84],araN=araN[1:84],heaN=heaN[1:84])
-#####
+alldataN <- merge(merged_data_N, spdN, by="calBP", all.x=TRUE) %>%
+  merge(paleoviewN, by="calBP", all.x=TRUE)
 #write.csv(alldataN, file = "alldataN.csv", row.names = FALSE)
-
-alldataN = read.csv("alldataN.csv")
 
 #model testing smoothing
 sma(alldataN$conN, ic="BIC", h=0, interval="none") #6

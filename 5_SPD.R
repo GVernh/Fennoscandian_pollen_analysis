@@ -22,8 +22,8 @@ invisible(lapply(
 rm(list=ls())
 
 ### Data ###
-human.footprint <- read.csv("./Processed_data/human.footprint.csv")
-human.withoutRussia <-read.csv("./Processed_data/human.withoutRussia.csv")
+human.footprint <- read.csv("./Processed_data/archeological_data/human.footprint.csv")
+human.withoutRussia <-read.csv("./Processed_data/archeological_data/human.withoutRussia.csv")
 
 ### Directories ###
 dir.create(file.path("./Processed_data/", "Footprint_calibration_results"), showWarnings = FALSE)
@@ -39,13 +39,9 @@ human.footprint <- human.footprint[-grep("Sundfj", human.footprint$SiteName), ]
 human.footprint <- rbind(human.footprint, hfSubset)
 
 ### LOAD FUNCTIONS ###
-
-# !!! GRANT: Several of these functions are unused, consider removing? !!!
-# interval_spd, arc_spd, nullmodel_spd are not used in this script
-
-#source("./Functions/make_interval_arc.R")
-#source("./Functions/plot_arc.R")
-#source("./Functions/interval_spd.R")
+source("./Functions/make_interval_arc.R")
+source("./Functions/plot_arc.R")
+source("./Functions/interval_spd.R")
 source("./Functions/arc_spd.R")
 source("./Functions/nullmodel_spd.R")
 #barCodes(arc.bins.med,yrng = c(0,0.01))
@@ -55,7 +51,7 @@ source("./Functions/nullmodel_spd.R")
 arc.north <- subset(human.footprint, Lat>67.5)
 if (!(paste0("spdN.csv") %in% list.files("./Processed_data/SPD_data/"))){
   spdN <- arc_spd(arc.north, 1400)
-  write.csv(spdN, "./Processed_data/SPD_data/spdN.csv")
+  write.csv(spdN, "./Processed_data/SPD_data/spdN.csv", row.names = F)
 }
 
 if (!(paste0("nullmodelN.Rdata") %in% list.files("./Processed_data/Footprint_calibration_results/"))){
@@ -67,8 +63,8 @@ if (!(paste0("nullmodelN.Rdata") %in% list.files("./Processed_data/Footprint_cal
 }
 
 if (!(paste0("nullmodelN.png") %in% 
-      list.files("./Processed_data/Footprint_calibration_results/Null_model_plots/"))){
-png(file="./Processed_data/Footprint_calibration_results/Null_model_plots/nullmodelN.png",
+      list.files("./Plots/Null_model_plots/"))){
+png(file="./Plots/Null_model_plots/nullmodelN.png",
     width=1000, height=650)
 plot.nullN <- plot(nullmodelN)
 dev.off()
@@ -82,7 +78,7 @@ dev.off()
 arc.southeast <- subset(human.footprint, Lat>60 & Lat<=65 & Long>20)
 if (!(paste0("spdSE.csv") %in% list.files("./Processed_data/SPD_data/"))){
   spdSE <- arc_spd(arc.southeast, 500)
-  write.csv(spdSE, "./Processed_data/SPD_data/spdSE.csv")
+  write.csv(spdSE, "./Processed_data/SPD_data/spdSE.csv", row.names = F)
 }
 
 if (!(paste0("nullmodelSE.Rdata") %in% list.files("./Processed_data/Footprint_calibration_results/"))){
@@ -106,7 +102,7 @@ if (!(paste0("nullmodelSE.png") %in%
 arc.southeast2 <- subset(human.withoutRussia, Lat>60 & Lat<=65 & Long>20)
 if (!(paste0("spdSE2.csv") %in% list.files("./Processed_data/SPD_data/"))){
   spdSE2 <- arc_spd(arc.southeast2, 500)
-  write.csv(spdSE2, "./Processed_data/SPD_data/spdSE2.csv")
+  write.csv(spdSE2, "./Processed_data/SPD_data/spdSE2.csv", row.names = F)
 }
 
 if (!(paste0("nullmodelSE2.Rdata") %in% list.files("./Processed_data/Footprint_calibration_results/"))){
@@ -131,7 +127,7 @@ if (!(paste0("nullmodelSE2.png") %in%
 arc.midwest <- subset(human.footprint, Lat>60 & Long<=10)
 if (!(paste0("spdMW.csv") %in% list.files("./Processed_data/SPD_data/"))){
   spdMW <- arc_spd(arc.midwest, 700)
-  write.csv(spdMW, "./Processed_data/SPD_data/spdMW.csv")
+  write.csv(spdMW, "./Processed_data/SPD_data/spdMW.csv", row.names = F)
 }
 
 if (!(paste0("nullmodelMW.Rdata") %in% list.files("./Processed_data/Footprint_calibration_results/"))){
@@ -155,7 +151,7 @@ if (!(paste0("nullmodelMW.png") %in%
 arc.midmid <- subset(human.footprint, Lat>60 & Lat<=65 & Long>10 & Long<=20)
 if (!(paste0("spdMM.csv") %in% list.files("./Processed_data/SPD_data/"))){
   spdMM <- arc_spd(arc.midmid, 700)
-  write.csv(spdMM, "./Processed_data/SPD_data/spdMM.csv")
+  write.csv(spdMM, "./Processed_data/SPD_data/spdMM.csv", row.names = F)
 }
 
 if (!(paste0("nullmodelMM.Rdata") %in% list.files("./Processed_data/Footprint_calibration_results/"))){
@@ -179,7 +175,7 @@ if (!(paste0("nullmodelMM.png") %in%
 arc.southwest <- subset(human.footprint, Lat <= 60 & Long<=10)
 if (!(paste0("spdSW.csv") %in% list.files("./Processed_data/SPD_data/"))){
   spdSW <- arc_spd(arc.southwest, 700)
-  write.csv(spdSW, "./Processed_data/SPD_data/spdSW.csv")
+  write.csv(spdSW, "./Processed_data/SPD_data/spdSW.csv", row.names = F)
 }
 
 if (!(paste0("nullmodelSW.Rdata") %in% list.files("./Processed_data/Footprint_calibration_results/"))){
@@ -203,7 +199,7 @@ if (!(paste0("nullmodelSW.png") %in%
 arc.southmid <- subset(human.footprint, Lat<=60 & Long>10 & Long<=20)
 if (!(paste0("spdSM.csv") %in% list.files("./Processed_data/SPD_data/"))){
   spdSM <- arc_spd(arc.southmid, 1400)
-  write.csv(spdSM, "./Processed_data/SPD_data/spdSM.csv")
+  write.csv(spdSM, "./Processed_data/SPD_data/spdSM.csv", row.names = F)
 }
 
 if (!(paste0("nullmodelSM.Rdata") %in% list.files("./Processed_data/Footprint_calibration_results/"))){

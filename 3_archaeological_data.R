@@ -20,6 +20,8 @@ invisible(lapply(
 ))
 rm(list=ls())
 
+dir.create(file.path("./Processed_data/", "archeological_data"), showWarnings = FALSE)
+
 # Load Natural Earth world data ----
 world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
 
@@ -68,11 +70,11 @@ archaeological.data <- human.footprint %>% dplyr::select("Age", "Material") %>%
                 human.footprint.Material = Material)
 
 ### WRITE WRANGLED DATA ###
-write.csv(human.withoutRussia, file = "./Processed_data/human.withoutRussia.csv")
-write.csv(human.footprint, file = "./Processed_data/human.footprint.csv")
-write.csv(Material, file = "./Processed_data/human.footprint.Material.csv")
-write.csv(Age, file = "./Processed_data/human.footprint.Age.csv")
-write.csv(archaeological.data, file = "./Processed_data/archaeological.data.csv")
+write.csv(human.withoutRussia, file = "./Processed_data/archeological_data/human.withoutRussia.csv")
+write.csv(human.footprint, file = "./Processed_data/archeological_data/human.footprint.csv")
+write.csv(Material, file = "./Processed_data/archeological_data/human.footprint.Material.csv")
+write.csv(Age, file = "./Processed_data/archeological_data/human.footprint.Age.csv")
+write.csv(archaeological.data, file = "./Processed_data/archeological_data/archaeological.data.csv")
 
 
 ### DATA EXPLORATION ###

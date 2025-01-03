@@ -34,12 +34,14 @@ load("./Raw_Data/Temp12k_v1_0_0.RData")
 climate = TS
 world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
 
+dir.create(file.path("./Processed_data/", "Climate"), showWarnings = FALSE)
+
 ### Functions ###
 source("./Functions/ClimateDF.R")
 source("./Functions/Create_climate_list.R")
 
 ### List selected climate data sets ###
-source("./Processed_data/lpd_datasets/Selected_climate_datasets.R")
+source("./Processed_data/Climate/Selected_climate_datasets.R")
 
 ### Create climate data frame ###
 climate.df = NULL
@@ -61,8 +63,7 @@ climate.points = climate.df %>%
   dplyr::filter(grepl(c('Sweden|Finland|Norway|Russia'), location)) # NOTE: Russia is not in the dataset
 #climate.points <- subset(climate.points, Age <= 15000) # GRANT: No variable "Age"?
 
-write.csv(climate.points, file = "./Processed_data/climate.points.csv")
-climate.points <- read.csv("./Processed_data/climate.points.csv")
+write.csv(climate.points, file = "./Processed_data/Climate/climate.points.csv")
 temp_longlat <- data.frame(climate.points$dataSet, climate.points$long, climate.points$lat)
 
 
@@ -95,7 +96,7 @@ lpd_filenames = list.files("./Processed_data/lpd_datasets/",
                recursive = F)
 all_temp_sites = readLipd(paste0("./Processed_data/lpd_datasets/", lpd_filenames))
 
-saveRDS(all_temp_sites, file = "./Processed_data/all_temp_sites.RDS")
+saveRDS(all_temp_sites, file = "./Processed_data/Climate/all_temp_sites.RDS")
 
 temp.list <- NULL
 for (i in 1:length(all_temp_sites)) {
@@ -165,4 +166,4 @@ temp.list[[21]]$temp <- all_temp_sites[["Kaartlamminsuo.Rankama.1988"]][["paleoD
 temp.list[[28]]$temp <- all_temp_sites[["Ylimysneva.Huttunen.1990"]][["paleoData"]][[1]][["measurementTable"]][[1]][["temperatureComposite"]][["values"]]
 temp.list[[22]]$temp <- all_temp_sites[["Laihalampi.Giesecke.2008"]][["paleoData"]][[1]][["measurementTable"]][[1]][["temperatureComposite"]][["values"]]
 
-saveRDS(temp.list, file = "./Processed_data/temp.list.RDS")
+saveRDS(temp.list, file = "./Processed_data/Climate/temp.list.RDS")
