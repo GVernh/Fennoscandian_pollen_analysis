@@ -68,6 +68,7 @@ araSMs <- alldataSMs$araSMs
 heaSMs <- alldataSMs$heaSMs
 
 ### BEFORE THE ONSET OF FARMING #-----------------------------------------------
+# Grant:: Needs to be subset by year.
 alldataNb <- alldataNs[1:67,]
 alldataSEb <- alldataSEs[1:50,]
 alldataMWb <- alldataMWs[1:60,]

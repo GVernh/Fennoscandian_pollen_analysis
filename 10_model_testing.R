@@ -60,7 +60,7 @@ conN_dat =  coniferousN_int %>%
   dplyr::mutate(conN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
   dplyr::select(c("lower_ends", "conN")) %>%
   dplyr::rename(calBP = lower_ends) %>%
-  subset(., calBP>1300 & calBP<9500)
+  subset(., calBP>1300 & calBP<9800)
 write.csv(conN_dat, "./Processed_data/LCC_data/conN.csv", row.names = F)
 
 if (!(paste0("mcp_ConN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
@@ -99,11 +99,11 @@ deciduousN_int <- make_interval_pol(deciduousN, 100)
 decN <- rowSums(deciduousN_int[3:ncol(deciduousN_int)], na.rm = TRUE)
 
 decN_dat =  deciduousN_int %>%
-  select(- "meantimes") %>%
-  mutate(decN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "decN")) %>%
-  rename(calBP = lower_ends) %>%
-  subset(., calBP>1300 & calBP<9500)
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(decN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "decN")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9800)
 write.csv(decN_dat, "./Processed_data/LCC_data/decN.csv", row.names = F)
 
 if (!(paste0("mcp_decN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
@@ -135,11 +135,11 @@ wetwoodlandN_int <- make_interval_pol(wetwoodlandN, 100)
 wetwN <- rowSums(wetwoodlandN_int[3:ncol(wetwoodlandN_int)], na.rm = TRUE)
 
 wetwN_dat =  wetwoodlandN_int %>%
-  select(- "meantimes") %>%
-  mutate(wetwN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "wetwN")) %>%
-  rename(calBP = lower_ends) %>%
-  subset(., calBP>1300 & calBP<9500)
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(wetwN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "wetwN")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9800)
 write.csv(wetwN_dat, "./Processed_data/LCC_data/wetwN.csv", row.names = F)
 
 if (!(paste0("mcp_wetwN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
@@ -171,11 +171,11 @@ wetmeadowN_int <- make_interval_pol(wetmeadowN, 100)
 wetmN <- rowSums(wetmeadowN_int[3:ncol(wetmeadowN_int)], na.rm = TRUE)
 
 wetmN_dat =  wetmeadowN_int %>%
-  select(- "meantimes") %>%
-  mutate(wetmN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "wetmN")) %>%
-  rename(calBP = lower_ends) %>%
-  subset(., calBP>1300 & calBP<9500)
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(wetmN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "wetmN")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9800)
 write.csv(wetmN_dat, "./Processed_data/LCC_data/wetmN.csv", row.names = F)
 
 if (!(paste0("mcp_wetmN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
@@ -206,11 +206,11 @@ pastureN_int <- make_interval_pol(pastureN, 100)
 pasN <- rowSums(pastureN_int[3:ncol(pastureN_int)], na.rm = TRUE)
 
 pasN_dat =  pastureN_int %>%
-  select(- "meantimes") %>%
-  mutate(pasN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "pasN")) %>%
-  rename(calBP = lower_ends) %>%
-  subset(., calBP>1300 & calBP<9500)
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(pasN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "pasN")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9800)
 write.csv(pasN_dat, "./Processed_data/LCC_data/pasN.csv", row.names = F)
 
 if (!(paste0("mcp_pasN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
@@ -241,11 +241,11 @@ arableN_int <- make_interval_pol(arableN, 100)
 araN <- rowSums(arableN_int[3:ncol(arableN_int)], na.rm = TRUE)
 
 araN_dat =  arableN_int %>%
-  select(- "meantimes") %>%
-  mutate(araN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "araN")) %>%
-  rename(calBP = lower_ends) %>%
-  subset(., calBP>1300 & calBP<9500)
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(araN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "araN")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9800)
 write.csv(araN_dat, "./Processed_data/LCC_data/araN.csv", row.names = F)
 
 if (!(paste0("mcp_araN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
@@ -278,11 +278,11 @@ EricaN <- rowSums(heathN_int[c(12:15)])
 heaN <- rowSums(heathN_int[3:ncol(heathN_int)], na.rm = TRUE)
 
 heaN_dat =  heathN_int %>%
-  select(- "meantimes") %>%
-  mutate(heaN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "heaN")) %>%
-  rename(calBP = lower_ends) %>%
-  subset(., calBP>1300 & calBP<9500)
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(heaN = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "heaN")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9800)
 write.csv(heaN_dat, "./Processed_data/LCC_data/heaN.csv", row.names = F)
 
 if (!(paste0("mcp_heaN.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
@@ -334,10 +334,10 @@ coniferousSE_int <- make_interval_pol(coniferousSE, 100)
 conSE <- rowSums(coniferousSE_int[3:ncol(coniferousSE_int)], na.rm = TRUE)
 
 conSE_dat =  coniferousSE_int %>%
-  select(- "meantimes") %>%
-  mutate(conSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "conSE")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(conSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "conSE")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>400 & calBP<9800)
 write.csv(conSE_dat, "./Processed_data/LCC_data/conSE.csv", row.names = F)
 
@@ -369,10 +369,10 @@ deciduousSE_int <- make_interval_pol(deciduousSE, 100)
 decSE <- rowSums(deciduousSE_int[3:ncol(deciduousSE_int)], na.rm = TRUE)
 
 decSE_dat =  deciduousSE_int %>%
-  select(- "meantimes") %>%
-  mutate(decSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "decSE")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(decSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "decSE")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>400 & calBP<9800)
 write.csv(decSE_dat, "./Processed_data/LCC_data/decSE.csv", row.names = F)
 
@@ -404,10 +404,10 @@ wetwoodlandSE_int <- make_interval_pol(wetwoodlandSE, 100)
 wetwSE <- rowSums(wetwoodlandSE_int[3:ncol(wetwoodlandSE_int)], na.rm = TRUE)
 
 wetwSE_dat =  wetwoodlandSE_int %>%
-  select(- "meantimes") %>%
-  mutate(wetwSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "wetwSE")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(wetwSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "wetwSE")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>400 & calBP<9800)
 write.csv(wetwSE_dat, "./Processed_data/LCC_data/wetwSE.csv", row.names = F)
 
@@ -450,10 +450,10 @@ wetmeadowSE_int <- make_interval_pol(wetmeadowSE, 100)
 wetmSE <- rowSums(wetmeadowSE_int[3:ncol(wetmeadowSE_int)], na.rm = TRUE)
 
 wetmSE_dat =  wetmeadowSE_int %>%
-  select(- "meantimes") %>%
-  mutate(wetmSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "wetmSE")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(wetmSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "wetmSE")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>400 & calBP<9800)
 write.csv(wetmSE_dat, "./Processed_data/LCC_data/wetmSE.csv", row.names = F)
 
@@ -488,10 +488,10 @@ pastureSE_int <- make_interval_pol(pastureSE, 100)
 pasSE <- rowSums(pastureSE_int[3:ncol(pastureSE_int)], na.rm = TRUE)
 
 pasSE_dat =  pastureSE_int %>%
-  select(- "meantimes") %>%
-  mutate(pasSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "pasSE")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(pasSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "pasSE")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>400 & calBP<9800)
 write.csv(pasSE_dat, "./Processed_data/LCC_data/pasSE.csv", row.names = F)
 
@@ -525,10 +525,10 @@ arableSE_int <- make_interval_pol(arableSE, 100)
 araSE <- rowSums(arableSE_int[3:ncol(arableSE_int)], na.rm = TRUE)
 
 araSE_dat =  arableSE_int %>%
-  select(- "meantimes") %>%
-  mutate(araSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "araSE")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(araSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "araSE")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>400 & calBP<9800)
 write.csv(araSE_dat, "./Processed_data/LCC_data/araSE.csv", row.names = F)
 
@@ -563,10 +563,10 @@ EricaSE <- rowSums(heathSE_int[c(12:15)]) # GRANT:: What is this?
 heaSE <- rowSums(heathSE_int[3:ncol(heathSE_int)], na.rm = TRUE)
 
 heaSE_dat =  heathSE_int %>%
-  select(- "meantimes") %>%
-  mutate(heaSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "heaSE")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(heaSE = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "heaSE")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>400 & calBP<9800)
 write.csv(heaSE_dat, "./Processed_data/LCC_data/heaSE.csv", row.names = F)
 
@@ -615,10 +615,10 @@ coniferousMW_int <- make_interval_pol(coniferousMW, 100)
 conMW <- rowSums(coniferousMW_int[3:ncol(coniferousMW_int)], na.rm = TRUE)
 
 conMW_dat =  coniferousMW_int %>%
-  select(- "meantimes") %>%
-  mutate(conMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "conMW")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(conMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "conMW")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(conMW_dat, "./Processed_data/LCC_data/conMW.csv", row.names = F)
 
@@ -650,10 +650,10 @@ deciduousMW_int <- make_interval_pol(deciduousMW, 100)
 decMW <- rowSums(deciduousMW_int[3:ncol(deciduousMW_int)], na.rm = TRUE)
 
 decMW_dat =  deciduousMW_int %>%
-  select(- "meantimes") %>%
-  mutate(decMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "decMW")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(decMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "decMW")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(decMW_dat, "./Processed_data/LCC_data/decMW.csv", row.names = F)
 
@@ -685,10 +685,10 @@ wetwoodlandMW_int <- make_interval_pol(wetwoodlandMW, 100)
 wetwMW <- rowSums(wetwoodlandMW_int[3:ncol(wetwoodlandMW_int)], na.rm = TRUE)
 
 wetwMW_dat =  wetwoodlandMW_int %>%
-  select(- "meantimes") %>%
-  mutate(wetwMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "wetwMW")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(wetwMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "wetwMW")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(wetwMW_dat, "./Processed_data/LCC_data/wetwMW.csv", row.names = F)
 
@@ -721,10 +721,10 @@ wetmeadowMW_int <- make_interval_pol(wetmeadowMW, 100)
 wetmMW <- rowSums(wetmeadowMW_int[3:ncol(wetmeadowMW_int)], na.rm = TRUE)
 
 wetmMW_dat =  wetmeadowMW_int %>%
-  select(- "meantimes") %>%
-  mutate(wetmMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "wetmMW")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(wetmMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "wetmMW")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(wetmMW_dat, "./Processed_data/LCC_data/wetmMW.csv", row.names = F)
 
@@ -756,10 +756,10 @@ pastureMW_int <- make_interval_pol(pastureMW, 100)
 pasMW <- rowSums(pastureMW_int[3:ncol(pastureMW_int)], na.rm = TRUE)
 
 pasMW_dat =  pastureMW_int %>%
-  select(- "meantimes") %>%
-  mutate(pasMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "pasMW")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(pasMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "pasMW")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(pasMW_dat, "./Processed_data/LCC_data/pasMW.csv", row.names = F)
 
@@ -791,10 +791,10 @@ arableMW_int <- make_interval_pol(arableMW, 100)
 araMW <- rowSums(arableMW_int[3:ncol(arableMW_int)], na.rm = TRUE)
 
 araMW_dat =  arableMW_int %>%
-  select(- "meantimes") %>%
-  mutate(araMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "araMW")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(araMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "araMW")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(araMW_dat, "./Processed_data/LCC_data/araMW.csv", row.names = F)
 
@@ -829,10 +829,10 @@ EricaMW <- rowSums(heathMW_int[c(12:15)]) # GRANT:: Again here?
 heaMW <- rowSums(heathMW_int[3:ncol(heathMW_int)], na.rm = TRUE)
 
 heaMW_dat =  heathMW_int %>%
-  select(- "meantimes") %>%
-  mutate(heaMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "heaMW")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(heaMW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "heaMW")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(heaMW_dat, "./Processed_data/LCC_data/heaMW.csv", row.names = F)
 
@@ -880,10 +880,10 @@ coniferousMM_int <- make_interval_pol(coniferousMM, 100)
 conMM <- rowSums(coniferousMM_int[3:ncol(coniferousMM_int)], na.rm = TRUE)
 
 conMM_dat =  coniferousMM_int %>%
-  select(- "meantimes") %>%
-  mutate(conMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "conMM")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(conMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "conMM")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(conMM_dat, "./Processed_data/LCC_data/conMM.csv", row.names = F)
 
@@ -915,10 +915,10 @@ deciduousMM_int <- make_interval_pol(deciduousMM, 100)
 decMM <- rowSums(deciduousMM_int[3:ncol(deciduousMM_int)], na.rm = TRUE)
 
 decMM_dat =  deciduousMM_int %>%
-  select(- "meantimes") %>%
-  mutate(decMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "decMM")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(decMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "decMM")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(decMM_dat, "./Processed_data/LCC_data/decMM.csv", row.names = F)
 
@@ -950,10 +950,10 @@ wetwoodlandMM_int <- make_interval_pol(wetwoodlandMM, 100)
 wetwMM <- rowSums(wetwoodlandMM_int[3:ncol(wetwoodlandMM_int)], na.rm = TRUE)
 
 wetwMM_dat =  wetwoodlandMM_int %>%
-  select(- "meantimes") %>%
-  mutate(wetwMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "wetwMM")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(wetwMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "wetwMM")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(wetwMM_dat, "./Processed_data/LCC_data/wetwMM.csv", row.names = F)
 
@@ -985,10 +985,10 @@ wetmeadowMM_int <- make_interval_pol(wetmeadowMM, 100)
 wetmMM <- rowSums(wetmeadowMM_int[3:ncol(wetmeadowMM_int)], na.rm = TRUE)
 
 wetmMM_dat =  wetmeadowMM_int %>%
-  select(- "meantimes") %>%
-  mutate(wetmMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "wetmMM")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(wetmMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "wetmMM")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(wetmMM_dat, "./Processed_data/LCC_data/wetmMM.csv", row.names = F)
 
@@ -1022,10 +1022,10 @@ pastureMM_int <- make_interval_pol(pastureMM, 100)
 pasMM <- rowSums(pastureMM_int[3:ncol(pastureMM_int)], na.rm = TRUE)
 
 pasMM_dat =  pastureMM_int %>%
-  select(- "meantimes") %>%
-  mutate(pasMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "pasMM")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(pasMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "pasMM")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(pasMM_dat, "./Processed_data/LCC_data/pasMM.csv", row.names = F)
 
@@ -1057,10 +1057,10 @@ arableMM_int <- make_interval_pol(arableMM, 100)
 araMM <- rowSums(arableMM_int[3:ncol(arableMM_int)], na.rm = TRUE)
 
 araMM_dat =  arableMM_int %>%
-  select(- "meantimes") %>%
-  mutate(araMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "araMM")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(araMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "araMM")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(araMM_dat, "./Processed_data/LCC_data/araMM.csv", row.names = F)
 
@@ -1095,10 +1095,10 @@ EricaMM <- rowSums(heathMM_int[c(12:15)])
 heaMM <- rowSums(heathMM_int[3:ncol(heathMM_int)], na.rm = TRUE)
 
 heaMM_dat =  heathMM_int %>%
-  select(- "meantimes") %>%
-  mutate(heaMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "heaMM")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(heaMM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "heaMM")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(heaMM_dat, "./Processed_data/LCC_data/heaMM.csv", row.names = F)
 
@@ -1148,10 +1148,10 @@ coniferousSW_int <- make_interval_pol(coniferousSW, 100)
 conSW <- rowSums(coniferousSW_int[3:ncol(coniferousSW_int)], na.rm = TRUE)
 
 conSW_dat =  coniferousSW_int %>%
-  select(- "meantimes") %>%
-  mutate(conSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "conSW")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(conSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "conSW")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(conSW_dat, "./Processed_data/LCC_data/conSW.csv", row.names = F)
 
@@ -1183,10 +1183,10 @@ deciduousSW_int <- make_interval_pol(deciduousSW, 100)
 decSW <- rowSums(deciduousSW_int[3:ncol(deciduousSW_int)], na.rm = TRUE)
 
 decSW_dat =  deciduousSW_int %>%
-  select(- "meantimes") %>%
-  mutate(decSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "decSW")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(decSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "decSW")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(decSW_dat, "./Processed_data/LCC_data/decSW.csv", row.names = F)
 
@@ -1218,10 +1218,10 @@ wetwoodlandSW_int <- make_interval_pol(wetwoodlandSW, 100)
 wetwSW <- rowSums(wetwoodlandSW_int[3:ncol(wetwoodlandSW_int)], na.rm = TRUE)
 
 wetwSW_dat =  wetwoodlandSW_int %>%
-  select(- "meantimes") %>%
-  mutate(wetwSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "wetwSW")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(wetwSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "wetwSW")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(wetwSW_dat, "./Processed_data/LCC_data/wetwSW.csv", row.names = F)
 
@@ -1254,10 +1254,10 @@ wetmeadowSW_int <- make_interval_pol(wetmeadowSW, 100)
 wetmSW <- rowSums(wetmeadowSW_int[3:ncol(wetmeadowSW_int)], na.rm = TRUE)
 
 wetmSW_dat =  wetmeadowSW_int %>%
-  select(- "meantimes") %>%
-  mutate(wetmSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "wetmSW")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(wetmSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "wetmSW")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(wetmSW_dat, "./Processed_data/LCC_data/wetmSW.csv", row.names = F)
 
@@ -1289,10 +1289,10 @@ pastureSW_int <- make_interval_pol(pastureSW, 100)
 pasSW <- rowSums(pastureSW_int[3:ncol(pastureSW_int)], na.rm = TRUE)
 
 pasSW_dat =  pastureSW_int %>%
-  select(- "meantimes") %>%
-  mutate(pasSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "pasSW")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(pasSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "pasSW")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(pasSW_dat, "./Processed_data/LCC_data/pasSW.csv", row.names = F)
 
@@ -1324,10 +1324,10 @@ arableSW_int <- make_interval_pol(arableSW, 100)
 araSW <- rowSums(arableSW_int[3:ncol(arableSW_int)], na.rm = TRUE)
 
 araSW_dat =  arableSW_int %>%
-  select(- "meantimes") %>%
-  mutate(araSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "araSW")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(araSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "araSW")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(araSW_dat, "./Processed_data/LCC_data/araSW.csv", row.names = F)
 
@@ -1362,10 +1362,10 @@ EricaSW <- rowSums(heathSW_int[c(12:15)])
 heaSW <- rowSums(heathSW_int[3:ncol(heathSW_int)], na.rm = TRUE)
 
 heaSW_dat =  heathSW_int %>%
-  select(- "meantimes") %>%
-  mutate(heaSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "heaSW")) %>%
-  rename(calBP = lower_ends) %>%
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(heaSW = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "heaSW")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
 write.csv(heaSW_dat, "./Processed_data/LCC_data/heaSW.csv", row.names = F)
 
@@ -1413,11 +1413,11 @@ coniferousSM_int <- make_interval_pol(coniferousSM, 100)
 conSM <- rowSums(coniferousSM_int[3:ncol(coniferousSM_int)], na.rm = TRUE)
 
 conSM_dat =  coniferousSM_int %>%
-  select(- "meantimes") %>%
-  mutate(conSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "conSM")) %>%
-  rename(calBP = lower_ends) %>%
-  subset(., calBP>1300 & calBP<10100)
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(conSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "conSM")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9800)
 write.csv(conSM_dat, "./Processed_data/LCC_data/conSM.csv", row.names = F)
 
 if (!(paste0("mcp_conSM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
@@ -1450,11 +1450,11 @@ BetulaSM <- rowSums(deciduousSM_int[7:13])
 decSM <- rowSums(deciduousSM_int[3:ncol(deciduousSM_int)], na.rm = TRUE)
 
 decSM_dat =  deciduousSM_int %>%
-  select(- "meantimes") %>%
-  mutate(decSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "decSM")) %>%
-  rename(calBP = lower_ends) %>%
-  subset(., calBP>1300 & calBP<10100)
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(decSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "decSM")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9800)
 write.csv(decSM_dat, "./Processed_data/LCC_data/decSM.csv", row.names = F)
 
 if (!(paste0("mcp_decSM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
@@ -1487,11 +1487,11 @@ AlnusSalixSM <- rowSums(wetwoodlandSM_int[c(3,4,5,6,23)])
 wetwSM <- rowSums(wetwoodlandSM_int[3:ncol(wetwoodlandSM_int)], na.rm = TRUE)
 
 wetwSM_dat =  wetwoodlandSM_int %>%
-  select(- "meantimes") %>%
-  mutate(wetwSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "wetwSM")) %>%
-  rename(calBP = lower_ends) %>%
-  subset(., calBP>1300 & calBP<10100)
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(wetwSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "wetwSM")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9800)
 write.csv(wetwSM_dat, "./Processed_data/LCC_data/wetwSM.csv", row.names = F)
 
 if (!(paste0("mcp_wetwSM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
@@ -1523,11 +1523,11 @@ wetmeadowSM_int <- make_interval_pol(wetmeadowSM, 100)
 wetmSM <- rowSums(wetmeadowSM_int[3:ncol(wetmeadowSM_int)], na.rm = TRUE)
 
 wetmSM_dat =  wetmeadowSM_int %>%
-  select(- "meantimes") %>%
-  mutate(wetmSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "wetmSM")) %>%
-  rename(calBP = lower_ends) %>%
-  subset(., calBP>1300 & calBP<10100)
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(wetmSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "wetmSM")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9800)
 write.csv(wetmSM_dat, "./Processed_data/LCC_data/wetmSM.csv", row.names = F)
 
 if (!(paste0("mcp_wetmSM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
@@ -1561,11 +1561,11 @@ pastureSM_int <- make_interval_pol(pastureSM, 100)
 pasSM <- rowSums(pastureSM_int[3:ncol(pastureSM_int)], na.rm = TRUE)
 
 pasSM_dat =  pastureSM_int %>%
-  select(- "meantimes") %>%
-  mutate(pasSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "pasSM")) %>%
-  rename(calBP = lower_ends) %>%
-  subset(., calBP>1300 & calBP<10100)
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(pasSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "pasSM")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9800)
 write.csv(pasSM_dat, "./Processed_data/LCC_data/pasSM.csv", row.names = F)
 
 if (!(paste0("mcp_pasSM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
@@ -1597,11 +1597,11 @@ arableSM_int <- make_interval_pol(arableSM, 100)
 araSM <- rowSums(arableSM_int[3:ncol(arableSM_int)], na.rm = TRUE)
 
 araSM_dat =  arableSM_int %>%
-  select(- "meantimes") %>%
-  mutate(araSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "araSM")) %>%
-  rename(calBP = lower_ends) %>%
-  subset(., calBP>1300 & calBP<10100)
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(araSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "araSM")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9800)
 write.csv(araSM_dat, "./Processed_data/LCC_data/araSM.csv", row.names = F)
 
 if (!(paste0("mcp_araSM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
@@ -1635,11 +1635,11 @@ EricaSM <- rowSums(heathSM_int[c(12:15)])
 heaSM <- rowSums(heathSM_int[3:ncol(heathSM_int)], na.rm = TRUE)
 
 heaSM_dat =  heathSM_int %>%
-  select(- "meantimes") %>%
-  mutate(heaSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
-  select(c("lower_ends", "heaSM")) %>%
-  rename(calBP = lower_ends) %>%
-  subset(., calBP>1300 & calBP<10100)
+  dplyr::select(- "meantimes") %>%
+  dplyr::mutate(heaSM = rowSums(.[2:ncol(.)], na.rm = TRUE)) %>%
+  dplyr::select(c("lower_ends", "heaSM")) %>%
+  dplyr::rename(calBP = lower_ends) %>%
+  subset(., calBP>1300 & calBP<9800)
 write.csv(heaSM_dat, "./Processed_data/LCC_data/heaSM.csv", row.names = F)
 
 if (!(paste0("mcp_heaSM.Rda") %in% list.files("./Processed_data/mcp_models/"))) {
