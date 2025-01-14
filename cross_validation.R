@@ -1,318 +1,65 @@
 ### cross validation ###
+# Last modifed by G.Vernham 14/01/2025
 
-library(modelr)
-library(glm2)
-library(timetk)
-library(dplyr)
-library(purrr)
+# LOAD LIBRARIES ----
+rm(list=ls())
 
-#vectors
-SPD.N <- alldataNs$SPD
-clim.N <- alldataNs$clim
-conNs <- alldataNs$conNs
-decNs <- alldataNs$decNs
-wetwNs <- alldataNs$wetwNs
-wetmNs <- alldataNs$wetmNs
-pasNs <- alldataNs$pasNs
-araNs <- alldataNs$araNs
-heaNs <- alldataNs$heaNs
+libs <- c("dplyr","modelr", "glm2", "timetk", "purrr")
 
-SPD.SE <- alldataSEs$SPD
-clim.SE <- alldataSEs$clim
-conSEs <- alldataSEs$conSEs
-decSEs <- alldataSEs$decSEs
-wetwSEs <- alldataSEs$wetwSEs
-wetmSEs <- alldataSEs$wetmSEs
-pasSEs <- alldataSEs$pasSEs
-araSEs <- alldataSEs$araSEs
-heaSEs <- alldataSEs$heaSEs
+installed_libs <- libs %in% rownames(
+  installed.packages())
 
-SPD.MW <- alldataMWs$SPD
-clim.MW <- alldataMWs$clim
-conMWs <- alldataMWs$conMWs
-decMWs <- alldataMWs$decMWs
-wetwMWs <- alldataMWs$wetwMWs
-wetmMWs <- alldataMWs$wetmMWs
-pasMWs <- alldataMWs$pasMWs
-araMWs <- alldataMWs$araMWs
-heaMWs <- alldataMWs$heaMWs
+if (any(installed_libs == F)) {
+  install.packages(
+    libs[!installed_libs]
+  )
+}
 
-SPD.MM <- alldataMMs$SPD
-clim.MM <- alldataMMs$clim
-conMMs <- alldataMMs$conMMs
-decMMs <- alldataMMs$decMMs
-wetwMMs <- alldataMMs$wetwMMs
-wetmMMs <- alldataMMs$wetmMMs
-pasMMs <- alldataMMs$pasMMs
-araMMs <- alldataMMs$araMMs
-heaMMs <- alldataMMs$heaMMs
+invisible(lapply(
+  libs,
+  library,
+  character.only = T
+))
+rm(list=ls())
 
-SPD.SW <- alldataSWs$SPD
-clim.SW <- alldataSWs$clim
-conSWs <- alldataSWs$conSWs
-decSWs <- alldataSWs$decSWs
-wetwSWs <- alldataSWs$wetwSWs
-wetmSWs <- alldataSWs$wetmSWs
-pasSWs <- alldataSWs$pasSWs
-araSWs <- alldataSWs$araSWs
-heaSWs <- alldataSWs$heaSWs
+# LOAD DATA ----
+alldataNs = read.csv("./Processed_data/Full_datasets/alldataNs.csv")
+alldataMMs = read.csv("./Processed_data/Full_datasets/alldataMMs.csv")
+alldataMWs = read.csv("./Processed_data/Full_datasets/alldataMWs.csv")
+alldataSEs = read.csv("./Processed_data/Full_datasets/alldataSEs.csv")
+alldataSMs = read.csv("./Processed_data/Full_datasets/alldataSMs.csv")
+alldataSWs = read.csv("./Processed_data/Full_datasets/alldataSWs.csv")
 
-SPD.SM <- alldataSMs$SPD
-clim.SM <- alldataSMs$clim
-conSMs <- alldataSMs$conSMs
-decSMs <- alldataSMs$decSMs
-wetwSMs <- alldataSMs$wetwSMs
-wetmSMs <- alldataSMs$wetmSMs
-pasSMs <- alldataSMs$pasSMs
-araSMs <- alldataSMs$araSMs
-heaSMs <- alldataSMs$heaSMs
+# Subset: BEFORE THE ONSET OF FARMING -----
+alldataNb <- alldataNs[which(alldataNs$yearsBP >= 2500),]
+alldataSEb <- alldataSEs[which(alldataSEs$yearsBP >= 4000),]
+alldataMWb <- alldataMWs[which(alldataMWs$yearsBP >= 3200),]
+alldataMMb <- alldataMMs[which(alldataMMs$yearsBP >= 3200),]
+alldataSWb <- alldataSWs[which(alldataSWs$yearsBP >= 6000),]
+alldataSMb <- alldataSMs[which(alldataSMs$yearsBP >= 6000),]
 
-### BEFORE THE ONSET OF FARMING #-----------------------------------------------
-# Grant:: Needs to be subset by year.
-alldataNb <- alldataNs[1:67,]
-alldataSEb <- alldataSEs[1:50,]
-alldataMWb <- alldataMWs[1:60,]
-alldataMMb <- alldataMMs[1:60,]
-alldataSWb <- alldataSWs[1:29,]
-alldataSMb <- alldataSMs[1:29,]
+# Subset: AFTER THE ONSET OF FARMING -----
 
-SPD.Nb <- alldataNb$SPD
-clim.Nb <- alldataNb$clim
-conNb <- alldataNb$conNs
-decNb <- alldataNb$decNs
-wetwNb <- alldataNb$wetwNs
-wetmNb <- alldataNb$wetmNs
-pasNb <- alldataNb$pasNs
-araNb <- alldataNb$araNs
-heaNb <- alldataNb$heaNs
+alldataNa <- alldataNs[which(alldataNs$yearsBP < 2500),]
+alldataSEa <- alldataSEs[which(alldataSEs$yearsBP < 4000),]
+alldataMWa <- alldataMWs[which(alldataMWs$yearsBP < 3200),]
+alldataMMa <- alldataMMs[which(alldataMMs$yearsBP < 3200),]
+alldataSWa <- alldataSWs[which(alldataSWs$yearsBP < 6000),]
+alldataSMa <- alldataSMs[which(alldataSMs$yearsBP < 6000),]
 
-SPD.SEb <- alldataSEb$SPD
-clim.SEb <- alldataSEb$clim
-conSEb <- alldataSEb$conSEs
-decSEb <- alldataSEb$decSEs
-wetwSEb <- alldataSEb$wetwSEs
-wetmSEb <- alldataSEb$wetmSEs
-pasSEb <- alldataSEb$pasSEs
-araSEb <- alldataSEb$araSEs
-heaSEb <- alldataSEb$heaSEs
+# FUNCTIONS ----
+source("./Functions/Cross_validation.R")
+source("./Functions/Create_vectors.R")
 
-SPD.MWb <- alldataMWb$SPD
-clim.MWb <- alldataMWb$clim
-conMWb <- alldataMWb$conMWs
-decMWb <- alldataMWb$decMWs
-wetwMWb <- alldataMWb$wetwMWs
-wetmMWb <- alldataMWb$wetmMWs
-pasMWb <- alldataMWb$pasMWs
-araMWb <- alldataMWb$araMWs
-heaMWb <- alldataMWb$heaMWs
-
-SPD.MMb <- alldataMMb$SPD
-clim.MMb <- alldataMMb$clim
-conMMb <- alldataMMb$conMMs
-decMMb <- alldataMMb$decMMs
-wetwMMb <- alldataMMb$wetwMMs
-wetmMMb <- alldataMMb$wetmMMs
-pasMMb <- alldataMMb$pasMMs
-araMMb <- alldataMMb$araMMs
-heaMMb <- alldataMMb$heaMMs
-
-SPD.SWb <- alldataSWb$SPD
-clim.SWb <- alldataSWb$clim
-conSWb <- alldataSWb$conSWs
-decSWb <- alldataSWb$decSWs
-wetwSWb <- alldataSWb$wetwSWs
-wetmSWb <- alldataSWb$wetmSWs
-pasSWb <- alldataSWb$pasSWs
-araSWb <- alldataSWb$araSWs
-heaSWb <- alldataSWb$heaSWs
-
-SPD.SMb <- alldataSMb$SPD
-clim.SMb <- alldataSMb$clim
-conSMb <- alldataSMb$conSMs
-decSMb <- alldataSMb$decSMs
-wetwSMb <- alldataSMb$wetwSMs
-wetmSMb <- alldataSMb$wetmSMs
-pasSMb <- alldataSMb$pasSMs
-araSMb <- alldataSMb$araSMs
-heaSMb <- alldataSMb$heaSMs
-
-### AFTER THE ONSET OF FARMING #------------------------------------------------
-alldataNa <- alldataNs[68:nrow(alldataNs),]
-alldataSEa <- alldataSEs[51:nrow(alldataSEs),]
-alldataMWa <- alldataMWs[61:nrow(alldataMWs),]
-alldataMMa <- alldataMMs[61:nrow(alldataMMs),]
-alldataSWa <- alldataSWs[30:nrow(alldataSWs),]
-alldataSMa <- alldataSMs[30:nrow(alldataSMs),]
-
-SPD.Na <- alldataNa$SPD
-clim.Na <- alldataNa$clim
-conNa <- alldataNa$conNs
-decNa <- alldataNa$decNs
-wetwNa <- alldataNa$wetwNs
-wetmNa <- alldataNa$wetmNs
-pasNa <- alldataNa$pasNs
-araNa <- alldataNa$araNs
-heaNa <- alldataNa$heaNs
-
-SPD.SEa <- alldataSEa$SPD
-clim.SEa <- alldataSEa$clim
-conSEa <- alldataSEa$conSEs
-decSEa <- alldataSEa$decSEs
-wetwSEa <- alldataSEa$wetwSEs
-wetmSEa <- alldataSEa$wetmSEs
-pasSEa <- alldataSEa$pasSEs
-araSEa <- alldataSEa$araSEs
-heaSEa <- alldataSEa$heaSEs
-
-SPD.MWa <- alldataMWa$SPD
-clim.MWa <- alldataMWa$clim
-conMWa <- alldataMWa$conMWs
-decMWa <- alldataMWa$decMWs
-wetwMWa <- alldataMWa$wetwMWs
-wetmMWa <- alldataMWa$wetmMWs
-pasMWa <- alldataMWa$pasMWs
-araMWa <- alldataMWa$araMWs
-heaMWa <- alldataMWa$heaMWs
-
-SPD.MMa <- alldataMMa$SPD
-clim.MMa <- alldataMMa$clim
-conMMa <- alldataMMa$conMMs
-decMMa <- alldataMMa$decMMs
-wetwMMa <- alldataMMa$wetwMMs
-wetmMMa <- alldataMMa$wetmMMs
-pasMMa <- alldataMMa$pasMMs
-araMMa <- alldataMMa$araMMs
-heaMMa <- alldataMMa$heaMMs
-
-SPD.SWa <- alldataSWa$SPD
-clim.SWa <- alldataSWa$clim
-conSWa <- alldataSWa$conSWs
-decSWa <- alldataSWa$decSWs
-wetwSWa <- alldataSWa$wetwSWs
-wetmSWa <- alldataSWa$wetmSWs
-pasSWa <- alldataSWa$pasSWs
-araSWa <- alldataSWa$araSWs
-heaSWa <- alldataSWa$heaSWs
-
-SPD.SMa <- alldataSMa$SPD
-clim.SMa <- alldataSMa$clim
-conSMa <- alldataSMa$conSMs
-decSMa <- alldataSMa$decSMs
-wetwSMa <- alldataSMa$wetwSMs
-wetmSMa <- alldataSMa$wetmSMs
-pasSMa <- alldataSMa$pasSMs
-araSMa <- alldataSMa$araSMs
-heaSMa <- alldataSMa$heaSMs
-
-#parameters
+# Parametres ----
 nfolds = 2
 maxlag = 7
-#yearsBP = alldataNs$yearsBP
-
-#function
-crossvalidation = function(LCC, SPD, clim){
-  varnames <- c(deparse(substitute(LCCadapt)), deparse(substitute(SPD)), deparse(substitute(clim)))
-  lagnames <- paste0(varnames, "_lag", rep(1:maxlag, each = 3))
-  # Then we created the lagged variables / data for models
-  VAR_data <- embed(as.matrix(cbind(LCC, SPD, clim)), maxlag + 1)
-  colnames(VAR_data) <- c(varnames, lagnames)
-  VAR_data <- as.data.frame(VAR_data[, -c(2,3)])
-  
-  dataconN_cv  <- crossv_kfold(VAR_data, k = nfolds) # just an old structure that we'll fill out differently
-  
-  chunksize = ceiling(nrow(VAR_data)/(nfolds+1))
-  BP = -yearsBP[(maxlag + 1):length(yearsBP)] # so that time goes up with time
-  VAR_data_ext = cbind(BP,VAR_data)
-  tscv <- time_series_cv(data = VAR_data_ext, date_var = BP, initial = chunksize, skip = chunksize - 1, assess = chunksize - 1, cumulative = TRUE)
-  
-  for(i in 1:nfolds){
-    dataconN_cv$train[[i]]$idx <- tscv$splits[[i]]$in_id
-    dataconN_cv$test[[i]]$idx <- tscv$splits[[i]]$out_id
-    dataconN_cv$train[[i]]$idx
-    dataconN_cv$test[[i]]$idx
-  }
-  # the full model with LCC, SPD and clim
-  formula7 <- paste(colnames(VAR_data)[-1], collapse = " + ")
-  formula7 <- formula(paste0(varnames[1], " ~ ", formula7))
-  
-  formula6 <- select(VAR_data,-contains("7"))
-  formula6 <- paste(colnames(formula6)[-1], collapse = " + ")
-  formula6 <- formula(paste0(varnames[1], " ~ ", formula6))
-  
-  formula5 <- select(VAR_data,-contains(c("7", "6")))
-  formula5 <- paste(colnames(formula5)[-1], collapse = " + ")
-  formula5 <- formula(paste0(varnames[1], " ~ ", formula5))
-  
-  formula4 <- select(VAR_data,-contains(c("7", "6", "5")))
-  formula4 <- paste(colnames(formula4)[-1], collapse = " + ")
-  formula4 <- formula(paste0(varnames[1], " ~ ", formula4))
-  
-  formula3 <- select(VAR_data,-contains(c("7", "6", "5", "4")))
-  formula3 <- paste(colnames(formula3)[-1], collapse = " + ")
-  formula3 <- formula(paste0(varnames[1], " ~ ", formula3))
-  
-  formula2 <- select(VAR_data,-contains(c("7", "6", "5", "4", "3")))
-  formula2 <- paste(colnames(formula2)[-1], collapse = " + ")
-  formula2 <- formula(paste0(varnames[1], " ~ ", formula2))
-  
-  formula1 <- select(VAR_data,-contains(c("7", "6", "5", "4", "3", "2")))
-  formula1 <- paste(colnames(formula1)[-1], collapse = " + ")
-  formula1 <- formula(paste0(varnames[1], " ~ ", formula1))
-  
-  model7  <- map(dataconN_cv$train, ~glm2(formula7, data = .))
-  model6  <- map(dataconN_cv$train, ~glm2(formula6, data = .))
-  model5  <- map(dataconN_cv$train, ~glm2(formula5, data = .))
-  model4  <- map(dataconN_cv$train, ~glm2(formula4, data = .))
-  model3  <- map(dataconN_cv$train, ~glm2(formula3, data = .))
-  model2  <- map(dataconN_cv$train, ~glm2(formula2, data = .))
-  model1  <- map(dataconN_cv$train, ~glm2(formula1, data = .))
-  
-  get_pred  <- function(model, test_data){
-    data  <- as.data.frame(test_data)
-    pred  <- add_predictions(data, model)
-    return(pred)
-  }
-  pred7  <- map2_df(model7, dataconN_cv$test, get_pred, .id = "Run")
-  pred6  <- map2_df(model6, dataconN_cv$test, get_pred, .id = "Run")
-  pred5  <- map2_df(model5, dataconN_cv$test, get_pred, .id = "Run")
-  pred4  <- map2_df(model4, dataconN_cv$test, get_pred, .id = "Run")
-  pred3  <- map2_df(model3, dataconN_cv$test, get_pred, .id = "Run")
-  pred2  <- map2_df(model2, dataconN_cv$test, get_pred, .id = "Run")
-  pred1  <- map2_df(model1, dataconN_cv$test, get_pred, .id = "Run")
-  
-  MSE7  <- pred7 %>% group_by(Run) %>%
-    summarise(MSE = mean( (LCCadapt - pred)^2))
-  
-  MSE6  <- pred6 %>% group_by(Run) %>%
-    summarise(MSE = mean( (LCCadapt - pred)^2))
-  
-  MSE5  <- pred5 %>% group_by(Run) %>%
-    summarise(MSE = mean( (LCCadapt - pred)^2))
-  
-  MSE4  <- pred4 %>% group_by(Run) %>%
-    summarise(MSE = mean( (LCCadapt - pred)^2))
-  
-  MSE3  <- pred3 %>% group_by(Run) %>%
-    summarise(MSE = mean( (LCCadapt - pred)^2))
-  
-  MSE2  <- pred2 %>% group_by(Run) %>%
-    summarise(MSE = mean( (LCCadapt - pred)^2))
-  
-  MSE1  <- pred1 %>% group_by(Run) %>%
-    summarise(MSE = mean( (LCCadapt - pred)^2))
-  
-  v1 = c("lag1", "lag2", "lag3", "lag4", "lag5", "lag6", "lag7")
-  v2 = c(MSE1=mean(MSE1$MSE), MSE2=mean(MSE2$MSE), MSE3=mean(MSE3$MSE), MSE4=mean(MSE4$MSE), MSE5=mean(MSE5$MSE), MSE6=mean(MSE6$MSE), MSE7=mean(MSE7$MSE))
-  list = data.frame(v1, v2)
-  return(list[which.min(list$v2),])
-  #return(list(MSE1=mean(MSE1$MSE), MSE2=mean(MSE2$MSE), MSE3=mean(MSE3$MSE), MSE4=mean(MSE4$MSE), MSE5=mean(MSE5$MSE), MSE6=mean(MSE6$MSE), MSE7=mean(MSE7$MSE)))
-}
 
 #results
 
 #whole holocene
 yearsBP = alldataNs$yearsBP
-crossvalidation(conNs, SPD.N, clim.N) #2
+crossvalidation(conNs, SPD.N, clim.N)#2
 crossvalidation(decNs, SPD.N, clim.N) #1
 crossvalidation(wetwNs, SPD.N, clim.N) #1
 crossvalidation(wetmNs, SPD.N, clim.N) #2
@@ -364,4 +111,3 @@ crossvalidation(wetmSMs, SPD.SM, clim.SM) #1
 crossvalidation(pasSMs, SPD.SM, clim.SM) #1
 crossvalidation(araSMs, SPD.SM, clim.SM) #5
 crossvalidation(heaSMs, SPD.SM, clim.SM) #1
-
