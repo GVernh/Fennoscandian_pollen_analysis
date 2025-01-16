@@ -23,27 +23,27 @@ crossvalidation = function(LCC, SPD, clim){
   formula7 <- paste(colnames(VAR_data)[-1], collapse = " + ")
   formula7 <- formula(paste0(varnames[1], " ~ ", formula7))
   
-  formula6 <- select(VAR_data,-contains("7"))
+  formula6 <- dplyr::select(VAR_data,-contains("7"))
   formula6 <- paste(colnames(formula6)[-1], collapse = " + ")
   formula6 <- formula(paste0(varnames[1], " ~ ", formula6))
   
-  formula5 <- select(VAR_data,-contains(c("7", "6")))
+  formula5 <- dplyr::select(VAR_data,-contains(c("7", "6")))
   formula5 <- paste(colnames(formula5)[-1], collapse = " + ")
   formula5 <- formula(paste0(varnames[1], " ~ ", formula5))
   
-  formula4 <- select(VAR_data,-contains(c("7", "6", "5")))
+  formula4 <- dplyr::select(VAR_data,-contains(c("7", "6", "5")))
   formula4 <- paste(colnames(formula4)[-1], collapse = " + ")
   formula4 <- formula(paste0(varnames[1], " ~ ", formula4))
   
-  formula3 <- select(VAR_data,-contains(c("7", "6", "5", "4")))
+  formula3 <- dplyr::select(VAR_data,-contains(c("7", "6", "5", "4")))
   formula3 <- paste(colnames(formula3)[-1], collapse = " + ")
   formula3 <- formula(paste0(varnames[1], " ~ ", formula3))
   
-  formula2 <- select(VAR_data,-contains(c("7", "6", "5", "4", "3")))
+  formula2 <- dplyr::select(VAR_data,-contains(c("7", "6", "5", "4", "3")))
   formula2 <- paste(colnames(formula2)[-1], collapse = " + ")
   formula2 <- formula(paste0(varnames[1], " ~ ", formula2))
   
-  formula1 <- select(VAR_data,-contains(c("7", "6", "5", "4", "3", "2")))
+  formula1 <- dplyr::select(VAR_data,-contains(c("7", "6", "5", "4", "3", "2")))
   formula1 <- paste(colnames(formula1)[-1], collapse = " + ")
   formula1 <- formula(paste0(varnames[1], " ~ ", formula1))
   
@@ -69,25 +69,25 @@ crossvalidation = function(LCC, SPD, clim){
   pred1  <- map2_df(model1, dataconN_cv$test, get_pred, .id = "Run")
   
   MSE7  <- pred7 %>% group_by(Run) %>%
-    summarise(MSE = mean( (LCCadapt - pred)^2))
+    dplyr::summarise(MSE = mean( (LCCadapt - pred)^2))
   
   MSE6  <- pred6 %>% group_by(Run) %>%
-    summarise(MSE = mean( (LCCadapt - pred)^2))
+    dplyr::summarise(MSE = mean( (LCCadapt - pred)^2))
   
   MSE5  <- pred5 %>% group_by(Run) %>%
-    summarise(MSE = mean( (LCCadapt - pred)^2))
+    dplyr::summarise(MSE = mean( (LCCadapt - pred)^2))
   
   MSE4  <- pred4 %>% group_by(Run) %>%
-    summarise(MSE = mean( (LCCadapt - pred)^2))
+    dplyr::summarise(MSE = mean( (LCCadapt - pred)^2))
   
   MSE3  <- pred3 %>% group_by(Run) %>%
-    summarise(MSE = mean( (LCCadapt - pred)^2))
+    dplyr::summarise(MSE = mean( (LCCadapt - pred)^2))
   
   MSE2  <- pred2 %>% group_by(Run) %>%
-    summarise(MSE = mean( (LCCadapt - pred)^2))
+    dplyr::summarise(MSE = mean( (LCCadapt - pred)^2))
   
   MSE1  <- pred1 %>% group_by(Run) %>%
-    summarise(MSE = mean( (LCCadapt - pred)^2))
+    dplyr::summarise(MSE = mean( (LCCadapt - pred)^2))
   
   v1 = c("lag1", "lag2", "lag3", "lag4", "lag5", "lag6", "lag7")
   v2 = c(MSE1=mean(MSE1$MSE), MSE2=mean(MSE2$MSE), MSE3=mean(MSE3$MSE), MSE4=mean(MSE4$MSE), MSE5=mean(MSE5$MSE), MSE6=mean(MSE6$MSE), MSE7=mean(MSE7$MSE))
