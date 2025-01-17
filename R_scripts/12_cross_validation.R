@@ -3,7 +3,7 @@
 
 # LOAD LIBRARIES ----
 
-libs <- c("dplyr","modelr", "glm2", "timetk", "purrr")
+libs <- c("dplyr","modelr", "glm2", "timetk", "purrr", "stats")
 
 installed_libs <- libs %in% rownames(
   installed.packages())

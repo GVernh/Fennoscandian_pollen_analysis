@@ -2,11 +2,11 @@ crossvalidation = function(LCC, SPD, clim){
   varnames <- c(deparse(substitute(LCCadapt)), deparse(substitute(SPD)), deparse(substitute(clim)))
   lagnames <- paste0(varnames, "_lag", rep(1:maxlag, each = 3))
   # Then we created the lagged variables / data for models
-  VAR_data <- embed(as.matrix(cbind(LCC, SPD, clim)), maxlag + 1)
+  VAR_data <- stats::embed(as.matrix(cbind(LCC, SPD, clim)), maxlag + 1)
   colnames(VAR_data) <- c(varnames, lagnames)
   VAR_data <- as.data.frame(VAR_data[, -c(2,3)])
   
-  dataconN_cv  <- crossv_kfold(VAR_data, k = nfolds) # just an old structure that we'll fill out differently
+  dataconN_cv  <- modelr::crossv_kfold(VAR_data, k = nfolds) # just an old structure that we'll fill out differently
   
   chunksize = ceiling(nrow(VAR_data)/(nfolds+1))
   BP = -yearsBP[(maxlag + 1):length(yearsBP)] # so that time goes up with time
