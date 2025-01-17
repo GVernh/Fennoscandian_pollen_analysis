@@ -1,10 +1,33 @@
 ### plots all ###
+libs <- c("ggplot2","ggpubr", "scales")
 
-library(ggplot2)
-library(ggpubr)
-library(scales)
+installed_libs <- libs %in% rownames(
+  installed.packages())
 
-##colours
+if (any(installed_libs == F)) {
+  install.packages(
+    libs[!installed_libs]
+  )
+}
+
+invisible(lapply(
+  libs,
+  library,
+  character.only = T
+))
+rm(list=ls())
+
+# READ DATA ----
+alldataNs <-read.csv("./Processed_data/Full_datasets/alldataNs.csv")
+alldataMMs <-read.csv("./Processed_data/Full_datasets/alldataMMs.csv")
+alldataMWs <-read.csv("./Processed_data/Full_datasets/alldataMWs.csv")
+alldataSEs <-read.csv("./Processed_data/Full_datasets/alldataSEs.csv")
+alldataSMs <-read.csv("./Processed_data/Full_datasets/alldataSMs.csv")
+alldataSWs <-read.csv("./Processed_data/Full_datasets/alldataSWs.csv")
+
+dir.create(file.path("./Results/", "Plots"), showWarnings = FALSE)
+
+### COLOURS ###
 #spd=firebrick4
 #clim=blue2
 #con=chartreuse4
@@ -15,8 +38,7 @@ library(scales)
 #ara=turquoise4
 #hea=seagreen2
 
-## NORTH ##
-
+# NORTH ----
 SPDN <- data.frame(age=alldataNs$yearsBP, spd=alldataNs$SPD)
 N1 <- ggplot(SPDN, aes(x=age))+
   scale_colour_manual(values=c(firebrick4="firebrick4",black="black",hotpink="hotpink")) +
@@ -45,7 +67,7 @@ N2 <- ggplot(climN, aes(x=age))+
   theme(plot.background = element_rect(color = "grey", size = 1))+
   labs(title="TEMPERATURE (predictor)", x="years BP", y="°C (annual mean)")
 
-conN <- data.frame(age=alldataNs$yearsBP, LCC=conNs)
+conN <- data.frame(age=alldataNs$yearsBP, LCC=alldataNs$conNs)
 N3 <- ggplot(conN, aes(x=age))+
   scale_colour_manual(values=c(chartreuse4="chartreuse4",black="black",hotpink="hotpink")) +
   geom_line(aes(y=LCC), color="chartreuse4", size=1.3)+
@@ -63,7 +85,7 @@ N3 <- ggplot(conN, aes(x=age))+
   theme(plot.background = element_rect(color = "grey", size = 1))+
   labs(title="CONIFEROUS WOODLAND", x="years BP", y="pollen counts")
 
-decN <- data.frame(age=alldataNs$yearsBP, LCC=decNs)
+decN <- data.frame(age=alldataNs$yearsBP, LCC=alldataNs$decNs)
 N4 <- ggplot(decN, aes(x=age))+
   scale_colour_manual(values=c(gold="seagreen2",black="black",hotpink="hotpink")) +
   geom_line(aes(y=LCC), color="seagreen2", size=1.3)+
@@ -77,7 +99,7 @@ N4 <- ggplot(decN, aes(x=age))+
   theme(plot.background = element_rect(color = "grey", size = 1))+
   labs(title="DECIDUOUS WOODLAND", x="years BP", y="pollen counts")
 
-wetwN <- data.frame(age=alldataNs$yearsBP, LCC=wetwNs)
+wetwN <- data.frame(age=alldataNs$yearsBP, LCC=alldataNs$wetwNs)
 N5 <- ggplot(wetwN, aes(x=age))+
   scale_colour_manual(values=c(turquoise4="turquoise4",black="black",hotpink="hotpink")) +
   geom_line(aes(y=LCC), color="turquoise4", size=1.3)+
@@ -91,7 +113,7 @@ N5 <- ggplot(wetwN, aes(x=age))+
   theme(plot.background = element_rect(color = "grey", size = 1))+
   labs(title="WET WOODLAND", x="years BP", y="pollen counts")
 
-wetmN <- data.frame(age=alldataNs$yearsBP, wetm=wetmNs)
+wetmN <- data.frame(age=alldataNs$yearsBP, wetm=alldataNs$wetmNs)
 N6 <- ggplot(wetmN, aes(x=age))+
   scale_colour_manual(values=c(blueviolet="blueviolet",black="black",hotpink="hotpink")) +
   geom_line(aes(y=wetm), color="blueviolet", size=1.3)+
@@ -105,7 +127,7 @@ N6 <- ggplot(wetmN, aes(x=age))+
   theme(plot.background = element_rect(color = "grey", size = 1))+
   labs(title="WET MEADOW", x="years BP", y="pollen counts")
 
-pasN <- data.frame(age=alldataNs$yearsBP, LCC=pasNs)
+pasN <- data.frame(age=alldataNs$yearsBP, LCC=alldataNs$pasNs)
 N7 <- ggplot(pasN, aes(x=age))+
   scale_colour_manual(values=c(orange2="orange2",black="black",hotpink="hotpink")) +
   geom_line(aes(y=LCC), color="orange2", size=1.3)+
@@ -117,7 +139,7 @@ N7 <- ggplot(pasN, aes(x=age))+
   theme(plot.background = element_rect(color = "grey", size = 1))+
   labs(title="PASTURE", x="years BP", y="pollen counts")
 
-araN <- data.frame(age=alldataNs$yearsBP, LCC=araNs)
+araN <- data.frame(age=alldataNs$yearsBP, LCC=alldataNs$araNs)
 N8 <- ggplot(araN, aes(x=age))+
   scale_colour_manual(values=c(gold2="gold2",black="black",hotpink="hotpink")) +
   geom_line(aes(y=LCC), color="gold2", size=1.3)+
@@ -129,7 +151,7 @@ N8 <- ggplot(araN, aes(x=age))+
   theme(plot.background = element_rect(color = "grey", size = 1))+
   labs(title="ARABLE LAND", x="years BP", y="pollen counts")
 
-heaN <- data.frame(age=alldataNs$yearsBP, hea=heaNs)
+heaN <- data.frame(age=alldataNs$yearsBP, hea=alldataNs$heaNs)
 N9 <- ggplot(heaN, aes(x=age))+
   scale_colour_manual(values=c(orangered="orangered",black="black",hotpink="hotpink")) +
   geom_line(aes(y=hea), color="orangered", size=1.3)+
@@ -143,13 +165,15 @@ N9 <- ggplot(heaN, aes(x=age))+
   theme(plot.background = element_rect(color = "grey", size = 1))+
   labs(title="HEATH", x="years BP", y="pollen counts")
 
-# PLOT #
+# PLOT
 N_all <- ggarrange(N1,N2,N3,N4,N5,N6,N7,N8,N9, 
-          ncol = 3, nrow = 3)
+          ncol = 1, nrow = 9)
 annotate_figure(N_all, top = text_grob("North", color = "black", face = "bold"))
+png(filename="./Results/Plots/N_all.png", width = 1000, height = 1500,)
+plot(N_all)
+dev.off()
 
-
-## SOUTHEAST ##
+# SOUTHEAST ----
 
 spdSE <- data.frame(age=alldataSEs$yearsBP, spd=alldataSEs$SPD)
 SE1 <- ggplot(spdSE, aes(x=age))+
@@ -177,7 +201,7 @@ SE2 <- ggplot(climSE, aes(x=age))+
   theme(plot.background = element_rect(color = "grey", size = 1))+
   labs(title="TEMPERATURE (predictor)", x="years BP", y="°C (annual mean)")
 
-conSE <- data.frame(age=alldataSEs$yearsBP, LCC=conSEs)
+conSE <- data.frame(age=alldataSEs$yearsBP, LCC=alldataSEs$conSEs)
 SE3 <- ggplot(conSE, aes(x=age))+
   scale_colour_manual(values=c(chartreuse4="chartreuse4",black="black",hotpink="hotpink")) +
   geom_line(aes(y=LCC), color="chartreuse4", size=1.3)+
@@ -193,7 +217,7 @@ SE3 <- ggplot(conSE, aes(x=age))+
   theme(plot.background = element_rect(color = "grey", size = 1))+
   labs(title="CONIFEROUS WOODLAND", x="years BP", y="pollen counts")
 
-decSE <- data.frame(age=alldataSEs$yearsBP, LCC=decSEs)
+decSE <- data.frame(age=alldataSEs$yearsBP, LCC=alldataSEs$decSEs)
 SE4 <- ggplot(decSE, aes(x=age))+
   scale_colour_manual(values=c(gold="seagreen2",black="black",hotpink="hotpink")) +
   geom_line(aes(y=LCC), color="seagreen2", size=1.3)+
@@ -207,7 +231,7 @@ SE4 <- ggplot(decSE, aes(x=age))+
   theme(plot.background = element_rect(color = "grey", size = 1))+
   labs(title="DECIDUOUS WOODLAND", x="years BP", y="pollen counts")
 
-wetwSE <- data.frame(age=alldataSEs$yearsBP, LCC=wetwSEs)
+wetwSE <- data.frame(age=alldataSEs$yearsBP, LCC=alldataSEs$wetwSEs)
 SE5 <- ggplot(wetwSE, aes(x=age))+
   scale_colour_manual(values=c(turquoise4="turquoise4",black="black",hotpink="hotpink")) +
   geom_line(aes(y=LCC), color="turquoise4", size=1.3)+
@@ -219,7 +243,7 @@ SE5 <- ggplot(wetwSE, aes(x=age))+
   theme(plot.background = element_rect(color = "grey", size = 1))+
   labs(title="WET WOODLAND", x="years BP", y="pollen counts")
 
-wetmSE <- data.frame(age=alldataSEs$yearsBP, wetm=wetmSEs)
+wetmSE <- data.frame(age=alldataSEs$yearsBP, wetm=alldataSEs$wetmSEs)
 SE6 <- ggplot(wetmSE, aes(x=age))+
   scale_colour_manual(values=c(blueviolet="blueviolet",black="black",hotpink="hotpink")) +
   geom_line(aes(y=wetm), color="blueviolet", size=1.3)+
@@ -237,7 +261,7 @@ SE6 <- ggplot(wetmSE, aes(x=age))+
   theme(plot.background = element_rect(color = "grey", size = 1))+
   labs(title="WET MEADOW", x="years BP", y="pollen counts")
 
-pasSE <- data.frame(age=alldataSEs$yearsBP, LCC=pasSEs)
+pasSE <- data.frame(age=alldataSEs$yearsBP, LCC=alldataSEs$pasSEs)
 SE7 <- ggplot(pasSE, aes(x=age))+
   scale_colour_manual(values=c(orange2="orange2",black="black",hotpink="hotpink")) +
   geom_line(aes(y=LCC), color="orange2", size=1.3)+
@@ -253,7 +277,7 @@ SE7 <- ggplot(pasSE, aes(x=age))+
   theme(plot.background = element_rect(color = "grey", size = 1))+
   labs(title="PASTURE", x="years BP", y="pollen counts")
 
-araSE <- data.frame(age=alldataSEs$yearsBP, LCC=araSEs)
+araSE <- data.frame(age=alldataSEs$yearsBP, LCC=alldataSEs$araSEs)
 SE8 <- ggplot(araSE, aes(x=age))+
   scale_colour_manual(values=c(gold2="gold2",black="black",hotpink="hotpink")) +
   geom_line(aes(y=LCC), color="gold2", size=1.3)+
@@ -267,7 +291,7 @@ SE8 <- ggplot(araSE, aes(x=age))+
   theme(plot.background = element_rect(color = "grey", size = 1))+
   labs(title="ARABLE LAND", x="years BP", y="pollen counts")
 
-heaSE <- data.frame(age=alldataSEs$yearsBP, hea=heaSEs)
+heaSE <- data.frame(age=alldataSEs$yearsBP, hea=alldataSEs$heaSEs)
 SE9 <- ggplot(heaSE, aes(x=age))+
   scale_colour_manual(values=c(orangered="orangered",black="black",hotpink="hotpink")) +
   geom_line(aes(y=hea), color="orangered", size=1.3)+
@@ -283,12 +307,13 @@ SE9 <- ggplot(heaSE, aes(x=age))+
 
 # PLOT #
 SE_all <- ggarrange(SE1,SE2,SE3,SE4,SE5,SE6,SE7,SE8,SE9, 
-                   ncol = 3, nrow = 3)
+                   ncol = 1, nrow = 9)
 annotate_figure(SE_all, top = text_grob("SouthEast: the whole Holocene", color = "black", face = "bold"))
+png(filename="./Results/Plots/SE_all.png", width = 1000, height = 1500,)
+plot(SE_all)
+dev.off()
 
-
-## MIDWEST ##
-
+# MIDWEST ----
 spdMW <- data.frame(age=alldataMWs$yearsBP, spd=alldataMWs$SPD)
 MW1 <- ggplot(spdMW, aes(x=age))+
   scale_colour_manual(values=c(firebrick4="firebrick4",black="black",hotpink="hotpink")) +
@@ -442,12 +467,13 @@ MW9 <- ggplot(heaMW, aes(x=age))+
 
 # PLOT #
 MW_all <- ggarrange(MW1, MW2, MW3, MW4, MW5, MW6, MW7,MW8,MW9,
-                   ncol = 3, nrow = 3)
+                   ncol = 1, nrow = 9)
 annotate_figure(MW_all, top = text_grob("MidWest: the whole Holocene", color = "black", face = "bold"))
+png(filename="./Results/Plots/MW_all.png", width = 1000, height = 1500,)
+plot(MW_all)
+dev.off()
 
-
-## MidMid ##
-
+# MidMid ----
 spdMM <- data.frame(age=alldataMMs$yearsBP, spd=alldataMMs$SPD)
 MM1 <- ggplot(spdMM, aes(x=age))+
   scale_colour_manual(values=c(firebrick4="firebrick4",black="black",hotpink="hotpink")) +
@@ -593,11 +619,13 @@ MM9 <- ggplot(heaMM, aes(x=age))+
 
 # PLOT #
 MM_all <- ggarrange(MM1, MM2, MM3, MM4, MM5, MM6, MM7,MM8,MM9,
-                    ncol = 3, nrow = 3)
+                    ncol = 1, nrow = 9)
 annotate_figure(MM_all, top = text_grob("MidMid: the whole Holocene", color = "black", face = "bold"))
+png(filename="./Results/Plots/MM_all.png", width = 1000, height = 1500,)
+plot(MM_all)
+dev.off()
 
-
-### SOUTHWEST ###
+# SOUTHWEST ----
 
 spdSW <- data.frame(age=alldataSWs$yearsBP, spd=alldataSWs$SPD)
 SW1 <- ggplot(spdSW, aes(x=age))+
@@ -739,11 +767,13 @@ SW9 <- ggplot(heaSW, aes(x=age))+
 
 # PLOT #
 SW_all <- ggarrange(SW1, SW2,SW3,SW4,SW5,SW6,SW7,SW8,SW9,
-                    ncol = 3, nrow = 3)
+                    ncol = 1, nrow = 9)
 annotate_figure(SW_all, top = text_grob("SouthWest: the whole Holocene", color = "black", face = "bold"))
+png(filename="./Results/Plots/SW_all.png", width = 1000, height = 1500,)
+plot(SW_all)
+dev.off()
 
-
-### SOUTHMID ###
+# SOUTHMID ----
 
 spdSM <- data.frame(age=alldataSMs$yearsBP, spd=alldataSMs$SPD)
 SM1 <- ggplot(spdSM, aes(x=age))+
@@ -877,7 +907,8 @@ SM9 <- ggplot(heaSM, aes(x=age))+
 
 # PLOT #
 SM_all <- ggarrange(SM1, SM2,SM3,SM4,SM5,SM6,SM7,SM8,SM9,
-                    ncol = 3, nrow = 3)
+                    ncol = 1, nrow = 9)
 annotate_figure(SM_all, top = text_grob("SouthMid: the whole Holocene", color = "black", face = "bold"))
-
-                
+png(filename="./Results/Plots/SM_all.png", width = 1000, height = 1500,)
+plot(SM_all)
+dev.off()
