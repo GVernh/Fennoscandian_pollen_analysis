@@ -4,7 +4,7 @@ nullmodel_spd = function(arc, youngBP){
   arc.spd = rcarbon::spd(arc.caldates,timeRange=c(9700,youngBP)) #aggregates (sums) calibrated dates
   arc.bins = rcarbon::binPrep(sites=arc$SiteName,ages=arc$Age,h=100) #binning in 100 years
   arc.spd.bins = rcarbon::spd(arc.caldates,bins=arc.bins,timeRange=c(9700,youngBP))
-  expnull <- modelTest(x = arc.caldates, errors=arc$Error, bins=arc.bins, 
+  expnull <- rcarbon::modelTest(x = arc.caldates, errors=arc$Error, bins=arc.bins, 
                        nsim=100, timeRange=c(9700,youngBP), model="exponential",runm=100)
   return(expnull)
 }
