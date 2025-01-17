@@ -1,7 +1,7 @@
 **PLEASE ENSURE THE FOLLOWING PRIOR TO RUNNING THE ABOVE CODE:**
 
-  1. extract the p3k14c_original.csv found in the "Raw_data" folder.
-  2. download and place the "All_Age_Depth_Curves_2021-11-23" file into the "Raw_data" folder. Link: https://1drv.ms/f/c/db14a7152605480f/EpoWdI1AU5hGhdobiaFTeuIBRgxC0p8NajOPfXueO4sg8Q?e=1iKhJc
+  1. Extract the p3k14c_original.csv found in the "Raw_data" folder.
+  2. Download and place the "All_Age_Depth_Curves_2021-11-23" file into the "Raw_data" folder. Link: https://1drv.ms/f/c/db14a7152605480f/EpoWdI1AU5hGhdobiaFTeuIBRgxC0p8NajOPfXueO4sg8Q?e=1iKhJc
 
 To run all scripts, open the fennoscandian_pollen-final-scripts-jakub R Project file and run the run.R script.
 Final outputs can be found in the "Results" folder.
