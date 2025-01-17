@@ -20,6 +20,15 @@ invisible(lapply(
 ))
 rm(list=ls())
 
+
+zipF<- "./Raw_Data/Temp12k_v1_0_0.RData.zip"
+outDir<-"./Raw_Data/"
+unzip(zipF,exdir=outDir)
+
+zipF<- "./Raw_Data/p3k14c_original.csv.zip"
+outDir<-"./Raw_Data/"
+unzip(zipF,exdir=outDir)
+
 # Source functions
 source("./Functions/MakestandardDF.R")
 
