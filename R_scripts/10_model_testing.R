@@ -601,7 +601,7 @@ plot.heaSE <- plot(fit_mcp)+
 #ecpSE <- ecp_sums(ecp_area, "ecp_area")
 #plot_LCCecp(ecp_area, ecpSE, "SouthEast_ecp")
 
-ggarrange(plot.conSE, plot.decSE, plot.wetwSE, plot.wetmSE, plot.pasSE, plot.araSE, plot.heaSE + rremove("x.text"), 
+ggpubr::ggarrange(plot.conSE, plot.decSE, plot.wetwSE, plot.wetmSE, plot.pasSE, plot.araSE, plot.heaSE + rremove("x.text"), 
           #labels = c("con", "dec", "wetw", "wetm", "pas", "ara", "hea", "SPD", "clim"),
           ncol = 3, nrow = 3)
 Full_list_SE = list(conSE_dat, decSE_dat, wetwSE_dat, wetmSE_dat, pasSE_dat, araSE_dat, heaSE_dat)
@@ -865,7 +865,7 @@ plot.heaMW <- plot(fit_mcp)+
 #ecpMW <- ecp_sums(ecp_area, "ecp_area")
 #plot_LCCecp(ecp_area, ecpSE, "MidWest_ecp")
 
-ggarrange(plot.conMW, plot.decMW, plot.wetwMW, plot.wetmMW, plot.pasMW, plot.araMW, plot.heaMW + rremove("x.text"), 
+ggpubr::ggarrange(plot.conMW, plot.decMW, plot.wetwMW, plot.wetmMW, plot.pasMW, plot.araMW, plot.heaMW + rremove("x.text"), 
           #labels = c("con", "dec", "wetw", "wetm", "pas", "ara", "hea", "SPD", "clim"),
           ncol = 3, nrow = 3)
 
@@ -1126,7 +1126,7 @@ hypothesis(fit_mcp, "cp_1=451") #66
 hypothesis(fit_mcp, "cp_2=1624") #88
 hypothesis(fit_mcp, "cp_3=7927") #43
 
-ggarrange(plot.conMM, plot.decMM, plot.wetwMM, plot.wetmMM, plot.pasMM, plot.araMM, plot.heaMM + rremove("x.text"), 
+ggpubr::ggarrange(plot.conMM, plot.decMM, plot.wetwMM, plot.wetmMM, plot.pasMM, plot.araMM, plot.heaMM + rremove("x.text"), 
           #labels = c("con", "dec", "wetw", "wetm", "pas", "ara", "hea", "SPD", "clim"),
           ncol = 3, nrow = 3)
 
@@ -1391,7 +1391,7 @@ plot.heaSW <- plot(fit_mcp)+
   ggtitle("hea")
 hypothesis(fit_mcp, "cp_1=874") #88
 
-ggarrange(plot.conSW, plot.decSW, plot.wetwSW, plot.wetmSW, plot.pasSW, plot.araSW, plot.heaSW + rremove("x.text"), 
+ggpubr::ggarrange(plot.conSW, plot.decSW, plot.wetwSW, plot.wetmSW, plot.pasSW, plot.araSW, plot.heaSW + rremove("x.text"), 
           #labels = c("con", "dec", "wetw", "wetm", "pas", "ara", "hea", "SPD", "clim"),
           ncol = 3, nrow = 3)
 
@@ -1659,7 +1659,7 @@ if (!(paste0("mcp_heaSM.Rda") %in% list.files("./Processed_data/mcp_models/"))) 
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("hea")
-ggsave("./Plots/mcp_plots/mcp_heaSM.png")
+ggplot2::ggsave("./Plots/mcp_plots/mcp_heaSM.png")
 plot.heaSM <- plot(fit_mcp)+
   ggtitle("hea")
 hypothesis(fit_mcp, "cp_1=1100") #47
@@ -1671,7 +1671,7 @@ hypothesis(fit_mcp, "cp_1=1100") #47
 #ecpSM <- ecp_sums(ecp_area, "ecp_area")
 #plot_LCCecp(ecp_area, ecpSW, "SouthMid_ecp")
 
-ggarrange(plot.conSM, plot.decSM, plot.wetwSM, plot.wetmSM, plot.pasSM, plot.araSM, plot.heaSM + rremove("x.text"), 
+ggpubr::ggarrange(plot.conSM, plot.decSM, plot.wetwSM, plot.wetmSM, plot.pasSM, plot.araSM, plot.heaSM + rremove("x.text"), 
           #labels = c("con", "dec", "wetw", "wetm", "pas", "ara", "hea", "SPD", "clim"),
           ncol = 3, nrow = 3)
 

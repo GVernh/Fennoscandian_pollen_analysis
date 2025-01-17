@@ -82,7 +82,7 @@ write.csv(archaeological.data, file = "./Processed_data/archeological_data/archa
 
 theme_set(theme_bw()) # classic dark on light theme
 
-ggplot(data = world) +
+ggplot2::ggplot(data = world) +
   geom_sf() +
   coord_sf(xlim = c(4, 42), ylim = c(55, 71), expand = FALSE)
 
@@ -90,16 +90,16 @@ ggplot(data = world) +
 (sites <- data.frame(longitude = human.footprint$Long, latitude = human.footprint$Lat))
 (sites <- data.frame(longitude = human.withoutRussia$Long, latitude = human.withoutRussia$Lat))
 
-ggplot(data = world) +
+ggplot2::ggplot(data = world) +
   geom_sf() +
   geom_point(data = sites, aes(x = longitude, y = latitude), size = 4, 
              shape = 23, fill = "darkred") +
   coord_sf(xlim = c(4, 42), ylim = c(55, 71), expand = FALSE) +
   ggtitle("archaeological.data")
 
-ggplot(human.footprint, aes(x = Age)) +
+ggplot2::ggplot(human.footprint, aes(x = Age)) +
   geom_line(aes(y = Age, colour="red")) # GRANT:Unsure why we are plotting a variable against itself?
 
-ggplot(human.footprint, aes(x=Age, y=Lat)) + geom_point() +
+ggplot2::ggplot(human.footprint, aes(x=Age, y=Lat)) + geom_point() +
   ggtitle("archaeological.data") +
   labs(x = "Year BP",y = "Latitude")

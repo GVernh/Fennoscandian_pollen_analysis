@@ -28,7 +28,7 @@ human.footprint <- read.csv("./Processed_data/archeological_data/human.footprint
 calcurve = rep(paste0("intcal20"), nrow(human.footprint))
 
 calibrated.arch.data <- as.list.data.frame(
-  BchronCalibrate(
+  Bchron::BchronCalibrate(
     ages = human.footprint$Age,
     ageSds = human.footprint$Error,
     calCurves = calcurve,
