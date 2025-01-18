@@ -1,4 +1,4 @@
-source("./R_scripts/1_Script1_bigdf_with_familynames.R",)
+source("./R_scripts/1_Script1_bigdf_with_familynames.R")
 source("./R_scripts/2_Compute_relative_abundance.R")
 source("./R_scripts/3_archaeological_data.R")
 source("./R_scripts/4_Calibrate_archeological_data.R")

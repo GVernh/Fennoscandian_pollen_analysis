@@ -28,6 +28,7 @@ human.withoutRussia <-read.csv("./Processed_data/archeological_data/human.withou
 ### Directories ###
 dir.create(file.path("./Processed_data/", "Footprint_calibration_results"), showWarnings = FALSE)
 dir.create(file.path("./Processed_data/", "SPD_data"), showWarnings = FALSE)
+dir.create(file.path("./", "Plots"), showWarnings = FALSE)
 dir.create(file.path("./Plots/", "Null_model_plots"), showWarnings = FALSE)
 
 ### DATA WRANGLING ###
