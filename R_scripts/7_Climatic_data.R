@@ -28,6 +28,11 @@ if (lipdR_check == F) {
 invisible(library(lipdR))
 rm(list=ls())
 
+if (!(paste0("Temp12k_v1_0_0.RData") %in% list.files("./Raw_Data/"))){
+  zipF<- "./Raw_Data/Temp12k_v1_0_0.RData.zip"
+  outDir<-"./Raw_Data/"
+  unzip(zipF,exdir=outDir)
+}
 
 ### Load Data ### ----
 load("./Raw_Data/Temp12k_v1_0_0.RData")

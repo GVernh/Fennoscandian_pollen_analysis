@@ -62,7 +62,7 @@ alldataN$wetmNs <- TTR::SMA(alldataN$wetmN, n=8)
 alldataN$pasNs <- TTR::SMA(alldataN$pasN, n=7)
 alldataN$araNs <- TTR::SMA(alldataN$araN, n=2)
 alldataN$heaNs <- TTR::SMA(alldataN$heaN, n=7)
-alldataNs <- alldataN[8:nrow(alldataN),]
+alldataNs <- alldataN[8:nrow(alldataN),] # GRANT: Check this, works fine but im not sure why data is being removed
 write.csv(alldataNs, file = "./Processed_data/Full_datasets/alldataNs.csv", row.names = FALSE)
 
 #model testing VAR all dates

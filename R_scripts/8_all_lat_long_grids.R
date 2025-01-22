@@ -1,5 +1,5 @@
 ### Install/load libraries ### ----
-libs <- c("dplyr","ggplot2", "rnaturalearth", "ggspatial", "sf", "rnaturalearthdata", "rnaturalearth")
+libs <- c("dplyr","ggplot2", "rnaturalearth", "ggspatial", "sf", "rnaturalearthdata")
 
 installed_libs <- libs %in% rownames(
   installed.packages())
