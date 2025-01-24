@@ -28,7 +28,7 @@ alldataSEs <- read.csv("./Processed_data/Full_datasets/alldataSEs.csv")
 alldataSMs <- read.csv("./Processed_data/Full_datasets/alldataSMs.csv")
 alldataSWs <- read.csv("./Processed_data/Full_datasets/alldataSWs.csv")
 
-Cross_val_df <- read.csv("./Processed_data/Cross_validation/Cross_validation_results.csv")
+Cross_val_df <- read.csv("./Results/Cross_validation/Cross_validation_results.csv")
 
 # Subset: BEFORE THE ONSET OF FARMING -----
 alldataNb <- alldataNs[which(alldataNs$yearsBP >= 2500),]

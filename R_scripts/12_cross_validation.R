@@ -22,7 +22,7 @@ invisible(lapply(
 rm(list=ls())
 
 options(scipen=999)
-dir.create(file.path("./Processed_data/", "Cross_validation"), showWarnings = FALSE)
+dir.create(file.path("./Results/", "Cross_validation"), showWarnings = FALSE)
 
 # LOAD DATA ----
 alldataNs = read.csv("./Processed_data/Full_datasets/alldataNs.csv")
@@ -204,4 +204,4 @@ x <- Cross_val_df
 Cross_val_df$Lag <-gsub("lag","", Cross_val_df$Lag)
 Cross_val_df$Lag <- as.integer(Cross_val_df$Lag)
 Cross_val_df <- cbind(LCC = rownames(Cross_val_df), Cross_val_df)
-write.csv(Cross_val_df, "./Processed_data/Cross_validation/Cross_validation_results.csv", row.names = F)
+write.csv(Cross_val_df, "./Results/Cross_validation/Cross_validation_results.csv", row.names = F)
