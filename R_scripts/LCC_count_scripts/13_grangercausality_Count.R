@@ -21,14 +21,14 @@ rm(list=ls())
 dir.create(file.path("./", "Results"), showWarnings = FALSE)
 dir.create(file.path("./Results/", "Granger_causality"), showWarnings = FALSE)
 # Data ----
-alldataNs <- read.csv("./Processed_data/Full_datasets/alldataNs_abun.csv")
-alldataMMs <- read.csv("./Processed_data/Full_datasets/alldataMMs_abun.csv")
-alldataMWs <- read.csv("./Processed_data/Full_datasets/alldataMWs_abun.csv")
-alldataSEs <- read.csv("./Processed_data/Full_datasets/alldataSEs_abun.csv")
-alldataSMs <- read.csv("./Processed_data/Full_datasets/alldataSMs_abun.csv")
-alldataSWs <- read.csv("./Processed_data/Full_datasets/alldataSWs_abun.csv")
+alldataNs <- read.csv("./Processed_data/Full_datasets/alldataNs_count.csv")
+alldataMMs <- read.csv("./Processed_data/Full_datasets/alldataMMs_count.csv")
+alldataMWs <- read.csv("./Processed_data/Full_datasets/alldataMWs_count.csv")
+alldataSEs <- read.csv("./Processed_data/Full_datasets/alldataSEs_count.csv")
+alldataSMs <- read.csv("./Processed_data/Full_datasets/alldataSMs_count.csv")
+alldataSWs <- read.csv("./Processed_data/Full_datasets/alldataSWs_count.csv")
 
-Cross_val_df <- read.csv("./Results/Cross_validation/Cross_validation_results_abun.csv")
+Cross_val_df <- read.csv("./Results/Cross_validation/Cross_validation_results_count.csv")
 
 # Subset: BEFORE THE ONSET OF FARMING -----
 alldataNb <- alldataNs[which(alldataNs$yearsBP >= 2500),]
@@ -665,5 +665,5 @@ vm <- vars::VAR(alldataSMa[c("SPD", "clim", "heaSMs")], p=2)
 y = bruceR::granger_causality(varmodel = vm, var.y = "heaSMs", var.x = c("SPD", "clim"))
 results = rbind(y$result, results)
 
-write.csv(results, "./Results/Granger_causality/Granger_results_afterFarming_abun.csv", row.names = F)
+write.csv(results, "./Results/Granger_causality/Granger_results_afterFarming_count.csv", row.names = F)
 rm(results)

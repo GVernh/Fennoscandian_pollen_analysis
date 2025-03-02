@@ -18,12 +18,12 @@ invisible(lapply(
 rm(list=ls())
 
 # READ DATA ----
-alldataNs <-read.csv("./Processed_data/Full_datasets/alldataNs_abun.csv")
-alldataMMs <-read.csv("./Processed_data/Full_datasets/alldataMMs_abun.csv")
-alldataMWs <-read.csv("./Processed_data/Full_datasets/alldataMWs_abun.csv")
-alldataSEs <-read.csv("./Processed_data/Full_datasets/alldataSEs_abun.csv")
-alldataSMs <-read.csv("./Processed_data/Full_datasets/alldataSMs_abun.csv")
-alldataSWs <-read.csv("./Processed_data/Full_datasets/alldataSWs_abun.csv")
+alldataNs <-read.csv("./Processed_data/Full_datasets/alldataNs_count.csv")
+alldataMMs <-read.csv("./Processed_data/Full_datasets/alldataMMs_count.csv")
+alldataMWs <-read.csv("./Processed_data/Full_datasets/alldataMWs_count.csv")
+alldataSEs <-read.csv("./Processed_data/Full_datasets/alldataSEs_count.csv")
+alldataSMs <-read.csv("./Processed_data/Full_datasets/alldataSMs_count.csv")
+alldataSWs <-read.csv("./Processed_data/Full_datasets/alldataSWs_count.csv")
 
 dir.create(file.path("./Results/", "Plots"), showWarnings = FALSE)
 
@@ -169,7 +169,7 @@ N9 <- ggplot(heaN, aes(x=age))+
 N_all <- ggarrange(N1,N2,N3,N4,N5,N6,N7,N8,N9, 
           ncol = 1, nrow = 9)
 annotate_figure(N_all, top = text_grob("North", color = "black", face = "bold"))
-png(filename="./Results/Plots/LCC_abun/N_all.png", width = 1000, height = 1500,)
+png(filename="./Results/Plots/LCC_count/N_all.png", width = 1000, height = 1500,)
 plot(N_all)
 dev.off()
 
@@ -309,7 +309,7 @@ SE9 <- ggplot(heaSE, aes(x=age))+
 SE_all <- ggarrange(SE1,SE2,SE3,SE4,SE5,SE6,SE7,SE8,SE9, 
                    ncol = 1, nrow = 9)
 annotate_figure(SE_all, top = text_grob("SouthEast: the whole Holocene", color = "black", face = "bold"))
-png(filename="./Results/Plots/LCC_abun/SE_all.png", width = 1000, height = 1500,)
+png(filename="./Results/Plots/LCC_count/SE_all.png", width = 1000, height = 1500,)
 plot(SE_all)
 dev.off()
 
@@ -469,7 +469,7 @@ MW9 <- ggplot(heaMW, aes(x=age))+
 MW_all <- ggarrange(MW1, MW2, MW3, MW4, MW5, MW6, MW7,MW8,MW9,
                    ncol = 1, nrow = 9)
 annotate_figure(MW_all, top = text_grob("MidWest: the whole Holocene", color = "black", face = "bold"))
-png(filename="./Results/Plots/MW_all.png", width = 1000, height = 1500,)
+png(filename="./Results/Plots/LCC_count/MW_all.png", width = 1000, height = 1500,)
 plot(MW_all)
 dev.off()
 
@@ -621,7 +621,7 @@ MM9 <- ggplot(heaMM, aes(x=age))+
 MM_all <- ggarrange(MM1, MM2, MM3, MM4, MM5, MM6, MM7,MM8,MM9,
                     ncol = 1, nrow = 9)
 annotate_figure(MM_all, top = text_grob("MidMid: the whole Holocene", color = "black", face = "bold"))
-png(filename="./Results/Plots/LCC_abun/MM_all.png", width = 1000, height = 1500,)
+png(filename="./Results/Plots/LCC_count/MM_all.png", width = 1000, height = 1500,)
 plot(MM_all)
 dev.off()
 
@@ -769,7 +769,7 @@ SW9 <- ggplot(heaSW, aes(x=age))+
 SW_all <- ggarrange(SW1, SW2,SW3,SW4,SW5,SW6,SW7,SW8,SW9,
                     ncol = 1, nrow = 9)
 annotate_figure(SW_all, top = text_grob("SouthWest: the whole Holocene", color = "black", face = "bold"))
-png(filename="./Results/Plots/LCC_abun/SW_all.png", width = 1000, height = 1500,)
+png(filename="./Results/Plots/LCC_count/SW_all.png", width = 1000, height = 1500,)
 plot(SW_all)
 dev.off()
 
@@ -909,6 +909,6 @@ SM9 <- ggplot(heaSM, aes(x=age))+
 SM_all <- ggarrange(SM1, SM2,SM3,SM4,SM5,SM6,SM7,SM8,SM9,
                     ncol = 1, nrow = 9)
 annotate_figure(SM_all, top = text_grob("SouthMid: the whole Holocene", color = "black", face = "bold"))
-png(filename="./Results/Plots/LCC_abun/SM_all.png", width = 1000, height = 1500,)
+png(filename="./Results/Plots/LCC_count/SM_all.png", width = 1000, height = 1500,)
 plot(SM_all)
 dev.off()

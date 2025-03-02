@@ -32,7 +32,7 @@ dir.create(file.path("./Processed_data/", "Full_datasets"), showWarnings = FALSE
 ### NORTH
 
 ########
-merged_data_N <-read.csv("./Processed_data/LCC_data/LCC_abun/merged_data_N.csv")
+merged_data_N <-read.csv("./Processed_data/LCC_data/LCC_count/merged_data_N.csv")
 spdN <- read.csv("./Processed_data/SPD_data/spdN.csv")
 paleoviewN <- read.csv("./Processed_data/Climate/paleoviewN.csv") %>%
   dplyr::rename(calBP = Year..BP.) %>%
@@ -63,7 +63,7 @@ alldataN$pasNs <- TTR::SMA(alldataN$pasN, n=7)
 alldataN$araNs <- TTR::SMA(alldataN$araN, n=2)
 alldataN$heaNs <- TTR::SMA(alldataN$heaN, n=7)
 alldataNs <- alldataN[8:nrow(alldataN),] # GRANT: Check this, works fine but im not sure why data is being removed
-write.csv(alldataNs, file = "./Processed_data/Full_datasets/alldataNs_abun.csv", row.names = FALSE)
+write.csv(alldataNs, file = "./Processed_data/Full_datasets/alldataNs_count.csv", row.names = FALSE)
 
 #model testing VAR all dates
 vars::VARselect(alldataNs$conNs, lag.max=7, type="none") #8 7
@@ -94,7 +94,7 @@ vars::VARselect(alldataNs$heaNs, lag.max=7, type="none") #8 1
 # VARselect(alldataNa$heaNs, lag.max=7, type="none") #8
 
 ### SOUTHEAST
-merged_data_SE <-read.csv("./Processed_data/LCC_data/LCC_abun/merged_data_SE.csv")
+merged_data_SE <-read.csv("./Processed_data/LCC_data/LCC_count/merged_data_SE.csv")
 spdSE <- read.csv("./Processed_data/SPD_data/spdSE.csv")
 paleoviewSE <- read.csv("./Processed_data/Climate/paleoviewSE.csv") %>%
   dplyr::rename(calBP = Year..BP.) %>%
@@ -123,7 +123,7 @@ alldataSE$pasSEs <- TTR::SMA(alldataSE$pasSE, n=2)
 alldataSE$araSEs <- TTR::SMA(alldataSE$araSE, n=1)
 alldataSE$heaSEs <- TTR::SMA(alldataSE$heaSE, n=8)
 alldataSEs <- alldataSE[8:nrow(alldataSE),]
-write.csv(alldataSEs, file = "./Processed_data/Full_datasets/alldataSEs_abun.csv", row.names = FALSE)
+write.csv(alldataSEs, file = "./Processed_data/Full_datasets/alldataSEs_count.csv", row.names = FALSE)
 
 vars::VARselect(alldataSEs$conSEs, lag.max=7, type="none") #10 2
 vars::VARselect(alldataSEs$decSEs, lag.max=7, type="none") #10 1
@@ -135,7 +135,7 @@ vars::VARselect(alldataSEs$heaSEs, lag.max=7, type="none") #8 2
 
 
 ### MIDWEST
-merged_data_MW <-read.csv("./Processed_data/LCC_data/LCC_abun/merged_data_MW.csv")
+merged_data_MW <-read.csv("./Processed_data/LCC_data/LCC_count/merged_data_MW.csv")
 spdMW <- read.csv("./Processed_data/SPD_data/spdMW.csv")
 paleoviewMW <- read.csv("./Processed_data/Climate/paleoviewMW.csv") %>%
   dplyr::rename(calBP = Year..BP.) %>%
@@ -164,7 +164,7 @@ alldataMW$pasMWs <- TTR::SMA(alldataMW$pasMW, n=2)
 alldataMW$araMWs <- TTR::SMA(alldataMW$araMW, n=8)
 alldataMW$heaMWs <- TTR::SMA(alldataMW$heaMW, n=8)
 alldataMWs <- alldataMW[8:nrow(alldataMW),]
-write.csv(alldataMWs, file = "./Processed_data/Full_datasets/alldataMWs_abun.csv", row.names = FALSE)
+write.csv(alldataMWs, file = "./Processed_data/Full_datasets/alldataMWs_count.csv", row.names = FALSE)
 
 vars::VARselect(alldataMWs$conMWs, lag.max=7, type="none") #9 9
 vars::VARselect(alldataMWs$decMWs, lag.max=7, type="none") #8 8
@@ -177,7 +177,7 @@ vars::VARselect(alldataMWs$heaMWs, lag.max=7, type="none") #9 3
 
 ### MIDMID
 
-merged_data_MM <-read.csv("./Processed_data/LCC_data/LCC_abun/merged_data_MM.csv")
+merged_data_MM <-read.csv("./Processed_data/LCC_data/LCC_count/merged_data_MM.csv")
 spdMM <- read.csv("./Processed_data/SPD_data/spdMM.csv")
 paleoviewMM <- read.csv("./Processed_data/Climate/paleoviewMM.csv") %>%
   dplyr::rename(calBP = Year..BP.) %>%
@@ -206,7 +206,7 @@ alldataMM$pasMMs <- TTR::SMA(alldataMM$pasMM, n=3)
 alldataMM$araMMs <- TTR::SMA(alldataMM$araMM, n=5)
 alldataMM$heaMMs <- TTR::SMA(alldataMM$heaMM, n=3)
 alldataMMs <- alldataMM[8:nrow(alldataMM),]
-write.csv(alldataMMs, file = "./Processed_data/Full_datasets/alldataMMs_abun.csv", row.names = FALSE)
+write.csv(alldataMMs, file = "./Processed_data/Full_datasets/alldataMMs_count.csv", row.names = FALSE)
 
 vars::VARselect(alldataMMs$conMMs, lag.max=7, type="none") #6 1
 vars::VARselect(alldataMMs$decMMs, lag.max=7, type="none") #4 1
@@ -218,7 +218,7 @@ vars::VARselect(alldataMMs$heaMMs, lag.max=7, type="none") #6 6
 
 
 ### SOUTHWEST
-merged_data_SW <-read.csv("./Processed_data/LCC_data/LCC_abun/merged_data_SW.csv")
+merged_data_SW <-read.csv("./Processed_data/LCC_data/LCC_count/merged_data_SW.csv")
 spdSW <- read.csv("./Processed_data/SPD_data/spdSW.csv")
 paleoviewSW <- read.csv("./Processed_data/Climate/paleoviewSW.csv") %>%
   dplyr::rename(calBP = Year..BP.) %>%
@@ -247,7 +247,7 @@ alldataSW$pasSWs <- TTR::SMA(alldataSW$pasSW, n=2)
 alldataSW$araSWs <- TTR::SMA(alldataSW$araSW, n=2)
 alldataSW$heaSWs <- TTR::SMA(alldataSW$heaSW, n=2)
 alldataSWs <- alldataSW[8:nrow(alldataSW),]
-write.csv(alldataSWs, file = "./Processed_data/Full_datasets/alldataSWs_abun.csv", row.names = FALSE)
+write.csv(alldataSWs, file = "./Processed_data/Full_datasets/alldataSWs_count.csv", row.names = FALSE)
 
 vars::VARselect(alldataSWs$conSWs, lag.max=7, type="none") #10 5
 vars::VARselect(alldataSWs$decSWs, lag.max=7, type="none") #7 3
@@ -259,7 +259,7 @@ vars::VARselect(alldataSWs$heaSWs, lag.max=7, type="none") #4 4
 
 
 ### SOUTHMID
-merged_data_SM <-read.csv("./Processed_data/LCC_data/LCC_abun/merged_data_SM.csv")
+merged_data_SM <-read.csv("./Processed_data/LCC_data/LCC_count/merged_data_SM.csv")
 spdSM <- read.csv("./Processed_data/SPD_data/spdSM.csv")
 paleoviewSM <- read.csv("./Processed_data/Climate/paleoviewSM.csv") %>%
   dplyr::rename(calBP = Year..BP.) %>%
@@ -288,7 +288,7 @@ alldataSM$pasSMs <- TTR::SMA(alldataSM$pasSM, n=6)
 alldataSM$araSMs <- TTR::SMA(alldataSM$araSM, n=2)
 alldataSM$heaSMs <- TTR::SMA(alldataSM$heaSM, n=2)
 alldataSMs <- alldataSM[8:nrow(alldataSM),]
-write.csv(alldataSMs, file = "./Processed_data/Full_datasets/alldataSMs_abun.csv", row.names = FALSE)
+write.csv(alldataSMs, file = "./Processed_data/Full_datasets/alldataSMs_count.csv", row.names = FALSE)
 
 vars::VARselect(alldataSMs$conSMs, lag.max=7, type="none") #9 1
 vars::VARselect(alldataSMs$decSMs, lag.max=7, type="none") #7 7

@@ -25,12 +25,12 @@ options(scipen=999)
 dir.create(file.path("./Results/", "Cross_validation"), showWarnings = FALSE)
 
 # LOAD DATA ----
-alldataNs = read.csv("./Processed_data/Full_datasets/alldataNs_abun.csv")
-alldataMMs = read.csv("./Processed_data/Full_datasets/alldataMMs_abun.csv")
-alldataMWs = read.csv("./Processed_data/Full_datasets/alldataMWs_abun.csv")
-alldataSEs = read.csv("./Processed_data/Full_datasets/alldataSEs_abun.csv")
-alldataSMs = read.csv("./Processed_data/Full_datasets/alldataSMs_abun.csv")
-alldataSWs = read.csv("./Processed_data/Full_datasets/alldataSWs_abun.csv")
+alldataNs = read.csv("./Processed_data/Full_datasets/alldataNs_count.csv")
+alldataMMs = read.csv("./Processed_data/Full_datasets/alldataMMs_count.csv")
+alldataMWs = read.csv("./Processed_data/Full_datasets/alldataMWs_count.csv")
+alldataSEs = read.csv("./Processed_data/Full_datasets/alldataSEs_count.csv")
+alldataSMs = read.csv("./Processed_data/Full_datasets/alldataSMs_count.csv")
+alldataSWs = read.csv("./Processed_data/Full_datasets/alldataSWs_count.csv")
 
 # Subset: BEFORE THE ONSET OF FARMING -----
 alldataNb <- alldataNs[which(alldataNs$yearsBP >= 2500),]
@@ -204,4 +204,4 @@ x <- Cross_val_df
 Cross_val_df$Lag <-gsub("lag","", Cross_val_df$Lag)
 Cross_val_df$Lag <- as.integer(Cross_val_df$Lag)
 Cross_val_df <- cbind(LCC = rownames(Cross_val_df), Cross_val_df)
-write.csv(Cross_val_df, "./Results/Cross_validation/Cross_validation_results_abun.csv", row.names = F)
+write.csv(Cross_val_df, "./Results/Cross_validation/Cross_validation_results_count.csv", row.names = F)

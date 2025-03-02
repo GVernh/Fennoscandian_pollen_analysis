@@ -28,20 +28,20 @@ source("./Functions/sqrt_sums.R")
 source("./Functions/makeIncrements_singleLCC.R")
 
 #-DATA ----
-coniferous_woodland <- read.csv("./Processed_data/LCC_data/LCC_abun/coniferous_woodland_abun.csv")
-deciduous_woodland <- read.csv("./Processed_data/LCC_data/LCC_abun/deciduous_woodland_abun.csv")
-wet_woodland <- read.csv("./Processed_data/LCC_data/LCC_abun/wet_woodland_abun.csv")
-wet_meadow <- read.csv("./Processed_data/LCC_data/LCC_abun/wet_meadow_abun.csv")
-pasture <- read.csv("./Processed_data/LCC_data/LCC_abun/pasture_abun.csv") 
-arable <- read.csv("./Processed_data/LCC_data/LCC_abun/arable_abun.csv") 
-heath <- read.csv("./Processed_data/LCC_data/LCC_abun/heath_abun.csv")
+coniferous_woodland <- read.csv("./Processed_data/LCC_data/LCC_count/coniferous_woodland.csv")
+deciduous_woodland <- read.csv("./Processed_data/LCC_data/LCC_count/deciduous_woodland.csv")
+wet_woodland <- read.csv("./Processed_data/LCC_data/LCC_count/wet_woodland.csv")
+wet_meadow <- read.csv("./Processed_data/LCC_data/LCC_count/wet_meadow.csv")
+pasture <- read.csv("./Processed_data/LCC_data/LCC_count/pasture.csv")
+arable <- read.csv("./Processed_data/LCC_data/LCC_count/arable.csv")
+heath <- read.csv("./Processed_data/LCC_data/LCC_count/heath.csv")
 
 ### Create directories ###
-dir.create(file.path("./Processed_data/LCC_data/LCC_abun/", "mcp_models"), showWarnings = FALSE)
+dir.create(file.path("./Processed_data/LCC_data/LCC_count/", "mcp_models"), showWarnings = FALSE)
 dir.create(file.path("./", "Results"), showWarnings = FALSE)
 dir.create(file.path("./Results/", "Plots"), showWarnings = FALSE)
-dir.create(file.path("./Results/Plots/", "LCC_abun"), showWarnings = FALSE)
-dir.create(file.path("./Results/Plots/LCC_abun/", "mcp_plots"), showWarnings = FALSE)
+dir.create(file.path("./Results/Plots/", "LCC_count"), showWarnings = FALSE)
+dir.create(file.path("./Results/Plots/LCC_count/", "mcp_plots"), showWarnings = FALSE)
 
 #-NORTH -------------------------------------------------------------------------
 # total nr sites: 18
@@ -57,9 +57,9 @@ conN_dat =  coniferousN_int %>%
   dplyr::select(c("lower_ends", "conN")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>1300 & calBP<9800)
-write.csv(conN_dat, "./Processed_data/LCC_data/LCC_abun/conN.csv", row.names = F)
+write.csv(conN_dat, "./Processed_data/LCC_data/LCC_count/conN.csv", row.names = F)
 
-if (!(paste0("mcp_ConN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_ConN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=coniferousN_int$lower_ends, LCC=conN) #LCC = PinusPiceaN or conN
   #plot(mcp_area)
   #ggplot(mcp_area, aes(x=age, y=LCC))+
@@ -73,15 +73,15 @@ if (!(paste0("mcp_ConN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 100000, sample = "both", iter = 50000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_ConN.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_ConN.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_ConN.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_ConN.Rda")
 }
 
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("con")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_ConN.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_ConN.png")
 plot.conN <- plot(fit_mcp)+
   ggtitle("con")
 hypothesis(fit_mcp, "cp_1>5995") #20
@@ -100,9 +100,9 @@ decN_dat =  deciduousN_int %>%
   dplyr::select(c("lower_ends", "decN")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>1300 & calBP<9800)
-write.csv(decN_dat, "./Processed_data/LCC_data/LCC_abun/decN.csv", row.names = F)
+write.csv(decN_dat, "./Processed_data/LCC_data/LCC_count/decN.csv", row.names = F)
 
-if (!(paste0("mcp_decN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_decN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=deciduousN_int$lower_ends, LCC=decN)
   plot(mcp_area)
   # count sites
@@ -112,15 +112,15 @@ if (!(paste0("mcp_decN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 100000, sample = "both", iter = 20000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_decN.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_decN.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_decN.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_decN.Rda")
 }
 
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("dec")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_decN.png")
+ggsave("./Results/Plots/LCC_count/mcp_decN.png")
 plot.decN <- plot(fit_mcp)+
   ggtitle("dec")
 #NO CP'S
@@ -136,9 +136,9 @@ wetwN_dat =  wetwoodlandN_int %>%
   dplyr::select(c("lower_ends", "wetwN")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>1300 & calBP<9800)
-write.csv(wetwN_dat, "./Processed_data/LCC_data/LCC_abun/wetwN.csv", row.names = F)
+write.csv(wetwN_dat, "./Processed_data/LCC_data/LCC_count/wetwN.csv", row.names = F)
 
-if (!(paste0("mcp_wetwN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_wetwN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=wetwoodlandN_int$lower_ends, LCC=wetwN)
   plot(mcp_area)
   # count sites
@@ -148,14 +148,14 @@ if (!(paste0("mcp_wetwN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetwN.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetwN.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetwN.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetwN.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("wetw")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_wetwN.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_wetwN.png")
 plot.wetwN <- plot(fit_mcp)+
   ggtitle("wetw")
 hypothesis(fit_mcp, "cp_1=5477") #53 #5244
@@ -172,9 +172,9 @@ wetmN_dat =  wetmeadowN_int %>%
   dplyr::select(c("lower_ends", "wetmN")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>1300 & calBP<9800)
-write.csv(wetmN_dat, "./Processed_data/LCC_data/LCC_abun/wetmN.csv", row.names = F)
+write.csv(wetmN_dat, "./Processed_data/LCC_data/LCC_count/wetmN.csv", row.names = F)
 
-if (!(paste0("mcp_wetmN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_wetmN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=wetmeadowN_int$lower_ends, LCC=wetmN)
   plot(mcp_area)
   # count sites
@@ -184,14 +184,14 @@ if (!(paste0("mcp_wetmN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetmN.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetmN.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetmN.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetmN.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("wetm")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_wetmN.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_wetmN.png")
 plot.wetmN <- plot(fit_mcp)+
   ggtitle("wetm")
 #NO CP. inclining
@@ -207,9 +207,9 @@ pasN_dat =  pastureN_int %>%
   dplyr::select(c("lower_ends", "pasN")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>1300 & calBP<9800)
-write.csv(pasN_dat, "./Processed_data/LCC_data/LCC_abun/pasN.csv", row.names = F)
+write.csv(pasN_dat, "./Processed_data/LCC_data/LCC_count/pasN.csv", row.names = F)
 
-if (!(paste0("mcp_pasN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_pasN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=pastureN_int$lower_ends, LCC=pasN)
   plot(mcp_area)
   # count sites
@@ -219,14 +219,14 @@ if (!(paste0("mcp_pasN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_pasN.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_pasN.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_pasN.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_pasN.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("pas")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_pasN.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_pasN.png")
 plot.pasN <- plot(fit_mcp)+
   ggtitle("pas")
 hypothesis(fit_mcp, "cp_1=7057") #6
@@ -242,9 +242,9 @@ araN_dat =  arableN_int %>%
   dplyr::select(c("lower_ends", "araN")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>1300 & calBP<9800)
-write.csv(araN_dat, "./Processed_data/LCC_data/LCC_abun/araN.csv", row.names = F)
+write.csv(araN_dat, "./Processed_data/LCC_data/LCC_count/araN.csv", row.names = F)
 
-if (!(paste0("mcp_araN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_araN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=arableN_int$lower_ends, LCC=araN)
   mcp_area <- mcp_area[28:nrow(mcp_area),] #until 7000BP
   plot(mcp_area)
@@ -255,14 +255,14 @@ if (!(paste0("mcp_araN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 100000, sample = "both", iter = 50000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_araN.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_araN.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_araN.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_araN.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("ara")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_araN.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_araN.png")
 plot.araN <- plot(fit_mcp)+
   ggtitle("ara")
 hypothesis(fit_mcp, "cp_1=2207") #2
@@ -279,9 +279,9 @@ heaN_dat =  heathN_int %>%
   dplyr::select(c("lower_ends", "heaN")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>1300 & calBP<9800)
-write.csv(heaN_dat, "./Processed_data/LCC_data/LCC_abun/heaN.csv", row.names = F)
+write.csv(heaN_dat, "./Processed_data/LCC_data/LCC_count/heaN.csv", row.names = F)
 
-if (!(paste0("mcp_heaN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_heaN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=heathN_int$lower_ends, LCC=heaN)
   plot(mcp_area)
   # count sites
@@ -291,14 +291,14 @@ if (!(paste0("mcp_heaN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_heaN.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_heaN.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_heaN.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_heaN.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp) +
   ggtitle("hea")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_heaN.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_heaN.png")
 plot.heaN <- plot(fit_mcp)+
   ggtitle("hea")
 #NO CP
@@ -307,7 +307,7 @@ plot.heaN <- plot(fit_mcp)+
 ggpubr::ggarrange(plot.conN, plot.decN, plot.wetwN, plot.wetmN, plot.pasN, plot.araN, plot.heaN + rremove("x.text"), 
           ncol = 3, nrow = 3)
 # plot.spd_mcp, plot.climN # These wore included in the above plot but never defined
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_allN.png", width = 11, height = 9)
+ggsave("./Plots/mcp_plots/mcp_allN.png", width = 11, height = 9)
 Full_list_N = list(conN_dat, decN_dat, wetwN_dat, wetmN_dat, pasN_dat, araN_dat, heaN_dat)
 
 #ecp
@@ -335,9 +335,9 @@ conSE_dat =  coniferousSE_int %>%
   dplyr::select(c("lower_ends", "conSE")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>400 & calBP<9800)
-write.csv(conSE_dat, "./Processed_data/LCC_data/LCC_abun/conSE.csv", row.names = F)
+write.csv(conSE_dat, "./Processed_data/LCC_data/LCC_count/conSE.csv", row.names = F)
 
-if (!(paste0("mcp_conSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_conSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=coniferousSE_int$lower_ends, LCC=conSE)
   plot(mcp_area)
   # count sites
@@ -347,14 +347,14 @@ if (!(paste0("mcp_conSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 100000, sample = "both", iter = 50000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_conSE.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_conSE.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_conSE.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_conSE.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("con")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_ConSE.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_ConSE.png")
 plot.conSE <- plot(fit_mcp)+
   ggtitle("con")
 hypothesis(fit_mcp, "cp_1=4859") #7
@@ -370,9 +370,9 @@ decSE_dat =  deciduousSE_int %>%
   dplyr::select(c("lower_ends", "decSE")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>400 & calBP<9800)
-write.csv(decSE_dat, "./Processed_data/LCC_data/LCC_abun/decSE.csv", row.names = F)
+write.csv(decSE_dat, "./Processed_data/LCC_data/LCC_count/decSE.csv", row.names = F)
 
-if (!(paste0("mcp_decSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_decSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=deciduousSE_int$lower_ends, LCC=decSE)
   plot(mcp_area)
   # count sites
@@ -382,14 +382,14 @@ if (!(paste0("mcp_decSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_decSE.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_decSE.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_decSE.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_decSE.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("dec")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_decSE.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_decSE.png")
 plot.decSE <- plot(fit_mcp)+
   ggtitle("dec")
 hypothesis(fit_mcp, "cp_1=4553") #62
@@ -405,10 +405,10 @@ wetwSE_dat =  wetwoodlandSE_int %>%
   dplyr::select(c("lower_ends", "wetwSE")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>400 & calBP<9800)
-write.csv(wetwSE_dat, "./Processed_data/LCC_data/LCC_abun/wetwSE.csv", row.names = F)
+write.csv(wetwSE_dat, "./Processed_data/LCC_data/LCC_count/wetwSE.csv", row.names = F)
 
 mcp_area <- data.frame(age=wetwoodlandSE_int$lower_ends, LCC=wetwSE)
-if (!(paste0("mcp_wetwSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_wetwSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   plot(mcp_area)
   # count sites
   count <- countSitesPerInterval(wetwoodlandSE, 100)
@@ -417,24 +417,24 @@ if (!(paste0("mcp_wetwSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_ab
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetwSE.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetwSE.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetwSE.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetwSE.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("wetw")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_wetw.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_wetw.png")
 plot.wetwSE <- plot(fit_mcp)+
   ggtitle("wetw")
 hypothesis(fit_mcp, "cp_1=650") #114
 
-if (!(paste0("mcp_wetwSE2.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_wetwSE2.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   model = list(LCC~1+age, ~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 100000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetwSE2.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetwSE2.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetwSE2.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetwSE2.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)
@@ -452,9 +452,9 @@ wetmSE_dat =  wetmeadowSE_int %>%
   dplyr::select(c("lower_ends", "wetmSE")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>400 & calBP<9800)
-write.csv(wetmSE_dat, "./Processed_data/LCC_data/LCC_abun/wetmSE.csv", row.names = F)
+write.csv(wetmSE_dat, "./Processed_data/LCC_data/LCC_count/wetmSE.csv", row.names = F)
 
-if (!(paste0("mcp_wetmSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_wetmSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=wetmeadowSE_int$lower_ends, LCC=wetmSE)
   #?mcp_area <- mcp_area[c(6:95),] #because there are some very high counts to the end
   plot(mcp_area)
@@ -466,15 +466,15 @@ if (!(paste0("mcp_wetmSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_ab
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetmSE.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetmSE.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetmSE.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetmSE.Rda")
 }
 
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("wetm")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_wetmSE.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_wetmSE.png")
 plot.wetmSE <- plot(fit_mcp)+
   ggtitle("wetm")
 hypothesis(fit_mcp, "cp_1=1447") #46
@@ -490,9 +490,9 @@ pasSE_dat =  pastureSE_int %>%
   dplyr::select(c("lower_ends", "pasSE")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>400 & calBP<9800)
-write.csv(pasSE_dat, "./Processed_data/LCC_data/LCC_abun/pasSE.csv", row.names = F)
+write.csv(pasSE_dat, "./Processed_data/LCC_data/LCC_count/pasSE.csv", row.names = F)
 
-if (!(paste0("mcp_pasSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_pasSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=pastureSE_int$lower_ends, LCC=pasSE)
   # count sites
   count <- countSitesPerInterval(pastureSE, 100)
@@ -501,15 +501,15 @@ if (!(paste0("mcp_pasSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age, ~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_pasSE.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_pasSE.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_pasSE.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_pasSE.Rda")
 }
 
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("pas")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_pasSE.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_pasSE.png")
 plot.pasSE <- plot(fit_mcp)+
   ggtitle("pas")
 hypothesis(fit_mcp, "cp_1=645") #45
@@ -527,9 +527,9 @@ araSE_dat =  arableSE_int %>%
   dplyr::select(c("lower_ends", "araSE")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>400 & calBP<9800)
-write.csv(araSE_dat, "./Processed_data/LCC_data/LCC_abun/araSE.csv", row.names = F)
+write.csv(araSE_dat, "./Processed_data/LCC_data/LCC_count/araSE.csv", row.names = F)
 
-if (!(paste0("mcp_araSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_araSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=arableSE_int$lower_ends, LCC=araSE)
   mcp_area <- mcp_area[28:nrow(mcp_area),]
   plot(mcp_area)
@@ -541,14 +541,14 @@ if (!(paste0("mcp_araSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 100000, sample = "both", iter = 50000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_araSE.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_araSE.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_araSE.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_araSE.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("ara")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_araSE.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_araSE.png")
 plot.araSE <- plot(fit_mcp)+
   ggtitle("ara")
 hypothesis(fit_mcp, "cp_1=650") #69
@@ -565,9 +565,9 @@ heaSE_dat =  heathSE_int %>%
   dplyr::select(c("lower_ends", "heaSE")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>400 & calBP<9800)
-write.csv(heaSE_dat, "./Processed_data/LCC_data/LCC_abun/heaSE.csv", row.names = F)
+write.csv(heaSE_dat, "./Processed_data/LCC_data/LCC_count/heaSE.csv", row.names = F)
 
-if (!(paste0("mcp_heaSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_heaSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=heathSE_int$lower_ends, LCC=heaSE)
   plot(mcp_area)
   # count sites
@@ -577,15 +577,15 @@ if (!(paste0("mcp_heaSE.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_heaSE.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_heaSE.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_heaSE.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_heaSE.Rda")
 }
 
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("hea")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_heaSE.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_heaSE.png")
 plot.heaSE <- plot(fit_mcp)+
   ggtitle("hea")
 # NO CP
@@ -617,9 +617,9 @@ conMW_dat =  coniferousMW_int %>%
   dplyr::select(c("lower_ends", "conMW")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(conMW_dat, "./Processed_data/LCC_data/LCC_abun/conMW.csv", row.names = F)
+write.csv(conMW_dat, "./Processed_data/LCC_data/LCC_count/conMW.csv", row.names = F)
 
-if (!(paste0("mcp_conMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_conMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=coniferousMW_int$lower_ends, LCC=conMW)
   plot(mcp_area)
   # count sites
@@ -629,14 +629,14 @@ if (!(paste0("mcp_conMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_conMW.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_conMW.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_conMW.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_conMW.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("con")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_conMW.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_conMW.png")
 plot.conMW <- plot(fit_mcp)+
   ggtitle("con")
 # NO CP
@@ -652,9 +652,9 @@ decMW_dat =  deciduousMW_int %>%
   dplyr::select(c("lower_ends", "decMW")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(decMW_dat, "./Processed_data/LCC_data/LCC_abun/decMW.csv", row.names = F)
+write.csv(decMW_dat, "./Processed_data/LCC_data/LCC_count/decMW.csv", row.names = F)
 
-if (!(paste0("mcp_decMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_decMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=deciduousMW_int$lower_ends, LCC=decMW)
   plot(mcp_area)
   # count sites
@@ -664,14 +664,14 @@ if (!(paste0("mcp_decMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_decMW.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_decMW.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_decMW.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_decMW.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("dec")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_decMW.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_decMW.png")
 plot.decMW <- plot(fit_mcp)+
   ggtitle("dec")
 hypothesis(fit_mcp, "cp_1=6786") #1
@@ -687,9 +687,9 @@ wetwMW_dat =  wetwoodlandMW_int %>%
   dplyr::select(c("lower_ends", "wetwMW")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(wetwMW_dat, "./Processed_data/LCC_data/LCC_abun/wetwMW.csv", row.names = F)
+write.csv(wetwMW_dat, "./Processed_data/LCC_data/LCC_count/wetwMW.csv", row.names = F)
 
-if (!(paste0("mcp_wetwMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_wetwMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=wetwoodlandMW_int$lower_ends, LCC=wetwMW)
   plot(mcp_area)
   # count sites
@@ -699,14 +699,14 @@ if (!(paste0("mcp_wetwMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_ab
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetwMW.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetwMW.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetwMW.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetwMW.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("wetw")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_wetwMW.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_wetwMW.png")
 plot.wetwMW <- plot(fit_mcp)+
   ggtitle("wetw")
 hypothesis(fit_mcp, "cp_1=6286") #13
@@ -723,9 +723,9 @@ wetmMW_dat =  wetmeadowMW_int %>%
   dplyr::select(c("lower_ends", "wetmMW")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(wetmMW_dat, "./Processed_data/LCC_data/LCC_abun/wetmMW.csv", row.names = F)
+write.csv(wetmMW_dat, "./Processed_data/LCC_data/LCC_count/wetmMW.csv", row.names = F)
 
-if (!(paste0("mcp_wetmMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_wetmMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=wetmeadowMW_int$lower_ends, LCC=wetmMW)
   plot(mcp_area)
   # count sites
@@ -735,14 +735,14 @@ if (!(paste0("mcp_wetmMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_ab
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetmMW.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetmMW.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetmMW.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetmMW.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("wetm")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_wetmMW.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_wetmMW.png")
 plot.wetmMW <- plot(fit_mcp)+
   ggtitle("wetm")
 hypothesis(fit_mcp, "cp_1=4167") #43
@@ -758,9 +758,9 @@ pasMW_dat =  pastureMW_int %>%
   dplyr::select(c("lower_ends", "pasMW")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(pasMW_dat, "./Processed_data/LCC_data/LCC_abun/pasMW.csv", row.names = F)
+write.csv(pasMW_dat, "./Processed_data/LCC_data/LCC_count/pasMW.csv", row.names = F)
 
-if (!(paste0("mcp_pasMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_pasMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=pastureMW_int$lower_ends, LCC=pasMW)
   plot(mcp_area)
   # count sites
@@ -770,14 +770,14 @@ if (!(paste0("mcp_pasMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 100000, sample = "both", iter = 50000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_pasMW.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_pasMW.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_pasMW.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_pasMW.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("pas")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_pasMW.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_pasMW.png")
 plot.pasMW <- plot(fit_mcp)+
   ggtitle("pas")
 hypothesis(fit_mcp, "cp_1=1401") #45
@@ -793,9 +793,9 @@ araMW_dat =  arableMW_int %>%
   dplyr::select(c("lower_ends", "araMW")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(araMW_dat, "./Processed_data/LCC_data/LCC_abun/araMW.csv", row.names = F)
+write.csv(araMW_dat, "./Processed_data/LCC_data/LCC_count/araMW.csv", row.names = F)
 
-if (!(paste0("mcp_araMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_araMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=arableMW_int$lower_ends, LCC=araMW)
   mcp_area <- mcp_area[28:nrow(mcp_area),]
   plot(mcp_area)
@@ -807,14 +807,14 @@ if (!(paste0("mcp_araMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_araMW.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_araMW.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_araMW.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_araMW.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("ara")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_araMW.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_araMW.png")
 plot.araMW <- plot(fit_mcp)+
   ggtitle("ara")
 hypothesis(fit_mcp, "cp_1=2640") #5
@@ -831,9 +831,9 @@ heaMW_dat =  heathMW_int %>%
   dplyr::select(c("lower_ends", "heaMW")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(heaMW_dat, "./Processed_data/LCC_data/LCC_abun/heaMW.csv", row.names = F)
+write.csv(heaMW_dat, "./Processed_data/LCC_data/LCC_count/heaMW.csv", row.names = F)
 
-if (!(paste0("mcp_heaMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_heaMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=heathMW_int$lower_ends, LCC=heaMW)
   plot(mcp_area)
   # count sites
@@ -843,14 +843,14 @@ if (!(paste0("mcp_heaMW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_heaMW.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_heaMW.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_heaMW.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_heaMW.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("hea")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_heaMW.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_heaMW.png")
 plot.heaMW <- plot(fit_mcp)+
   ggtitle("hea")
 # NO CP. increasing
@@ -882,9 +882,9 @@ conMM_dat =  coniferousMM_int %>%
   dplyr::select(c("lower_ends", "conMM")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(conMM_dat, "./Processed_data/LCC_data/LCC_abun/LCC_data/conMM.csv", row.names = F)
+write.csv(conMM_dat, "./Processed_data/LCC_data/LCC_count/conMM.csv", row.names = F)
 
-if (!(paste0("mcp_conMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_conMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=coniferousMM_int$lower_ends, LCC=conMM)
   plot(mcp_area)
   # count sites
@@ -894,14 +894,14 @@ if (!(paste0("mcp_conMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_conMM.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_conMM.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_conMM.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_conMM.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("con")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_conMM.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_conMM.png")
 plot.conMM <- plot(fit_mcp)+
   ggtitle("con")
 hypothesis(fit_mcp, "cp_1=4190") #59
@@ -917,9 +917,9 @@ decMM_dat =  deciduousMM_int %>%
   dplyr::select(c("lower_ends", "decMM")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(decMM_dat, "./Processed_data/LCC_data/LCC_abun/decMM.csv", row.names = F)
+write.csv(decMM_dat, "./Processed_data/LCC_data/LCC_count/decMM.csv", row.names = F)
 
-if (!(paste0("mcp_decMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_decMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=deciduousMM_int$lower_ends, LCC=decMM)
   plot(mcp_area)
   # count sites
@@ -929,14 +929,14 @@ if (!(paste0("mcp_decMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_decMM.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_decMM.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_decMM.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_decMM.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("dec")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_decMM.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_decMM.png")
 plot.decMM <- plot(fit_mcp)+
   ggtitle("dec")
 hypothesis(fit_mcp, "cp_1=2587") #18
@@ -952,9 +952,9 @@ wetwMM_dat =  wetwoodlandMM_int %>%
   dplyr::select(c("lower_ends", "wetwMM")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(wetwMM_dat, "./Processed_data/LCC_data/LCC_abun/wetwMM.csv", row.names = F)
+write.csv(wetwMM_dat, "./Processed_data/LCC_data/LCC_count/wetwMM.csv", row.names = F)
 
-if (!(paste0("mcp_wetwMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_wetwMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=wetwoodlandMM_int$lower_ends, LCC=wetwMM)
   plot(mcp_area)
   # count sites
@@ -964,14 +964,14 @@ if (!(paste0("mcp_wetwMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_ab
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 100000, sample = "both", iter = 50000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetwMM.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetwMM.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetwMM.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetwMM.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("wetw")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_wetwMM.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_wetwMM.png")
 plot.wetwMM <- plot(fit_mcp)+
   ggtitle("wetw")
 hypothesis(fit_mcp, "cp_1=9161") #17
@@ -987,9 +987,9 @@ wetmMM_dat =  wetmeadowMM_int %>%
   dplyr::select(c("lower_ends", "wetmMM")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(wetmMM_dat, "./Processed_data/LCC_data/LCC_abun/wetmMM.csv", row.names = F)
+write.csv(wetmMM_dat, "./Processed_data/LCC_data/LCC_count/wetmMM.csv", row.names = F)
 
-if (!(paste0("mcp_wetmMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_wetmMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=wetmeadowMM_int$lower_ends, LCC=wetmMM)
   plot(mcp_area)
   # count sites
@@ -999,14 +999,14 @@ if (!(paste0("mcp_wetmMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_ab
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 100000, sample = "both", iter = 50000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetmMM.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetmMM.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetmMM.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetmMM.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("wetm")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_wetmMM.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_wetmMM.png")
 plot.wetmMM <- plot(fit_mcp)+
   ggtitle("wetm")
 hypothesis(fit_mcp, "cp_1=1448") #23
@@ -1024,9 +1024,9 @@ pasMM_dat =  pastureMM_int %>%
   dplyr::select(c("lower_ends", "pasMM")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(pasMM_dat, "./Processed_data/LCC_data/LCC_abun/pasMM.csv", row.names = F)
+write.csv(pasMM_dat, "./Processed_data/LCC_data/LCC_count/pasMM.csv", row.names = F)
 
-if (!(paste0("mcp_wetmMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_wetmMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=pastureMM_int$lower_ends, LCC=pasMM)
   plot(mcp_area)
   # count sites
@@ -1036,14 +1036,14 @@ if (!(paste0("mcp_wetmMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_ab
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetmMM.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetmMM.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetmMM.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetmMM.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("pas")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_pasMM.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_pasMM.png")
 plot.pasMM <- plot(fit_mcp)+
   ggtitle("pas")
 hypothesis(fit_mcp, "cp_1=3179") #7
@@ -1059,9 +1059,9 @@ araMM_dat =  arableMM_int %>%
   dplyr::select(c("lower_ends", "araMM")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(araMM_dat, "./Processed_data/LCC_data/LCC_abun/araMM.csv", row.names = F)
+write.csv(araMM_dat, "./Processed_data/LCC_data/LCC_count/araMM.csv", row.names = F)
 
-if (!(paste0("mcp_araMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_araMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=arableMM_int$lower_ends, LCC=araMM)
   mcp_area <- mcp_area[28:nrow(mcp_area),]
   plot(mcp_area)
@@ -1073,14 +1073,14 @@ if (!(paste0("mcp_araMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_araMM.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_araMM.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_araMM.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_araMM.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("ara")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_araMM.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_araMM.png")
 plot.araMM <- plot(fit_mcp)+
   ggtitle("ara")
 hypothesis(fit_mcp, "cp_1=1937") #7
@@ -1097,9 +1097,9 @@ heaMM_dat =  heathMM_int %>%
   dplyr::select(c("lower_ends", "heaMM")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(heaMM_dat, "./Processed_data/LCC_data/LCC_abun/heaMM.csv", row.names = F)
+write.csv(heaMM_dat, "./Processed_data/LCC_data/LCC_count/heaMM.csv", row.names = F)
 
-if (!(paste0("mcp_heaMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_heaMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=heathMM_int$lower_ends, LCC=heaMM)
   plot(mcp_area)
   # count sites
@@ -1109,14 +1109,14 @@ if (!(paste0("mcp_heaMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age, ~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_heaMM.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_heaMM.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_heaMM.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_heaMM.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("hea")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_heaMM.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_heaMM.png")
 plot.heaMM <- plot(fit_mcp)+
   ggtitle("hea")
 hypothesis(fit_mcp, "cp_1=451") #66
@@ -1150,9 +1150,9 @@ conSW_dat =  coniferousSW_int %>%
   dplyr::select(c("lower_ends", "conSW")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(conSW_dat, "./Processed_data/LCC_data/LCC_abun/conSW.csv", row.names = F)
+write.csv(conSW_dat, "./Processed_data/LCC_data/LCC_count/conSW.csv", row.names = F)
 
-if (!(paste0("mcp_conSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_conSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=coniferousSW_int$lower_ends, LCC=conSW)
   plot(mcp_area)
   # count sites
@@ -1162,14 +1162,14 @@ if (!(paste0("mcp_conSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 5000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_conSW.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_conSW.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_conSW.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_conSW.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("con")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_conSW.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_conSW.png")
 plot.conSW <- plot(fit_mcp)+
   ggtitle("con")
 #hypothesis(fit_mcp, "cp_1=6056") # no cp
@@ -1185,9 +1185,9 @@ decSW_dat =  deciduousSW_int %>%
   dplyr::select(c("lower_ends", "decSW")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(decSW_dat, "./Processed_data/LCC_data/LCC_abun/decSW.csv", row.names = F)
+write.csv(decSW_dat, "./Processed_data/LCC_data/LCC_count/decSW.csv", row.names = F)
 
-if (!(paste0("mcp_decSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_decSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=deciduousSW_int$lower_ends, LCC=decSW)
   plot(mcp_area)
   # count sites
@@ -1197,14 +1197,14 @@ if (!(paste0("mcp_decSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 5000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_decSW.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_decSW.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_decSW.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_decSW.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("dec")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_decSW.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_decSW.png")
 plot.decSW <- plot(fit_mcp)+
   ggtitle("dec")
 #hypothesis(fit_mcp, "cp_1=5433") #1
@@ -1220,9 +1220,9 @@ wetwSW_dat =  wetwoodlandSW_int %>%
   dplyr::select(c("lower_ends", "wetwSW")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(wetwSW_dat, "./Processed_data/LCC_data/LCC_abun/wetwSW.csv", row.names = F)
+write.csv(wetwSW_dat, "./Processed_data/LCC_data/LCC_count/wetwSW.csv", row.names = F)
 
-if (!(paste0("mcp_wetwSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_wetwSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=wetwoodlandSW_int$lower_ends, LCC=wetwSW)
   plot(mcp_area)
   # count sites
@@ -1232,14 +1232,14 @@ if (!(paste0("mcp_wetwSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_ab
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetwSW.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetwSW.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetwSW.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetwSW.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("wetw")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_wetwSW.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_wetwSW.png")
 plot.wetwSW <- plot(fit_mcp)+
   ggtitle("wetw")
 hypothesis(fit_mcp, "cp_1=5548") #6
@@ -1256,9 +1256,9 @@ wetmSW_dat =  wetmeadowSW_int %>%
   dplyr::select(c("lower_ends", "wetmSW")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(wetmSW_dat, "./Processed_data/LCC_data/LCC_abun/wetmSW.csv", row.names = F)
+write.csv(wetmSW_dat, "./Processed_data/LCC_data/LCC_count/wetmSW.csv", row.names = F)
 
-if (!(paste0("mcp_wetmSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_wetmSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=wetmeadowSW_int$lower_ends, LCC=wetmSW)
   plot(mcp_area)
   # count sites
@@ -1268,14 +1268,14 @@ if (!(paste0("mcp_wetmSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_ab
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 5000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetmSW.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetmSW.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetmSW.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetmSW.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("wetm")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_wetmSW.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_wetmSW.png")
 plot.wetmSW <- plot(fit_mcp)+
   ggtitle("wetm")
 hypothesis(fit_mcp, "cp_1=4346") #4
@@ -1291,9 +1291,9 @@ pasSW_dat =  pastureSW_int %>%
   dplyr::select(c("lower_ends", "pasSW")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(pasSW_dat, "./Processed_data/LCC_data/LCC_abun/pasSW.csv", row.names = F)
+write.csv(pasSW_dat, "./Processed_data/LCC_data/LCC_count/pasSW.csv", row.names = F)
 
-if (!(paste0("mcp_pasSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_pasSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=pastureSW_int$lower_ends, LCC=pasSW)
   plot(mcp_area)
   # count sites
@@ -1303,14 +1303,14 @@ if (!(paste0("mcp_pasSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 5000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_pasSW.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_pasSW.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_pasSW.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_pasSW.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("pas")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_pasSW.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_pasSW.png")
 plot.pasSW <- plot(fit_mcp)+
   ggtitle("pas")
 hypothesis(fit_mcp, "cp_1=4188") #6
@@ -1326,9 +1326,9 @@ araSW_dat =  arableSW_int %>%
   dplyr::select(c("lower_ends", "araSW")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(araSW_dat, "./Processed_data/LCC_data/LCC_abun/araSW.csv", row.names = F)
+write.csv(araSW_dat, "./Processed_data/LCC_data/LCC_count/araSW.csv", row.names = F)
 
-if (!(paste0("mcp_araSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_araSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=arableSW_int$lower_ends, LCC=araSW)
   mcp_area <- mcp_area[28:nrow(mcp_area),]
   plot(mcp_area)
@@ -1340,14 +1340,14 @@ if (!(paste0("mcp_araSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 5000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_araSW.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_araSW.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_araSW.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_araSW.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("ara")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_araSW.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_araSW.png")
 plot.araSW <- plot(fit_mcp)+
   ggtitle("ara")
 hypothesis(fit_mcp, "cp_1=1150") #75
@@ -1364,9 +1364,9 @@ heaSW_dat =  heathSW_int %>%
   dplyr::select(c("lower_ends", "heaSW")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(heaSW_dat, "./Processed_data/LCC_data/LCC_abun/heaSW.csv", row.names = F)
+write.csv(heaSW_dat, "./Processed_data/LCC_data/LCC_count/heaSW.csv", row.names = F)
 
-if (!(paste0("mcp_heaSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_heaSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=heathSW_int$lower_ends, LCC=heaSW)
   plot(mcp_area)
   # count sites
@@ -1376,14 +1376,14 @@ if (!(paste0("mcp_heaSW.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_heaSW.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_heaSW.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_heaSW.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_heaSW.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("hea")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_heaSW.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_heaSW.png")
 plot.heaSW <- plot(fit_mcp)+
   ggtitle("hea")
 hypothesis(fit_mcp, "cp_1=874") #88
@@ -1415,9 +1415,9 @@ conSM_dat =  coniferousSM_int %>%
   dplyr::select(c("lower_ends", "conSM")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>1300 & calBP<9800)
-write.csv(conSM_dat, "./Processed_data/LCC_data/LCC_abun/conSM.csv", row.names = F)
+write.csv(conSM_dat, "./Processed_data/LCC_data/LCC_count/conSM.csv", row.names = F)
 
-if (!(paste0("mcp_conSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_conSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=coniferousSM_int$lower_ends, LCC=conSM)
   plot(mcp_area)
   # count sites
@@ -1427,14 +1427,14 @@ if (!(paste0("mcp_conSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_conSM.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_conSM.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_conSM.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_conSM.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("con")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_conSM.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_conSM.png")
 plot.conSM <- plot(fit_mcp)+
   ggtitle("con")
 hypothesis(fit_mcp, "cp_1=1124") #24
@@ -1452,9 +1452,9 @@ decSM_dat =  deciduousSM_int %>%
   dplyr::select(c("lower_ends", "decSM")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>1300 & calBP<9800)
-write.csv(decSM_dat, "./Processed_data/LCC_data/LCC_abun/decSM.csv", row.names = F)
+write.csv(decSM_dat, "./Processed_data/LCC_data/LCC_count/decSM.csv", row.names = F)
 
-if (!(paste0("mcp_decSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_decSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=deciduousSM_int$lower_ends, LCC=decSM)
   plot(mcp_area)
   # count sites
@@ -1464,14 +1464,14 @@ if (!(paste0("mcp_decSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_decSM.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_decSM.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_decSM.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_decSM.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("dec")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_decSM.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_decSM.png")
 plot.decSM <- plot(fit_mcp)+
   ggtitle("dec")
 hypothesis(fit_mcp, "cp_1=900") #29
@@ -1489,9 +1489,9 @@ wetwSM_dat =  wetwoodlandSM_int %>%
   dplyr::select(c("lower_ends", "wetwSM")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>1300 & calBP<9800)
-write.csv(wetwSM_dat, "./Processed_data/LCC_data/LCC_abun/wetwSM.csv", row.names = F)
+write.csv(wetwSM_dat, "./Processed_data/LCC_data/LCC_count/wetwSM.csv", row.names = F)
 
-if (!(paste0("mcp_wetwSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_wetwSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=wetwoodlandSM_int$lower_ends, LCC=wetwSM)
   plot(mcp_area)
   # count sites
@@ -1501,14 +1501,14 @@ if (!(paste0("mcp_wetwSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_ab
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 5000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetwSM.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetwSM.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetwSM.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetwSM.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("wetw")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_wetwSM.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_wetwSM.png")
 plot.wetwSM <- plot(fit_mcp)+
   ggtitle("wetw")
 hypothesis(fit_mcp, "cp_1=4752") #18
@@ -1525,9 +1525,9 @@ wetmSM_dat =  wetmeadowSM_int %>%
   dplyr::select(c("lower_ends", "wetmSM")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>1300 & calBP<9800)
-write.csv(wetmSM_dat, "./Processed_data/LCC_data/LCC_abun/wetmSM.csv", row.names = F)
+write.csv(wetmSM_dat, "./Processed_data/LCC_data/LCC_count/wetmSM.csv", row.names = F)
 
-if (!(paste0("mcp_wetmSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_wetmSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=wetmeadowSM_int$lower_ends, LCC=wetmSM)
   plot(mcp_area)
   # count sites
@@ -1537,14 +1537,14 @@ if (!(paste0("mcp_wetmSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_ab
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age, ~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 5000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetmSM.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetmSM.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_wetmSM.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_wetmSM.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("wetm")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_wetmSM.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_wetmSM.png")
 plot.wetmSM <- plot(fit_mcp)+
   ggtitle("wetm")
 hypothesis(fit_mcp, "cp_1=2414") #9
@@ -1563,9 +1563,9 @@ pasSM_dat =  pastureSM_int %>%
   dplyr::select(c("lower_ends", "pasSM")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>1300 & calBP<9800)
-write.csv(pasSM_dat, "./Processed_data/LCC_data/LCC_abun/pasSM.csv", row.names = F)
+write.csv(pasSM_dat, "./Processed_data/LCC_data/LCC_count/pasSM.csv", row.names = F)
 
-if (!(paste0("mcp_pasSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_pasSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=pastureSM_int$lower_ends, LCC=pasSM)
   plot(mcp_area)
   # count sites
@@ -1575,14 +1575,14 @@ if (!(paste0("mcp_pasSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 50000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_pasSM.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_pasSM.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_pasSM.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_pasSM.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("pas")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_pasSM.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_pasSM.png")
 plot.pasSM <- plot(fit_mcp)+
   ggtitle("pas")
 hypothesis(fit_mcp, "cp_1=1299") #25
@@ -1599,9 +1599,9 @@ araSM_dat =  arableSM_int %>%
   dplyr::select(c("lower_ends", "araSM")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>1300 & calBP<9800)
-write.csv(araSM_dat, "./Processed_data/LCC_data/LCC_abun/araSM.csv", row.names = F)
+write.csv(araSM_dat, "./Processed_data/LCC_data/LCC_count/araSM.csv", row.names = F)
 
-if (!(paste0("mcp_araSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_araSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=arableSM_int$lower_ends, LCC=araSM)
   mcp_area <- mcp_area[28:nrow(mcp_area),]
   plot(mcp_area)
@@ -1613,14 +1613,14 @@ if (!(paste0("mcp_araSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 5000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_araSM.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_araSM.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_araSM.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_araSM.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("ara")
-ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_araSM.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_araSM.png")
 plot.araSM <- plot(fit_mcp)+
   ggtitle("ara")
 hypothesis(fit_mcp, "cp_1=1300") #39
@@ -1637,9 +1637,9 @@ heaSM_dat =  heathSM_int %>%
   dplyr::select(c("lower_ends", "heaSM")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>1300 & calBP<9800)
-write.csv(heaSM_dat, "./Processed_data/LCC_data/LCC_abun/heaSM.csv", row.names = F)
+write.csv(heaSM_dat, "./Processed_data/LCC_data/LCC_count/heaSM.csv", row.names = F)
 
-if (!(paste0("mcp_heaSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
+if (!(paste0("mcp_heaSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_count/mcp_models/"))) {
   mcp_area <- data.frame(age=heathSM_int$lower_ends, LCC=heaSM)
   plot(mcp_area)
   # count sites
@@ -1649,14 +1649,14 @@ if (!(paste0("mcp_heaSM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abu
   #plot(mcp_area$age, mcp_area$LCC)
   model = list(LCC~1+age, ~1+age)
   fit_mcp = mcp(model, data = mcp_area, par_x = "age", adapt = 5000, sample = "both", iter = 10000)
-  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_heaSM.Rda")
+  saveRDS(fit_mcp, "./Processed_data/LCC_data/LCC_count/mcp_models/mcp_heaSM.Rda")
 } else {
-  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_abun/mcp_models/mcp_heaSM.Rda")
+  fit_mcp = readRDS("./Processed_data/LCC_data/LCC_count/mcp_models/mcp_heaSM.Rda")
 }
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("hea")
-ggplot2::ggsave("./Results/Plots/LCC_abun/mcp_plots/mcp_heaSM.png")
+ggplot2::ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_heaSM.png")
 plot.heaSM <- plot(fit_mcp)+
   ggtitle("hea")
 hypothesis(fit_mcp, "cp_1=1100") #47
@@ -1678,14 +1678,14 @@ Full_list_SM = list(conSM_dat, decSM_dat, wetwSM_dat, wetmSM_dat, pasSM_dat, ara
 #-CREATE FULL DATASETS --------
 
 merged_data_N = Full_list_N %>% reduce(full_join, by='calBP')
-write.csv(merged_data_N, "./Processed_data/LCC_data/LCC_abun/merged_data_N.csv", row.names = F)
+write.csv(merged_data_N, "./Processed_data/LCC_data/LCC_count/merged_data_N.csv", row.names = F)
 merged_data_SE = Full_list_SE %>% reduce(full_join, by='calBP')
-write.csv(merged_data_SE, "./Processed_data/LCC_data/LCC_abun/merged_data_SE.csv", row.names = F)
+write.csv(merged_data_SE, "./Processed_data/LCC_data/LCC_count/merged_data_SE.csv", row.names = F)
 merged_data_MM = Full_list_MM %>% reduce(full_join, by='calBP')
-write.csv(merged_data_MM,"./Processed_data/LCC_data/LCC_abun/merged_data_MM.csv", row.names = F)
+write.csv(merged_data_MM,"./Processed_data/LCC_data/LCC_count/merged_data_MM.csv", row.names = F)
 merged_data_MW = Full_list_MW %>% reduce(full_join, by='calBP')
-write.csv(merged_data_MW, "./Processed_data/LCC_data/LCC_abun/merged_data_MW.csv", row.names = F)
+write.csv(merged_data_MW, "./Processed_data/LCC_data/LCC_count/merged_data_MW.csv", row.names = F)
 merged_data_SW = Full_list_SW %>% reduce(full_join, by='calBP')
-write.csv(merged_data_SW, "./Processed_data/LCC_data/LCC_abun/merged_data_SW.csv", row.names = F)
+write.csv(merged_data_SW, "./Processed_data/LCC_data/LCC_count/merged_data_SW.csv", row.names = F)
 merged_data_SM = Full_list_SM %>% reduce(full_join, by='calBP')
-write.csv(merged_data_SM, "./Processed_data/LCC_data/LCC_abun/merged_data_SM.csv", row.names = F)
+write.csv(merged_data_SM, "./Processed_data/LCC_data/LCC_count/merged_data_SM.csv", row.names = F)

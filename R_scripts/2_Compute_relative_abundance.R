@@ -44,5 +44,8 @@ pollen_relative_abun <- bigdf_familynames %>%
 #correctly.
 
 dir.create(file.path("./", "Processed_data"), showWarnings = FALSE)
-dir.create(file.path("./Processed_data/", "Pollen_data"), showWarnings = FALSE)
-save(pollen_relative_abun,file="./Processed_data/Pollen_data/Pollen_relative_abun.Rda")
+dir.create(file.path("./Processed_data/", "LCC_data"), showWarnings = FALSE)
+dir.create(file.path("./Processed_data/LCC_data/", "LCC_raw"), showWarnings = FALSE)
+dir.create(file.path("./Processed_data/LCC_data/", "LCC_abun"), showWarnings = FALSE)
+dir.create(file.path("./Processed_data/LCC_data/LCC_abun/", "Pollen_data"), showWarnings = FALSE)
+save(pollen_relative_abun,file="./Processed_data/LCC_data/LCC_abun/Pollen_data/Pollen_relative_abun.Rda")
