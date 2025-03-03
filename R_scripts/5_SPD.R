@@ -19,7 +19,7 @@ invisible(lapply(
   library,
   character.only = T
 ))
-rm(list=ls())
+rm(list = setdiff(ls(), "relative_abun"))
 
 ### Data ###
 human.footprint <- read.csv("./Processed_data/archeological_data/human.footprint.csv")

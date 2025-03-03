@@ -15,7 +15,7 @@ invisible(lapply(
   library,
   character.only = T
 ))
-rm(list=ls())
+rm(list = setdiff(ls(), "relative_abun"))
 
 # READ DATA ----
 alldataNs <-read.csv("./Processed_data/Full_datasets/alldataNs_count.csv")

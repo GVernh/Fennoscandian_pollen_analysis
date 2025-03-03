@@ -18,7 +18,7 @@ invisible(lapply(
   library,
   character.only = T
 ))
-rm(list=ls())
+rm(list = setdiff(ls(), "relative_abun"))
 
 ### Load functions ###
 source("./Functions/mean_arch_age.R")

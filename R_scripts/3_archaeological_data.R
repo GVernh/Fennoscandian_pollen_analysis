@@ -18,7 +18,7 @@ invisible(lapply(
   library,
   character.only = T
 ))
-rm(list=ls())
+rm(list = setdiff(ls(), "relative_abun"))
 
 dir.create(file.path("./Processed_data/", "archeological_data"), showWarnings = FALSE)
 

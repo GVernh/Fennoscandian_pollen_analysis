@@ -19,7 +19,7 @@ invisible(lapply(
   library,
   character.only = T
 ))
-rm(list=ls())
+rm(list = setdiff(ls(), "relative_abun"))
 
 options(scipen=999)
 dir.create(file.path("./Results/", "Cross_validation"), showWarnings = FALSE)

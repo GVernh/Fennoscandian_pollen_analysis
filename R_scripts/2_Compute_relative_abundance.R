@@ -15,7 +15,7 @@ invisible(lapply(
   library,
   character.only = T
 ))
-rm(list=ls())
+rm(list = setdiff(ls(), "relative_abun"))
 
 # Source functions
 source("./Functions/Compute_relative_abundance.R")

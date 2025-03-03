@@ -26,7 +26,7 @@ if (lipdR_check == F) {
   remotes::install_github("nickmckay/lipdR")
 }
 invisible(library(lipdR))
-rm(list=ls())
+rm(list = setdiff(ls(), "relative_abun"))
 
 if (!(paste0("Temp12k_v1_0_0.RData") %in% list.files("./Raw_Data/"))){
   zipF<- "./Raw_Data/Temp12k_v1_0_0.RData.zip"

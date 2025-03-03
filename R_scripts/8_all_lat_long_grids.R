@@ -15,7 +15,7 @@ invisible(lapply(
   library,
   character.only = T
 ))
-rm(list=ls())
+rm(list = setdiff(ls(), "relative_abun"))
 
 ### LOAD POLLEN, CLIMATE & ARCHEOLOGICAL DATA ### ----
 archaeological_cal <- read.csv("./Processed_data/archeological_data/archaeological_cal.csv")

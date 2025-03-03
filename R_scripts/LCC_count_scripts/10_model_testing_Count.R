@@ -15,7 +15,7 @@ invisible(lapply(
   library,
   character.only = T
 ))
-rm(list=ls())
+rm(list = setdiff(ls(), "relative_abun"))
 
 #disable scientific notation
 options(scipen=999)
@@ -120,7 +120,7 @@ if (!(paste0("mcp_decN.Rda") %in% list.files("./Processed_data/LCC_data/LCC_coun
 summary(fit_mcp)
 plot(fit_mcp)+
   ggtitle("dec")
-ggsave("./Results/Plots/LCC_count/mcp_decN.png")
+ggsave("./Results/Plots/LCC_count/mcp_plots/mcp_decN.png")
 plot.decN <- plot(fit_mcp)+
   ggtitle("dec")
 #NO CP'S

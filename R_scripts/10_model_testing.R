@@ -15,7 +15,7 @@ invisible(lapply(
   library,
   character.only = T
 ))
-rm(list=ls())
+rm(list = setdiff(ls(), "relative_abun"))
 
 #disable scientific notation
 options(scipen=999)
@@ -882,7 +882,7 @@ conMM_dat =  coniferousMM_int %>%
   dplyr::select(c("lower_ends", "conMM")) %>%
   dplyr::rename(calBP = lower_ends) %>%
   subset(., calBP>600 & calBP<9800)
-write.csv(conMM_dat, "./Processed_data/LCC_data/LCC_abun/LCC_data/conMM.csv", row.names = F)
+write.csv(conMM_dat, "./Processed_data/LCC_data/LCC_abun/conMM.csv", row.names = F)
 
 if (!(paste0("mcp_conMM.Rda") %in% list.files("./Processed_data/LCC_data/LCC_abun/mcp_models/"))) {
   mcp_area <- data.frame(age=coniferousMM_int$lower_ends, LCC=conMM)

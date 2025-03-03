@@ -15,7 +15,7 @@ invisible(lapply(
   library,
   character.only = T
 ))
-rm(list=ls())
+rm(list = setdiff(ls(), "relative_abun"))
 
 # READ DATA ----
 alldataNs <-read.csv("./Processed_data/Full_datasets/alldataNs_abun.csv")
@@ -469,7 +469,7 @@ MW9 <- ggplot(heaMW, aes(x=age))+
 MW_all <- ggarrange(MW1, MW2, MW3, MW4, MW5, MW6, MW7,MW8,MW9,
                    ncol = 1, nrow = 9)
 annotate_figure(MW_all, top = text_grob("MidWest: the whole Holocene", color = "black", face = "bold"))
-png(filename="./Results/Plots/MW_all.png", width = 1000, height = 1500,)
+png(filename="./Results/Plots/LCC_abun/MW_all.png", width = 1000, height = 1500,)
 plot(MW_all)
 dev.off()
 

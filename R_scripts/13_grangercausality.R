@@ -16,7 +16,7 @@ invisible(lapply(
   library,
   character.only = T
 ))
-rm(list=ls())
+rm(list = setdiff(ls(), "relative_abun"))
 
 dir.create(file.path("./", "Results"), showWarnings = FALSE)
 dir.create(file.path("./Results/", "Granger_causality"), showWarnings = FALSE)
@@ -259,7 +259,7 @@ vm <- vars::VAR(alldataSMs[c("SPD", "clim", "heaSMs")], p=Cross_val_df$Lag[Cross
 y = bruceR::granger_causality(varmodel = vm, var.y = "heaSMs", var.x = c("SPD", "clim"))
 results = rbind(y$result, results)
 
-write.csv(results, "./Results/Granger_causality/Granger_results_allData.csv", row.names = F)
+write.csv(results, "./Results/Granger_causality/Granger_results_allData_abun.csv", row.names = F)
 rm(results)
 ### BEFORE THE ONSET OF FARMING #-----------------------------------------------
 
@@ -459,7 +459,7 @@ vm <- vars::VAR(alldataSMb[c("SPD", "clim", "heaSMs")], p=1)
 y = bruceR::granger_causality(varmodel = vm, var.y = "heaSMs", var.x = c("SPD", "clim"))
 results = rbind(y$result, results)
 
-write.csv(results, "./Results/Granger_causality/Granger_results_beforeFarming.csv", row.names = F)
+write.csv(results, "./Results/Granger_causality/Granger_results_beforeFarming_abun.csv", row.names = F)
 rm(results)
 
 ### AFTER THE ONSET OF FARMING #------------------------------------------------
