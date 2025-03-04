@@ -95,7 +95,5 @@ if (relative_abun==F)
   source("./R_scripts/LCC_count_scripts/14_final_plots_Count.R")
 }
 
-source("./R_scripts/15_Combined_plots.R")
-
 print("Results and plots for Granger causality models can be found in ./Results/")
 print("Maps and calibration plots can be found in ./Plots/ ")
