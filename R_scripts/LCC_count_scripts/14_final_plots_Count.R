@@ -83,7 +83,7 @@ N3 <- ggplot(conN, aes(x=age))+
   geom_vline(aes(xintercept = 2500, color = "hotpink"), size=1) +
   theme(legend.position="none")+
   theme(plot.background = element_rect(color = "grey", size = 1))+
-  labs(title="CONIFEROUS WOODLAND", x="years BP", y="relative pollen abundance")
+  labs(title="CONIFEROUS WOODLAND", x="years BP", y="pollen count")
 
 decN <- data.frame(age=alldataNs$yearsBP, LCC=alldataNs$decNs)
 N4 <- ggplot(decN, aes(x=age))+
@@ -97,7 +97,7 @@ N4 <- ggplot(decN, aes(x=age))+
   geom_vline(aes(xintercept = 2500, color = "hotpink"), size=1) +
   theme(legend.position="none")+
   theme(plot.background = element_rect(color = "grey", size = 1))+
-  labs(title="DECIDUOUS WOODLAND", x="years BP", y="relative pollen abundance")
+  labs(title="DECIDUOUS WOODLAND", x="years BP", y="pollen count")
 
 wetwN <- data.frame(age=alldataNs$yearsBP, LCC=alldataNs$wetwNs)
 N5 <- ggplot(wetwN, aes(x=age))+
@@ -111,7 +111,7 @@ N5 <- ggplot(wetwN, aes(x=age))+
   geom_vline(aes(xintercept = 2500, color = "hotpink"), size=1) +
   theme(legend.position="none")+
   theme(plot.background = element_rect(color = "grey", size = 1))+
-  labs(title="WET WOODLAND", x="years BP", y="relative pollen abundance")
+  labs(title="WET WOODLAND", x="years BP", y="pollen count")
 
 wetmN <- data.frame(age=alldataNs$yearsBP, wetm=alldataNs$wetmNs)
 N6 <- ggplot(wetmN, aes(x=age))+
@@ -125,7 +125,7 @@ N6 <- ggplot(wetmN, aes(x=age))+
   geom_vline(aes(xintercept = 2500, color = "hotpink"), size=1) +
   theme(legend.position="none")+
   theme(plot.background = element_rect(color = "grey", size = 1))+
-  labs(title="WET MEADOW", x="years BP", y="relative pollen abundance")
+  labs(title="WET MEADOW", x="years BP", y="pollen count")
 
 pasN <- data.frame(age=alldataNs$yearsBP, LCC=alldataNs$pasNs)
 N7 <- ggplot(pasN, aes(x=age))+
@@ -137,7 +137,7 @@ N7 <- ggplot(pasN, aes(x=age))+
   geom_vline(aes(xintercept = 2500, color = "hotpink"), size=1) +
   theme(legend.position="none")+
   theme(plot.background = element_rect(color = "grey", size = 1))+
-  labs(title="PASTURE", x="years BP", y="relative pollen abundance")
+  labs(title="PASTURE", x="years BP", y="pollen count")
 
 araN <- data.frame(age=alldataNs$yearsBP, LCC=alldataNs$araNs)
 N8 <- ggplot(araN, aes(x=age))+
@@ -149,7 +149,7 @@ N8 <- ggplot(araN, aes(x=age))+
   geom_vline(aes(xintercept = 2500, color = "hotpink"), size=1) +
   theme(legend.position="none")+
   theme(plot.background = element_rect(color = "grey", size = 1))+
-  labs(title="ARABLE LAND", x="years BP", y="relative pollen abundance")
+  labs(title="ARABLE LAND", x="years BP", y="pollen count")
 
 heaN <- data.frame(age=alldataNs$yearsBP, hea=alldataNs$heaNs)
 N9 <- ggplot(heaN, aes(x=age))+
@@ -163,7 +163,7 @@ N9 <- ggplot(heaN, aes(x=age))+
   geom_vline(aes(xintercept = 2500, color = "hotpink"), size=1) +
   theme(legend.position="none")+
   theme(plot.background = element_rect(color = "grey", size = 1))+
-  labs(title="HEATH", x="years BP", y="relative pollen abundance")
+  labs(title="HEATH", x="years BP", y="pollen count")
 
 # PLOT
 N_all <- ggarrange(N1,N2,N3,N4,N5,N6,N7,N8,N9, 
@@ -215,7 +215,7 @@ SE3 <- ggplot(conSE, aes(x=age))+
   geom_vline(aes(xintercept = 4000, color = "hotpink"), size=1) +
   theme(legend.position="none")+
   theme(plot.background = element_rect(color = "grey", size = 1))+
-  labs(title="CONIFEROUS WOODLAND", x="years BP", y="relative pollen abundance")
+  labs(title="CONIFEROUS WOODLAND", x="years BP", y="pollen count")
 
 decSE <- data.frame(age=alldataSEs$yearsBP, LCC=alldataSEs$decSEs)
 SE4 <- ggplot(decSE, aes(x=age))+
@@ -229,7 +229,7 @@ SE4 <- ggplot(decSE, aes(x=age))+
   geom_vline(aes(xintercept = 4000, color = "hotpink"), size=1) +
   theme(legend.position="none")+
   theme(plot.background = element_rect(color = "grey", size = 1))+
-  labs(title="DECIDUOUS WOODLAND", x="years BP", y="relative pollen abundance")
+  labs(title="DECIDUOUS WOODLAND", x="years BP", y="pollen count")
 
 wetwSE <- data.frame(age=alldataSEs$yearsBP, LCC=alldataSEs$wetwSEs)
 SE5 <- ggplot(wetwSE, aes(x=age))+
@@ -241,7 +241,7 @@ SE5 <- ggplot(wetwSE, aes(x=age))+
   geom_vline(aes(xintercept = 4000, color = "hotpink"), size=1) +
   theme(legend.position="none")+
   theme(plot.background = element_rect(color = "grey", size = 1))+
-  labs(title="WET WOODLAND", x="years BP", y="relative pollen abundance")
+  labs(title="WET WOODLAND", x="years BP", y="pollen count")
 
 wetmSE <- data.frame(age=alldataSEs$yearsBP, wetm=alldataSEs$wetmSEs)
 SE6 <- ggplot(wetmSE, aes(x=age))+
@@ -259,7 +259,7 @@ SE6 <- ggplot(wetmSE, aes(x=age))+
   geom_vline(aes(xintercept = 4000, color = "hotpink"), size=1) +
   theme(legend.position="none")+
   theme(plot.background = element_rect(color = "grey", size = 1))+
-  labs(title="WET MEADOW", x="years BP", y="relative pollen abundance")
+  labs(title="WET MEADOW", x="years BP", y="pollen count")
 
 pasSE <- data.frame(age=alldataSEs$yearsBP, LCC=alldataSEs$pasSEs)
 SE7 <- ggplot(pasSE, aes(x=age))+
@@ -275,7 +275,7 @@ SE7 <- ggplot(pasSE, aes(x=age))+
   geom_vline(aes(xintercept = 4000, color = "hotpink"), size=1) +
   theme(legend.position="none")+
   theme(plot.background = element_rect(color = "grey", size = 1))+
-  labs(title="PASTURE", x="years BP", y="relative pollen abundance")
+  labs(title="PASTURE", x="years BP", y="pollen count")
 
 araSE <- data.frame(age=alldataSEs$yearsBP, LCC=alldataSEs$araSEs)
 SE8 <- ggplot(araSE, aes(x=age))+
@@ -289,7 +289,7 @@ SE8 <- ggplot(araSE, aes(x=age))+
   geom_vline(aes(xintercept = 4000, color = "hotpink"), size=1) +
   theme(legend.position="none")+
   theme(plot.background = element_rect(color = "grey", size = 1))+
-  labs(title="ARABLE LAND", x="years BP", y="relative pollen abundance")
+  labs(title="ARABLE LAND", x="years BP", y="pollen count")
 
 heaSE <- data.frame(age=alldataSEs$yearsBP, hea=alldataSEs$heaSEs)
 SE9 <- ggplot(heaSE, aes(x=age))+
@@ -303,7 +303,7 @@ SE9 <- ggplot(heaSE, aes(x=age))+
   geom_vline(aes(xintercept = 4000, color = "hotpink"), size=1) +
   theme(legend.position="none")+
   theme(plot.background = element_rect(color = "grey", size = 1))+
-  labs(title="HEATH", x="years BP", y="relative pollen abundance")
+  labs(title="HEATH", x="years BP", y="pollen count")
 
 # PLOT #
 SE_all <- ggarrange(SE1,SE2,SE3,SE4,SE5,SE6,SE7,SE8,SE9, 
@@ -358,7 +358,7 @@ MW3 <- ggplot(conMW, aes(x=age))+
   geom_rect(aes(xmin=6334, xmax=7399, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "chartreuse4") +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
   geom_vline(aes(xintercept = 3200, color = "hotpink"), size=1) +
-  labs(title="CONIFEROUS WOODLAND", x="years BP", y="relative pollen abundance") +
+  labs(title="CONIFEROUS WOODLAND", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -379,7 +379,7 @@ MW4 <- ggplot(decMW, aes(x=age))+
   geom_rect(aes(xmin=8000, xmax=8472, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "seagreen2") +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
   geom_vline(aes(xintercept = 3200, color = "hotpink"), size=1) +
-  labs(title="DECIDUOUS WOODLAND", x="years BP", y="relative pollen abundance") +
+  labs(title="DECIDUOUS WOODLAND", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -398,7 +398,7 @@ MW5 <- ggplot(wetwMW, aes(x=age))+
   geom_rect(aes(xmin=7903, xmax=7998, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "turquoise4") +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
   geom_vline(aes(xintercept = 3200, color = "hotpink"), size=1) +
-  labs(title="WET WOODLAND", x="years BP", y="relative pollen abundance") +
+  labs(title="WET WOODLAND", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -413,7 +413,7 @@ MW6 <- ggplot(wetmMW, aes(x=age))+
   geom_rect(aes(xmin=3906, xmax=4399, ymin=-Inf, ymax=Inf), alpha=0.005, fill = "blueviolet") +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
   geom_vline(aes(xintercept = 3200, color = "hotpink"), size=1) +
-  labs(title="WET MEADOW", x="years BP", y="relative pollen abundance") +
+  labs(title="WET MEADOW", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -428,7 +428,7 @@ MW7 <- ggplot(fplot.pasmw_df, aes(x=age))+
   geom_rect(aes(xmin=1200, xmax=1385, ymin=-Inf, ymax=Inf), alpha=0.01, fill = "orange2") +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
   geom_vline(aes(xintercept = 3200, color = "hotpink"), size=1) +
-  labs(title="PASTURE", x="years BP", y="relative pollen abundance") +
+  labs(title="PASTURE", x="years BP", y="pollen count") +
   theme(legend.position="none")
 
 fplot.aramw_df <- araMW <- data.frame(age=alldataMWs$yearsBP, ara=alldataMWs$araMWs, spd=alldataMWs$SPD)
@@ -442,7 +442,7 @@ MW8 <- ggplot(fplot.aramw_df, aes(x=age))+
   geom_rect(aes(xmin=8200, xmax=8294, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "gold2") +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
   geom_vline(aes(xintercept = 3200, color = "hotpink"), size=1) +
-  labs(title="ARABLE LAND", x="years BP", y="relative pollen abundance") +
+  labs(title="ARABLE LAND", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.subtitle = element_text(size = 10),
@@ -460,7 +460,7 @@ MW9 <- ggplot(heaMW, aes(x=age))+
   geom_rect(aes(xmin=7894, xmax=8499, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "orangered") +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
   geom_vline(aes(xintercept = 3200, color = "hotpink"), size=1) +
-  labs(title="HEATH", x="years BP", y="relative pollen abundance") +
+  labs(title="HEATH", x="years BP", y="pollen count") +
   theme(legend.position="none",
       plot.title = element_text(size = 12),
       plot.background = element_rect(color = "grey", size = 1))
@@ -512,7 +512,7 @@ MM3 <- ggplot(conMM, aes(x=age))+
   geom_rect(aes(xmin=5494, xmax=6835, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "chartreuse4") +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
   geom_vline(aes(xintercept = 3200, color = "hotpink"), size=1) +
-  labs(title="CONIFEROUS WOODLAND", x="years BP", y="relative pollen abundance") +
+  labs(title="CONIFEROUS WOODLAND", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -529,7 +529,7 @@ MM4 <- ggplot(decMM, aes(x=age))+
   geom_rect(aes(xmin=7831, xmax=8399, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "seagreen2") +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
   geom_vline(aes(xintercept = 3200, color = "hotpink"), size=1) +
-  labs(title="DECIDUOUS WOODLAND", x="years BP", y="relative pollen abundance") +
+  labs(title="DECIDUOUS WOODLAND", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -544,7 +544,7 @@ MM5 <- ggplot(wetwMM, aes(x=age))+
   geom_rect(aes(xmin=7015, xmax=7199, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "turquoise4") +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
   geom_vline(aes(xintercept = 3200, color = "hotpink"), size=1) +
-  labs(title="WET WOODLAND", x="years BP", y="relative pollen abundance") +
+  labs(title="WET WOODLAND", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -559,7 +559,7 @@ MM6 <- ggplot(wetmMM, aes(x=age))+
   geom_rect(aes(xmin=5484, xmax=6315, ymin=-Inf, ymax=Inf), alpha=0.005, fill = "blueviolet") +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
   geom_vline(aes(xintercept = 3200, color = "hotpink"), size=1) +
-  labs(title="WET MEADOW", x="years BP", y="relative pollen abundance") +
+  labs(title="WET MEADOW", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -578,7 +578,7 @@ MM7 <- ggplot(pasMM, aes(x=age))+
   geom_rect(aes(xmin=7900, xmax=7996, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "orange2") +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
   geom_vline(aes(xintercept = 3200, color = "hotpink"), size=1) +
-  labs(title="PASTURE", x="years BP", y="relative pollen abundance") +
+  labs(title="PASTURE", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.subtitle = element_text(size=10),
@@ -596,7 +596,7 @@ MM8 <- ggplot(araMM, aes(x=age))+
   geom_rect(aes(xmin=5816, xmax=5999, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "gold2") +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
   geom_vline(aes(xintercept = 3200, color = "hotpink"), size=1) +
-  labs(title="ARABLE LAND", y="relative pollen abundance") +
+  labs(title="ARABLE LAND", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.subtitle = element_text(size = 10),
@@ -612,7 +612,7 @@ MM9 <- ggplot(heaMM, aes(x=age))+
   geom_rect(aes(xmin=7800, xmax=7987, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "orangered") +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
   geom_vline(aes(xintercept = 3200, color = "hotpink"), size=1) +
-  labs(title="HEATH", x="years BP", y="relative pollen abundance") +
+  labs(title="HEATH", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -665,7 +665,7 @@ SW3 <- ggplot(conSW, aes(x=age))+
   geom_rect(aes(xmin=7609, xmax=7799, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "chartreuse4") +
   geom_vline(aes(xintercept = 6000, color = "hotpink"), size=1) +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
-  labs(title="CONIFEROUS WOODLAND", x="years BP", y="relative pollen abundance") +
+  labs(title="CONIFEROUS WOODLAND", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -678,7 +678,7 @@ SW4 <- ggplot(decSW, aes(x=age))+
   geom_rect(aes(xmin=3400, xmax=5576, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "seagreen2") +
   geom_vline(aes(xintercept = 6000, color = "hotpink"), size=1) +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
-  labs(title="DECIDUOUS WOODLAND", x="years BP", y="relative pollen abundance") +
+  labs(title="DECIDUOUS WOODLAND", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -695,7 +695,7 @@ SW5 <- ggplot(wetwSW, aes(x=age))+
   geom_rect(aes(xmin=8161, xmax=8590, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "turquoise4") +
   geom_vline(aes(xintercept = 6000, color = "hotpink"), size=1) +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
-  labs(title="WET WOODLAND", x="years BP", y="relative pollen abundance") +
+  labs(title="WET WOODLAND", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -712,7 +712,7 @@ SW6 <- ggplot(wetmSW, aes(x=age))+
   geom_rect(aes(xmin=3339, xmax=4290, ymin=-Inf, ymax=Inf), alpha=0.005, fill = "blueviolet") +
   geom_vline(aes(xintercept = 6000, color = "hotpink"), size=1) +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
-  labs(title="WET MEADOW", x="years BP", y="relative pollen abundance") +
+  labs(title="WET MEADOW", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -729,7 +729,7 @@ SW7 <- ggplot(pasSW, aes(x=age))+
   geom_rect(aes(xmin=6824, xmax=8099, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "orange2") +
   geom_vline(aes(xintercept = 6000, color = "hotpink"), size=1) +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
-  labs(title="PASTURE", y="relative pollen abundance") +
+  labs(title="PASTURE", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.subtitle = element_text(size=10),
@@ -744,7 +744,7 @@ SW8 <- ggplot(araSW, aes(x=age))+
   geom_rect(aes(xmin=1104, xmax=1199, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "gold2") +
   geom_vline(aes(xintercept = 6000, color = "hotpink"), size=1) +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
-  labs(title="ARABLE LAND", y="relative pollen abundance") +
+  labs(title="ARABLE LAND", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.subtitle = element_text(size = 10),
@@ -760,7 +760,7 @@ SW9 <- ggplot(heaSW, aes(x=age))+
   geom_rect(aes(xmin=7605, xmax=7999, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "orangered") +
   geom_vline(aes(xintercept = 6000, color = "hotpink"), size=1) +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
-  labs(title="HEATH", x="years BP", y="relative pollen abundance") +
+  labs(title="HEATH", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -809,7 +809,7 @@ SM3 <- ggplot(conSM, aes(x=age))+
   geom_rect(aes(xmin=6197, xmax=6724, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "chartreuse4") +
   geom_vline(aes(xintercept = 6000, color = "hotpink"), size=1) +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
-  labs(title="CONIFEROUS WOODLAND", x="years BP", y="relative pollen abundance") +
+  labs(title="CONIFEROUS WOODLAND", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -822,7 +822,7 @@ SM4 <- ggplot(decSM, aes(x=age))+
   geom_rect(aes(xmin=3636, xmax=4678, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "seagreen2") +
   geom_vline(aes(xintercept = 6000, color = "hotpink"), size=1) +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
-  labs(title="DECIDUOUS WOODLAND", x="years BP", y="relative pollen abundance") +
+  labs(title="DECIDUOUS WOODLAND", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -837,7 +837,7 @@ SM5 <- ggplot(wetwSM, aes(x=age))+
   geom_rect(aes(xmin=5004, xmax=5099, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "turquoise4") +
   geom_vline(aes(xintercept = 6000, color = "hotpink"), size=1) +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
-  labs(title="WET WOODLAND", x="years BP", y="relative pollen abundance") +
+  labs(title="WET WOODLAND", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -854,7 +854,7 @@ SM6 <- ggplot(wetmSM, aes(x=age))+
   geom_rect(aes(xmin=7401, xmax=7496, ymin=-Inf, ymax=Inf), alpha=0.005, fill = "blueviolet") +
   geom_vline(aes(xintercept = 6000, color = "hotpink"), size=1) +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
-  labs(title="WET MEADOW", x="years BP", y="relative pollen abundance") +
+  labs(title="WET MEADOW", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
@@ -867,7 +867,7 @@ SM7 <- ggplot(pasSM, aes(x=age))+
   geom_rect(aes(xmin=3803, xmax=4284, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "orange2") +
   geom_vline(aes(xintercept = 6000, color = "hotpink"), size=1) +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
-  labs(title="PASTURE", y="relative pollen abundance") +
+  labs(title="PASTURE", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.subtitle = element_text(size=10),
@@ -884,7 +884,7 @@ SM8 <- ggplot(araSM, aes(x=age))+
   geom_rect(aes(xmin=2300, xmax=4453, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "gold2") +
   geom_vline(aes(xintercept = 6000, color = "hotpink"), size=1) +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
-  labs(title="ARABLE LAND", x="years BP", y="relative pollen abundance") +
+  labs(title="ARABLE LAND", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.subtitle = element_text(size = 10),
@@ -900,7 +900,7 @@ SM9 <- ggplot(heaSM, aes(x=age))+
   #geom_rect(aes(xmin=7605, xmax=7999, ymin=-Inf, ymax=Inf), alpha=0.006, fill = "orangered") +
   geom_vline(aes(xintercept = 6000, color = "hotpink"), size=1) +
   scale_x_reverse(breaks = c(9000,8000,7000, 6000,5000,4000, 3000,2000,1000))+
-  labs(title="HEATH", x="years BP", y="relative pollen abundance") +
+  labs(title="HEATH", x="years BP", y="pollen count") +
   theme(legend.position="none",
         plot.title = element_text(size = 12),
         plot.background = element_rect(color = "grey", size = 1))
