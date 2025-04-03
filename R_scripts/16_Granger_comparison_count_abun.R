@@ -78,15 +78,12 @@ dev.off()
 granger_abun_before = read.csv("./Results/Granger_causality/Granger_results_beforeFarming_abun.csv")
 granger_count_before = read.csv("./Results/Granger_causality/Granger_results_beforeFarming_count.csv")
 
-cor(granger_abun_before$F, granger_count_before$F)
-cor(granger_abun_before$Chisq, granger_count_before$Chisq)
+cor.test(granger_abun_before$F, granger_count_before$F)
+cor.test(granger_abun_before$Chisq, granger_count_before$Chisq)
 
 # AFTER FARMING
 granger_abun_after = na.omit(read.csv("./Results/Granger_causality/Granger_results_afterFarming_abun.csv"))
 granger_count_after = na.omit(read.csv("./Results/Granger_causality/Granger_results_afterFarming_count.csv"))
 
-cor(granger_abun_after$F, granger_count_after$F)
-cor(granger_abun_after$Chisq, granger_count_after$Chisq)
-
-F_abun_sub = granger_abun[c("F")]
-F_abun_sub$Type = "F" 
+cor.test(granger_abun_after$F, granger_count_after$F)
+cor.test(granger_abun_after$Chisq, granger_count_after$Chisq)
