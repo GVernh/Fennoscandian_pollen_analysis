@@ -18,10 +18,12 @@ rm(list = setdiff(ls(), "relative_abun"))
 
 options(scipen=999)
 
+source("./Functions/Sig_test.R")
 #ALL DATA
 granger_abun = read.csv("./Results/Granger_causality/Granger_results_allData_abun.csv")
 granger_count = read.csv("./Results/Granger_causality/Granger_results_allData_count.csv")
 
+# RUN CORRELATION TESTS
 x = cor.test(granger_abun$F, granger_count$F)
 cor_F = round(x$estimate[[1]], 3)
 p_F = x$p.value[[1]]
@@ -30,30 +32,11 @@ y = cor.test(granger_abun$Chisq, granger_count$Chisq)
 cor_chi = round(y$estimate[[1]], 3)
 p_chi = x$p.value[[1]]
 
-if (p_chi < 0.05) {
-  sig_chi = "*"
-}
+# DETERMINE SIGNIFICANCE
+sig_chi = sig_test(p_chi)
+sig_F = sig_test(p_F)
 
-if (p_chi < 0.001) {
-  sig_chi = "**"
-}
-
-if (p_chi > 0.05) {
-  sig_chi = ""
-}
-
-if (p_F < 0.05) {
-  sig_F = "*"
-}
-
-if (p_F < 0.001) {
-  sig_F = "**"
-}
-
-if (p_F > 0.05) {
-  sig_F = ""
-}
-
+# DATA CLEANING
 F_abun_sub = granger_abun %>%
   dplyr::select(F, Causality) %>%
   dplyr::mutate(Type = "F") %>% 
