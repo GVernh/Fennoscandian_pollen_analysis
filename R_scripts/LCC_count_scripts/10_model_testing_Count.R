@@ -307,7 +307,7 @@ plot.heaN <- plot(fit_mcp)+
 ggpubr::ggarrange(plot.conN, plot.decN, plot.wetwN, plot.wetmN, plot.pasN, plot.araN, plot.heaN + rremove("x.text"), 
           ncol = 3, nrow = 3)
 # plot.spd_mcp, plot.climN # These wore included in the above plot but never defined
-ggsave("./Plots/mcp_plots/mcp_allN.png", width = 11, height = 9)
+ggsave("./Results/Plots/mcp_plots/mcp_allN.png", width = 11, height = 9)
 Full_list_N = list(conN_dat, decN_dat, wetwN_dat, wetmN_dat, pasN_dat, araN_dat, heaN_dat)
 
 #ecp
